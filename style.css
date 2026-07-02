@@ -24,12 +24,6 @@
 }
 
 body {
-    
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  
     background-color: var(--bg-void);
     font-family: 'Inter', sans-serif;
     color: var(--text-pure);
