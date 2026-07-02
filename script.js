@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-// ==========================================
+    // ==========================================
     // 1. LUXURY BLACK PARTICLE WAVE SYSTEM
     // ==========================================
     const canvas = document.getElementById('particleCanvas');
@@ -20,30 +20,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.index = index;
                 this.total = total;
                 this.reset();
-                // Randomize initial horizontal placement across the grid
                 this.x = (index / total) * canvas.width; 
             }
             reset() {
-                this.baseY = canvas.height * 0.7; // Centers the wave near the lower third
-                this.amplitude = Math.random() * 45 + 25; // Height of individual wave ripples
-                this.speed = Math.random() * 0.015 + 0.005; // Speed of movement
-                this.size = Math.random() * 2.5 + 0.8; // Varying particle sizes for deep perspective
+                this.baseY = canvas.height * 0.7; 
+                this.amplitude = Math.random() * 45 + 25; 
+                this.speed = Math.random() * 0.015 + 0.005; 
+                this.size = Math.random() * 2.5 + 0.8; 
                 this.phaseShift = Math.random() * Math.PI * 2;
                 
-                // Luxury Dark Palette: Alternate between pitch black, charcoal, and Deep Cyber Slate
                 const colors = ['#050505', '#111115', '#1c1c24', '#0d0d11'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.4 + 0.3; // Elegant translucent visibility
+                this.alpha = Math.random() * 0.4 + 0.3; 
             }
             update() {
-                // Progressively move the particle horizontally across the timeline
                 this.x += 0.4;
                 if (this.x > canvas.width) {
                     this.x = 0;
                     this.reset();
                 }
 
-                // Complex multi-layered Sine Wave formula for fluid natural movement
                 const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
                 const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
                 
@@ -54,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.globalAlpha = this.alpha;
                 ctx.fillStyle = this.color;
                 
-                // Luxury high-end shadow effect to give deep layer contrast against your cyber-bg
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
                 ctx.shadowBlur = 6;
                 
@@ -65,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Initialize wave density layers (180 elements create a premium ribbon effect)
         const density = 180;
         for (let i = 0; i < density; i++) {
             particles.push(new WaveParticle(i, density));
@@ -73,8 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Advance global timeline cycle calculation
             waveCycle += 0.004;
 
             particles.forEach(p => {
@@ -85,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         animate();
     }
+
     // ==========================================
     // 2. SMOOTH SCROLL PROTOCOL
     // ==========================================
@@ -112,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const successPopup = document.getElementById('successPopup');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Link form target to hidden iframe to prevent ugly Google Form redirects
+    // Link form target to hidden iframe to safeguard background workflows
     form.setAttribute('target', 'hidden_iframe');
 
     // Validation patterns & rules
@@ -179,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 5. LIVE MATRIX PROGRESS CALCULATOR
     // ==========================================
-    const totalSteps = 11; // 11 distinct data groups to validate
+    const totalSteps = 11; 
     
     function calculateProgress() {
         let validFields = 0;
@@ -204,18 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Track state on all input mutations
     form.addEventListener('input', calculateProgress);
     form.addEventListener('change', calculateProgress);
 
-   
     // ==========================================
     // 6. INTERCEPT AND SUBMIT PROTOCOL
     // ==========================================
     form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Stop native HTML processing
         let formIsValid = true;
 
-        // Visual feedback Helper
+        // Visual validation helper
         const toggleErrorUI = (id, errorId, isValid) => {
             const errorElement = document.getElementById(errorId);
             const inputElement = document.getElementById(id);
@@ -229,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Text Validations
+        // Run thorough validation checks before allowing API transit
         toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName').value));
         toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode').value));
         toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch').value));
@@ -237,7 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric').value));
         toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience').value));
 
-        // Group selections
         toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
         toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
         toggleErrorUI('', 'photoError', fileInput && fileInput.files.length > 0);
@@ -245,119 +236,70 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
 
         if (!formIsValid) {
-            e.preventDefault();
-            // Scroll to the first structural issue found
             const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
             if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
 
-        // Processing animations
+        // Switch button to loading architecture
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
 
-        // Wait for hidden iframe confirmation layer
-        document.getElementById('hidden_iframe').onload = () => {
-            submitBtn.classList.remove('loading');
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const base64String = event.target.result.split(',')[1]; 
             
-            // Trigger UI success modal system
-            if (successPopup) {
-                successPopup.setAttribute('aria-hidden', 'false');
-                successPopup.classList.add('active');
+            const formDataPayload = {
+                fullName: document.getElementById('fullName').value,
+                sicCode: document.getElementById('sicCode').value,
+                academicBranch: document.getElementById('academicBranch').value,
+                academicYear: document.querySelector('input[name="entry.year_placeholder"]:checked')?.value || '',
+                gender: document.querySelector('input[name="entry.1858008117"]:checked')?.value || '',
+                height: document.getElementById('heightMetric').value,
+                weight: document.getElementById('weightMetric').value,
+                parentPermission: document.querySelector('input[name="entry.1691817220"]:checked')?.value || '',
+                experience: document.getElementById('gymExperience').value,
+                locker: document.querySelector('input[name="entry.38638229"]:checked')?.value || '',
+                photoData: base64String,
+                photoType: file.type
+            };
+
+            // Post straight to your verified Apps Script Web App Endpoint URL
+            fetch('https://script.google.com/macros/s/AKfycbzHlTTOiFf4whNwAbBzdQc3nJNyViRpE6hVkLulQB9GO0pS6f7g31oOICEfL4RhW3t3/exec', {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formDataPayload)
+            })
+            .then(() => {
+                submitBtn.classList.remove('loading');
                 
-                // Clear state matrix smoothly after delay
-                setTimeout(() => {
-                    form.reset();
-                    calculateProgress();
-                    successPopup.classList.remove('active');
-                    successPopup.setAttribute('aria-hidden', 'true');
-                    submitBtn.disabled = false;
-                    uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 4000);
-            }
-        };
-         const form = document.getElementById('cyberpunkForm');
-const submitBtn = document.getElementById('submitBtn');
-const fileInput = document.getElementById('profilePhoto');
-const successPopup = document.getElementById('successPopup');
-
-form.addEventListener('submit', (e) => {
-    // Prevent the default browser form routing behavior
-    e.preventDefault();
-
-    // Run your validation checks here. If everything passes:
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    // Change submit button to a loading state
-    submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
-
-    reader.onload = function(event) {
-        // Strip the metadata header to leave only raw base64 bits
-        const base64String = event.target.result.split(',')[1]; 
-        
-        // Map out your layout elements perfectly into a standard JavaScript object
-        const formDataPayload = {
-            fullName: document.getElementById('fullName').value,
-            sicCode: document.getElementById('sicCode').value,
-            academicBranch: document.getElementById('academicBranch').value,
-            academicYear: document.querySelector('input[name="entry.year_placeholder"]:checked')?.value || '',
-            gender: document.querySelector('input[name="entry.1858008117"]:checked')?.value || '',
-            height: document.getElementById('heightMetric').value,
-            weight: document.getElementById('weightMetric').value,
-            parentPermission: document.querySelector('input[name="entry.1691817220"]:checked')?.value || '',
-            experience: document.getElementById('gymExperience').value,
-            locker: document.querySelector('input[name="entry.38638229"]:checked')?.value || '',
-            photoData: base64String,
-            photoType: file.type
+                if (successPopup) {
+                    successPopup.setAttribute('aria-hidden', 'false');
+                    successPopup.classList.add('active');
+                    
+                    setTimeout(() => {
+                        form.reset();
+                        calculateProgress(); 
+                        successPopup.classList.remove('active');
+                        successPopup.setAttribute('aria-hidden', 'true');
+                        submitBtn.disabled = false;
+                        uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 4000);
+                }
+            })
+            .catch(error => {
+                console.error('System synchronization error:', error);
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            });
         };
 
-        // Send data directly to your newly deployed Google macro endpoint
-        fetch('https://script.google.com/macros/s/AKfycbzHlTTOiFf4whNwAbBzdQc3nJNyViRpE6hVkLulQB9GO0pS6f7g31oOICEfL4RhW3t3/exec', {
-            method: 'POST',
-            mode: 'no-cors', // Solves cross-origin execution limits on standard static pages
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formDataPayload)
-        })
-        .then(() => {
-            // Processing complete: Reset button layout and flash success modal
-            submitBtn.classList.remove('loading');
-            
-            if (successPopup) {
-                successPopup.setAttribute('aria-hidden', 'false');
-                successPopup.classList.add('active');
-                
-                setTimeout(() => {
-                    form.reset();
-                    if(typeof calculateProgress === "function") calculateProgress(); 
-                    successPopup.classList.remove('active');
-                    successPopup.setAttribute('aria-hidden', 'true');
-                    submitBtn.disabled = false;
-                    document.querySelector('.upload-main-text').textContent = "DRAG & DROP IMAGE FILE";
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 4000);
-            }
-        })
-        .catch(error => {
-            console.error('System synchronization error:', error);
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-        });
-    };
-
-    // Convert image file into raw data stream string
-    if (file) {
         reader.readAsDataURL(file);
-    } else {
-        alert("Please load a profile photograph to clear system security protocols.");
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-    }
-});
-   
     });
 });
