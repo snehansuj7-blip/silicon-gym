@@ -208,7 +208,76 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('input', calculateProgress);
     form.addEventListener('change', calculateProgress);
 
-    const form = document.getElementById('cyberpunkForm');
+   
+    // ==========================================
+    // 6. INTERCEPT AND SUBMIT PROTOCOL
+    // ==========================================
+    form.addEventListener('submit', (e) => {
+        let formIsValid = true;
+
+        // Visual feedback Helper
+        const toggleErrorUI = (id, errorId, isValid) => {
+            const errorElement = document.getElementById(errorId);
+            const inputElement = document.getElementById(id);
+            if (!isValid) {
+                formIsValid = false;
+                if(errorElement) errorElement.style.color = "#ff0055";
+                if(inputElement) inputElement.style.borderColor = "#ff0055";
+            } else {
+                if(errorElement) errorElement.style.color = "";
+                if(inputElement) inputElement.style.borderColor = "";
+            }
+        };
+
+        // Text Validations
+        toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName').value));
+        toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode').value));
+        toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch').value));
+        toggleErrorUI('heightMetric', 'heightError', validationRules.heightMetric(document.getElementById('heightMetric').value));
+        toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric').value));
+        toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience').value));
+
+        // Group selections
+        toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
+        toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
+        toggleErrorUI('', 'photoError', fileInput && fileInput.files.length > 0);
+        toggleErrorUI('', 'permissionError', document.querySelector('input[name="entry.1691817220"]:checked') !== null);
+        toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
+
+        if (!formIsValid) {
+            e.preventDefault();
+            // Scroll to the first structural issue found
+            const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        // Processing animations
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        // Wait for hidden iframe confirmation layer
+        document.getElementById('hidden_iframe').onload = () => {
+            submitBtn.classList.remove('loading');
+            
+            // Trigger UI success modal system
+            if (successPopup) {
+                successPopup.setAttribute('aria-hidden', 'false');
+                successPopup.classList.add('active');
+                
+                // Clear state matrix smoothly after delay
+                setTimeout(() => {
+                    form.reset();
+                    calculateProgress();
+                    successPopup.classList.remove('active');
+                    successPopup.setAttribute('aria-hidden', 'true');
+                    submitBtn.disabled = false;
+                    uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 4000);
+            }
+        };
+         const form = document.getElementById('cyberpunkForm');
 const submitBtn = document.getElementById('submitBtn');
 const fileInput = document.getElementById('profilePhoto');
 const successPopup = document.getElementById('successPopup');
@@ -290,73 +359,5 @@ form.addEventListener('submit', (e) => {
     }
 });
    
-    // ==========================================
-    // 6. INTERCEPT AND SUBMIT PROTOCOL
-    // ==========================================
-    form.addEventListener('submit', (e) => {
-        let formIsValid = true;
-
-        // Visual feedback Helper
-        const toggleErrorUI = (id, errorId, isValid) => {
-            const errorElement = document.getElementById(errorId);
-            const inputElement = document.getElementById(id);
-            if (!isValid) {
-                formIsValid = false;
-                if(errorElement) errorElement.style.color = "#ff0055";
-                if(inputElement) inputElement.style.borderColor = "#ff0055";
-            } else {
-                if(errorElement) errorElement.style.color = "";
-                if(inputElement) inputElement.style.borderColor = "";
-            }
-        };
-
-        // Text Validations
-        toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName').value));
-        toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode').value));
-        toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch').value));
-        toggleErrorUI('heightMetric', 'heightError', validationRules.heightMetric(document.getElementById('heightMetric').value));
-        toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric').value));
-        toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience').value));
-
-        // Group selections
-        toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
-        toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
-        toggleErrorUI('', 'photoError', fileInput && fileInput.files.length > 0);
-        toggleErrorUI('', 'permissionError', document.querySelector('input[name="entry.1691817220"]:checked') !== null);
-        toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
-
-        if (!formIsValid) {
-            e.preventDefault();
-            // Scroll to the first structural issue found
-            const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
-            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return;
-        }
-
-        // Processing animations
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-
-        // Wait for hidden iframe confirmation layer
-        document.getElementById('hidden_iframe').onload = () => {
-            submitBtn.classList.remove('loading');
-            
-            // Trigger UI success modal system
-            if (successPopup) {
-                successPopup.setAttribute('aria-hidden', 'false');
-                successPopup.classList.add('active');
-                
-                // Clear state matrix smoothly after delay
-                setTimeout(() => {
-                    form.reset();
-                    calculateProgress();
-                    successPopup.classList.remove('active');
-                    successPopup.setAttribute('aria-hidden', 'true');
-                    submitBtn.disabled = false;
-                    uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 4000);
-            }
-        };
     });
 });
