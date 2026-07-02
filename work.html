@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLLEGE GYM // Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="by2.css">
+</head>
+<body>
+<div class="cyber-bg"></div>
+    <div class="cyber-overlay"></div>
+    <canvas id="particleCanvas"></canvas>
+
+    <main class="portal-container" role="main">
+        <div class="progress-wrapper" aria-label="Registration Progress">
+            <div class="progress-text">PROGRESS: <span id="progressPercent">0%</span></div>
+            <div class="progress-track">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <header class="portal-header">
+            <div class="premium-brand-logo">SILICON GYM</div>
+            <p class="brand-subline"><i><b>PROVIDES A CLEAR OVERVIEW OF A FITNESS FACILITY's AMENITIES, LAYOUT AND ATMOSPHERE</b></i></p>
+            
+            <h1 class="main-title">GO BEYOND STRENGTH<br>STEP INTO CONTROL,</h1>
+            <p class="sub-title">Registration Protocol</p>
+        </header>
+
+        <form id="cyberpunkForm" action="https://docs.google.com/forms/u/0/d/1Ba8FLfA5I0h6qtfvX_BgexDfHPIBpmCv1nVdyToKfwQ/formResponse" method="POST" novalidate>
+            
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">01 //</span> Personal Information</h2>
+                
+                <div class="input-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="entry.374754270" placeholder="ENTER FULL NAME" autocomplete="off" required>
+                    <span class="helper-text" id="nameError">Required: Alphabetical characters only (3-40 chars).</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="sicCode">SIC-Number</label>
+                    <input type="text" id="sicCode" name="entry.1894580731" placeholder="ENTER 8-DIGIT ALPHANUMERIC" autocomplete="off" required>
+                    <span class="helper-text" id="sicError">Required: Exactly 8 alphanumeric structural characters.</span>
+                </div>
+
+                <div class="input-group">
+                    <span class="radio-group-label">Gender Identity</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1858008117" value="Male" required>
+                            <span class="custom-radio"></span> MALE
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1858008117" value="Female">
+                            <span class="custom-radio"></span> FEMALE
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1858008117" value="Other">
+                            <span class="custom-radio"></span> OTHER
+                        </label>
+                    </div>
+                    <span class="helper-text" id="genderError">Selection parameters required.</span>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">02 //</span> Physical Information</h2>
+                <div class="grid-2-col">
+                    <div class="input-group">
+                        <label for="heightMetric">Height (cm)</label>
+                        <input type="number" id="heightMetric" name="entry.1423537159" placeholder="100 - 250" min="100" max="250" required>
+                        <span class="helper-text" id="heightError">Valid range: 100cm - 250cm</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="weightMetric">Weight (kg)</label>
+                        <input type="number" id="weightMetric" name="entry.373257491" placeholder="20 - 250" min="20" max="250" required>
+                        <span class="helper-text" id="weightError">Valid range: 20kg - 250kg</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">03 //</span> Parent Permission Protocols</h2>
+                <div class="input-group">
+                    <span class="radio-group-label">Has parental/guardian clearance been authorized?</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1691817220" value="Yes" required>
+                            <span class="custom-radio"></span> YES // ACCEPTED
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1691817220" value="No">
+                            <span class="custom-radio"></span> NO // DENIED
+                        </label>
+                    </div>
+                    <span class="helper-text" id="permissionError">System access requires clearance identification.</span>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">04 //</span>Do You Have Any Previous Experience </h2>
+                <div class="input-group">
+                    <label for="gymExperience">Years of Previous Gym Activity</label>
+                    <input type="number" id="gymExperience" name="entry.1862695856" placeholder="0 - 40" min="0" max="40" required>
+                    <span class="helper-text" id="experienceError">Valid baseline timeline metrics: 0 to 40 standard cycles.</span>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">05 //</span> Secure Locker Allocation</h2>
+                <div class="input-group">
+                    <span class="radio-group-label">Request localized hardware locker terminal?</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.38638229" value="Yes" required>
+                            <span class="custom-radio"></span> REQUIRED 
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.38638229" value="No">
+                            <span class="custom-radio"></span> DECLINE 
+                        </label>
+                    </div>
+                    <span class="helper-text" id="lockerError">Storage configuration selection mandatory.</span>
+                </div>
+            </section>
+
+            <div class="premium-action-footer">
+                <button type="submit" class="cyber-submit-btn" id="submitBtn">
+                    <span class="btn-text">REGISTER NOW</span>
+                    <span class="btn-spinner" id="btnSpinner"></span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <div class="success-popup" id="successPopup" role="dialog" aria-hidden="true">
+        <div class="success-card">
+            <div class="checkmark-wrapper">
+                <svg class="checkmark-svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h3 class="success-title">CONGRATULATION</h3>
+            <p class="success-message">Registration Successful // Profile Linked</p>
+        </div>
+    </div>
+
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+   <!-- High-fidelity video engine layer replacing static assets -->
+<div class="cyber-bg-video-container">
+   <video autoplay loop muted playsinline aria-hidden="true" class="cyber-bg-video">
+    <source src="mixkit-aerial-shot-of-traffic-near-a-roundabout-51094-full-hd.mp4" type="video/mp4">
+</video>
+</div>
+<div class="cyber-overlay"></div>
+<canvas id="particleCanvas"></canvas>
+   
+    <script src="gum2.js"></script>
+</body>
+</html>
