@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 5. LIVE MATRIX PROGRESS CALCULATOR (SAFE EDITION)
     // ==========================================
-    const totalSteps = 11; 
+    const totalSteps= 11; 
     
     function calculateProgress() {
         let validFields = 0;
