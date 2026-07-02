@@ -275,11 +275,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 photoType: file.type
             };
 
-            fetch('https://script.google.com/macros/s/AKfycbx_9XgxGv7lyLd1VEXdRGDevRGAQc0XxtMGhrFgtKBhuERKePzqmshs4LAVQUKYVSJq/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbx_9XgxGv7lyLd1VEXdRGDevRGAQc0XxtMGhrFgtKBhuERKePzqmshs4LAVQUKYVSJq/exec', {
                 method: 'POST',
                 mode: 'no-cors', 
                 headers: {
-                    'Content-Type': 'application/json'
+               'Content-Type': 'text/plain;charset=utf-8' 
+
                 },
                 body: JSON.stringify(formDataPayload)
             })
