@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ==========================================
-    // 1. CYBERPUNK BACKGROUND PARTICLE SYSTEM
+// ==========================================
+    // 1. LUXURY BLACK PARTICLE WAVE SYSTEM
     // ==========================================
     const canvas = document.getElementById('particleCanvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let waveCycle = 0;
         
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
@@ -14,29 +15,49 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Particle {
-            constructor() {
+        class WaveParticle {
+            constructor(index, total) {
+                this.index = index;
+                this.total = total;
                 this.reset();
+                // Randomize initial horizontal placement across the grid
+                this.x = (index / total) * canvas.width; 
             }
             reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.8;
-                this.speedY = (Math.random() - 0.5) * 0.8;
-                this.alpha = Math.random() * 0.5 + 0.2;
+                this.baseY = canvas.height * 0.7; // Centers the wave near the lower third
+                this.amplitude = Math.random() * 45 + 25; // Height of individual wave ripples
+                this.speed = Math.random() * 0.015 + 0.005; // Speed of movement
+                this.size = Math.random() * 2.5 + 0.8; // Varying particle sizes for deep perspective
+                this.phaseShift = Math.random() * Math.PI * 2;
+                
+                // Luxury Dark Palette: Alternate between pitch black, charcoal, and Deep Cyber Slate
+                const colors = ['#050505', '#111115', '#1c1c24', '#0d0d11'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.alpha = Math.random() * 0.4 + 0.3; // Elegant translucent visibility
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                // Progressively move the particle horizontally across the timeline
+                this.x += 0.4;
+                if (this.x > canvas.width) {
+                    this.x = 0;
                     this.reset();
                 }
+
+                // Complex multi-layered Sine Wave formula for fluid natural movement
+                const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
+                const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
+                
+                this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.5));
             }
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = '#00ffcc'; // Neon Cyan accent
+                ctx.fillStyle = this.color;
+                
+                // Luxury high-end shadow effect to give deep layer contrast against your cyber-bg
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+                ctx.shadowBlur = 6;
+                
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -44,12 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        for (let i = 0; i < 60; i++) {
-            particles.push(new Particle());
+        // Initialize wave density layers (180 elements create a premium ribbon effect)
+        const density = 180;
+        for (let i = 0; i < density; i++) {
+            particles.push(new WaveParticle(i, density));
         }
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Advance global timeline cycle calculation
+            waveCycle += 0.004;
+
             particles.forEach(p => {
                 p.update();
                 p.draw();
@@ -58,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         animate();
     }
-
     // ==========================================
     // 2. SMOOTH SCROLL PROTOCOL
     // ==========================================
