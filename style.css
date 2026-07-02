@@ -43,40 +43,7 @@ body {
     padding: 60px 20px;
     letter-spacing: -0.01em;
 }
-/* ==========================================================================
-   02. VISUAL HARDWARE EXTERIOR (ORIGINAL PINK FLUID VIDEO BACKGROUND)
-   ========================================================================== */
-.cyber-bg-video-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -3;
-    overflow: hidden;
-    background-color: #eef0f3; 
-}
 
-.cyber-bg-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* REMOVED grayscale entirely so the original pink colors show through */
-    filter: contrast(1.05) brightness(1); 
-    /* Kept opacity slightly balanced so it blends nicely behind the UI container */
-    opacity: 0.85; 
-}
-
-.cyber-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    /* A premium, soft vignette that keeps the outer edges dark but leaves the center clear */
-    background: radial-gradient(circle at center, rgba(9, 10, 12, 0) 0%, rgba(5, 6, 7, 0.6) 100%);
-}
 
 /* ==========================================================================
    03. PORTAL STRUCTURAL MASK CONTAINER
