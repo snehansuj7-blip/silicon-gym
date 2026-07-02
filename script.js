@@ -309,9 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.disabled = false;
                 }
             });
-            function triggerPermissionCheck() {
-  DriveApp.createFile("test.txt", "test");
-}
         };
 
         reader.readAsDataURL(file);
