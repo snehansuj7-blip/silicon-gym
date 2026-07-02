@@ -49,10 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
                 ctx.fillStyle = this.color;
-                
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
                 ctx.shadowBlur = 6;
-                
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -105,10 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const successPopup = document.getElementById('successPopup');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Link form target to hidden iframe to safeguard background workflows
+    // If the form isn't on this specific page layout, stop execution safely to avoid script crashes
+    if (!form) return;
+
     form.setAttribute('target', 'hidden_iframe');
 
-    // Validation patterns & rules
     const validationRules = {
         fullName: (val) => /^[A-Za-z\s]{3,40}$/.test(val.trim()),
         sicCode: (val) => /^[A-Za-z0-9]{8}$/.test(val.trim()),
@@ -153,40 +152,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleFileDisplay(file) {
-        const maxSize = 5 * 1024 * 1024; // 5MB
+        const maxSize = 5 * 1024 * 1024; 
         const errorSpan = document.getElementById('photoError');
 
         if (file.size > maxSize) {
-            errorSpan.textContent = "CRITICAL ERROR: Matrix limit exceeded (Max 5MB).";
-            errorSpan.style.color = "#ff0055";
+            if (errorSpan) {
+                errorSpan.textContent = "CRITICAL ERROR: Matrix limit exceeded (Max 5MB).";
+                errorSpan.style.color = "#ff0055";
+            }
             fileInput.value = "";
-            uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+            if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
         } else {
-            errorSpan.textContent = "Valid identification image file loaded.";
-            errorSpan.style.color = "#00ffcc";
-            uploadMainText.textContent = `READY: ${file.name.substring(0, 20)}...`;
+            if (errorSpan) {
+                errorSpan.textContent = "Valid identification image file loaded.";
+                errorSpan.style.color = "#00ffcc";
+            }
+            if (uploadMainText) uploadMainText.textContent = `READY: ${file.name.substring(0, 20)}...`;
         }
         calculateProgress();
     }
 
     // ==========================================
-    // 5. LIVE MATRIX PROGRESS CALCULATOR
+    // 5. LIVE MATRIX PROGRESS CALCULATOR (SAFE EDITION)
     // ==========================================
     const totalSteps = 11; 
     
     function calculateProgress() {
         let validFields = 0;
 
-        if (validationRules.fullName(document.getElementById('fullName').value)) validFields++;
-        if (validationRules.sicCode(document.getElementById('sicCode').value)) validFields++;
-        if (validationRules.academicBranch(document.getElementById('academicBranch').value)) validFields++;
+        const nameEl = document.getElementById('fullName');
+        const sicEl = document.getElementById('sicCode');
+        const branchEl = document.getElementById('academicBranch');
+        const heightEl = document.getElementById('heightMetric');
+        const weightEl = document.getElementById('weightMetric');
+        const expEl = document.getElementById('gymExperience');
+
+        if (nameEl && validationRules.fullName(nameEl.value)) validFields++;
+        if (sicEl && validationRules.sicCode(sicEl.value)) validFields++;
+        if (branchEl && validationRules.academicBranch(branchEl.value)) validFields++;
         if (document.querySelector('input[name="entry.year_placeholder"]:checked')) validFields++;
         if (document.querySelector('input[name="entry.1858008117"]:checked')) validFields++;
-        if (fileInput && fileInput.files.length > 0) validFields++;
-        if (validationRules.heightMetric(document.getElementById('heightMetric').value)) validFields++;
-        if (validationRules.weightMetric(document.getElementById('weightMetric').value)) validFields++;
+        if (fileInput && fileInput.files && fileInput.files.length > 0) validFields++;
+        if (heightEl && validationRules.heightMetric(heightEl.value)) validFields++;
+        if (weightEl && validationRules.weightMetric(weightEl.value)) validFields++;
         if (document.querySelector('input[name="entry.1691817220"]:checked')) validFields++;
-        if (validationRules.gymExperience(document.getElementById('gymExperience').value)) validFields++;
+        if (expEl && validationRules.gymExperience(expEl.value)) validFields++;
         if (document.querySelector('input[name="entry.38638229"]:checked')) validFields++;
 
         const percentage = Math.round((validFields / totalSteps) * 100);
@@ -204,10 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. INTERCEPT AND SUBMIT PROTOCOL
     // ==========================================
     form.addEventListener('submit', (e) => {
-        e.preventDefault(); // Stop native HTML processing
+        e.preventDefault(); 
         let formIsValid = true;
 
-        // Visual validation helper
         const toggleErrorUI = (id, errorId, isValid) => {
             const errorElement = document.getElementById(errorId);
             const inputElement = document.getElementById(id);
@@ -221,17 +230,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Run thorough validation checks before allowing API transit
-        toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName').value));
-        toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode').value));
-        toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch').value));
-        toggleErrorUI('heightMetric', 'heightError', validationRules.heightMetric(document.getElementById('heightMetric').value));
-        toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric').value));
-        toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience').value));
+        toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName')?.value || ''));
+        toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode')?.value || ''));
+        toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch')?.value || ''));
+        toggleErrorUI('heightMetric', 'heightError', validationRules.heightMetric(document.getElementById('heightMetric')?.value || ''));
+        toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric')?.value || ''));
+        toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience')?.value || ''));
 
         toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
         toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
-        toggleErrorUI('', 'photoError', fileInput && fileInput.files.length > 0);
+        toggleErrorUI('', 'photoError', fileInput && fileInput.files && fileInput.files.length > 0);
         toggleErrorUI('', 'permissionError', document.querySelector('input[name="entry.1691817220"]:checked') !== null);
         toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
 
@@ -241,9 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Switch button to loading architecture
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
+        if (submitBtn) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+        }
 
         const file = fileInput.files[0];
         const reader = new FileReader();
@@ -266,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 photoType: file.type
             };
 
-            // Post straight to your verified Apps Script Web App Endpoint URL
             fetch('https://script.google.com/macros/s/AKfycbzHlTTOiFf4whNwAbBzdQc3nJNyViRpE6hVkLulQB9GO0pS6f7g31oOICEfL4RhW3t3/exec', {
                 method: 'POST',
                 mode: 'no-cors', 
@@ -276,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(formDataPayload)
             })
             .then(() => {
-                submitBtn.classList.remove('loading');
+                if (submitBtn) submitBtn.classList.remove('loading');
                 
                 if (successPopup) {
                     successPopup.setAttribute('aria-hidden', 'false');
@@ -287,16 +295,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         calculateProgress(); 
                         successPopup.classList.remove('active');
                         successPopup.setAttribute('aria-hidden', 'true');
-                        submitBtn.disabled = false;
-                        uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+                        if (submitBtn) submitBtn.disabled = false;
+                        if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }, 4000);
                 }
             })
             .catch(error => {
                 console.error('System synchronization error:', error);
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
+                if (submitBtn) {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }
             });
         };
 
