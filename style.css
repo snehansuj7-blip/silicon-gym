@@ -25,12 +25,11 @@
 
 body {
     
-  top: 0;
-  z-index: 10;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 0px;
+  
     background-color: var(--bg-void);
     font-family: 'Inter', sans-serif;
     color: var(--text-pure);
