@@ -1,173 +1,197 @@
-/**
- * CYBERPUNK INDUSTRIAL LOGIC PORTAL CONTROLLER
- * Asynchronous Back-end Synchronization Core Model
- */
-
+/* ==========================================================================
+   01. INITIALIZATION & STATE MATRIX
+   ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    initTactileGraphics();
-    initDataRouteController();
-});
-
-function initTactileGraphics() {
-    const canvas = document.getElementById("particleCanvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let particles = [];
-
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resize);
-    resize();
-
-    class AmberParticle {
-        constructor() { this.reset(); }
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = canvas.height + 10;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedY = -Math.random() * 0.8 - 0.2;
-            this.alpha = Math.random() * 0.4 + 0.1;
-        }
-        update() {
-            this.y += this.speedY;
-            if (this.y < 0) this.reset();
-        }
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.fillStyle = "#FF9900"; // Warning Amber Micro-sparks
-            ctx.fillRect(this.x, this.y, this.size, this.size);
-            ctx.restore();
-        }
-    }
-
-    for (let i = 0; i < 30; i++) particles.push(new AmberParticle());
-
-    function cycle() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(cycle);
-    }
-    cycle();
-}
-
-function initDataRouteController() {
     const form = document.getElementById("cyberpunkForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const successPopup = document.getElementById("successPopup");
-    
-    const fields = {
-        name: document.getElementById("fullName"),
-        sic: document.getElementById("sicCode"),
-        height: document.getElementById("heightMetric"),
-        weight: document.getElementById("weightMetric"),
-        experience: document.getElementById("gymExperience")
-    };
+    const inputs = form.querySelectorAll("input[required], select[required]");
+    const progressBar = document.getElementById("progressBar");
+    const progressPercent = document.getElementById("progressPercent");
+    const uploadBox = document.querySelector(".cyber-upload-box");
+    const fileInput = document.getElementById("profilePhoto");
 
-    const validators = {
-        name: (val) => /^[A-Za-z\s]{3,40}$/.test(val.trim()),
-        sic: (val) => /^[A-Za-z0-9]{8}$/.test(val.trim()),
-        height: (val) => val !== "" && Number(val) >= 100 && Number(val) <= 250,
-        weight: (val) => val !== "" && Number(val) >= 20 && Number(val) <= 250,
-        experience: (val) => val !== "" && Number(val) >= 0 && Number(val) <= 40,
-        gender: () => document.querySelector('input[name="entry.1858008117"]:checked') !== null,
-        permission: () => document.querySelector('input[name="entry.1691817220"]:checked') !== null,
-        locker: () => document.querySelector('input[name="entry.38638229"]:checked') !== null
-    };
+    // Initialize immediate metrics calculations
+    calculateProgress();
 
-    // Live validation loop
-    Object.keys(fields).forEach(key => {
-        fields[key].addEventListener("input", () => {
-            validateField(key, fields[key], validators[key]);
-            updateProgressEngine();
-        });
-    });
+    /* ==========================================================================
+       02. DYNAMIC PROGRESS HUD TRACKING
+       ========================================================================== */
+    function calculateProgress() {
+        let filledFields = 0;
+        let totalFields = inputs.length;
 
-    // Dynamic radio node change handlers
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener("change", () => {
-            const group = radio.getAttribute("name");
-            let key = "";
-            if (group === "entry.1858008117") key = "gender";
-            if (group === "entry.1691817220") key = "permission";
-            if (group === "entry.38638229") key = "locker";
-
-            if (key) {
-                setFieldState(radio.closest('.input-group'), validators[key]());
-                updateProgressEngine();
+        // Special handling groups (radios are evaluated collectively)
+        const radioGroups = {};
+        
+        inputs.forEach(input => {
+            if (input.type === "radio") {
+                if (!radioGroups[input.name]) {
+                    radioGroups[input.name] = false;
+                }
+                if (input.checked) {
+                    radioGroups[input.name] = true;
+                }
+            } else if (input.value.trim() !== "") {
+                filledFields++;
             }
         });
-    });
 
-    function validateField(key, el, validator) {
-        const state = validator(el.value);
-        setFieldState(el.closest('.input-group'), state);
-        return state;
+        // Add verified radio groups to calculation metrics
+        let totalRadiosCount = Object.keys(radioGroups).length;
+        let selectedRadiosCount = Object.values(radioGroups).filter(val => val).length;
+
+        // Readjust metrics arrays
+        const adjustedTotal = (totalFields - inputs.filter(i => i.type === "radio").length) + totalRadiosCount;
+        const adjustedFilled = filledFields + selectedRadiosCount;
+
+        const score = adjustedTotal > 0 ? Math.round((adjustedFilled / adjustedTotal) * 100) : 0;
+        
+        // Update Frontend Canvas Display
+        progressBar.style.width = `${score}%`;
+        progressPercent.textContent = `${score}%`;
     }
 
-    function setFieldState(wrapper, isValid) {
-        if (!wrapper) return;
-        if (isValid) {
-            wrapper.classList.remove("invalid-state");
-            wrapper.classList.add("valid-state");
-        } else {
-            wrapper.classList.remove("valid-state");
-            wrapper.classList.add("invalid-state");
-        }
-    }
+    // Attach tracking listener matrix to all elements
+    form.addEventListener("input", calculateProgress);
+    form.addEventListener("change", calculateProgress);
 
-    function updateProgressEngine() {
-        const keys = ["name", "sic", "gender", "height", "weight", "permission", "experience", "locker"];
-        let validUnits = 0;
-        keys.forEach(key => {
-            if (["gender", "permission", "locker"].includes(key)) {
-                if (validators[key]()) validUnits++;
+    /* ==========================================================================
+       03. ADVANCED DRAG & DROP FILE INTERFACE
+       ========================================================================== */
+    if (uploadBox && fileInput) {
+        const uploadMainText = uploadBox.querySelector(".upload-main-text");
+        const origText = uploadMainText.textContent;
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                uploadBox.style.borderColor = "var(--primary-yellow)";
+                uploadBox.style.backgroundColor = "rgba(245, 194, 66, 0.04)";
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                uploadBox.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                uploadBox.style.backgroundColor = "rgba(255, 255, 255, 0.01)";
+            }, false);
+        });
+
+        fileInput.addEventListener("change", () => {
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                // Display truncated name string if parameters exceed boundary
+                const fileName = file.name.length > 25 ? file.name.substring(0, 22) + "..." : file.name;
+                uploadMainText.textContent = `SELECTED: ${fileName.toUpperCase()}`;
+                uploadMainText.style.color = "var(--primary-yellow)";
+                
+                // Clear out validation alerts on file upload allocation
+                uploadBox.closest(".input-group").classList.remove("invalid-parameter");
             } else {
-                if (validators[key](fields[key].value)) validUnits++;
+                uploadMainText.textContent = origText;
+                uploadMainText.style.color = "var(--text-pure)";
             }
+            calculateProgress();
         });
-        const pct = Math.round((validUnits / keys.length) * 100);
-        document.getElementById("progressBar").style.width = `${pct}%`;
-        document.getElementById("progressPercent").innerText = `${pct}%`;
     }
 
-    /* Asynchronous Data Submit System (Bypasses CORS restrictions safely) */
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        let valid = true;
+    /* ==========================================================================
+       04. COMPONENT FIELD DIAGNOSTICS & VALIDATION ENGINE
+       ========================================================================== */
+    function validateField(input) {
+        const inputGroup = input.closest(".input-group");
+        if (!inputGroup) return true;
 
-        Object.keys(fields).forEach(k => { if (!validateField(k, fields[k], validators[k])) valid = false; });
-        ["gender", "permission", "locker"].forEach(k => {
-            const el = document.querySelector(`input[name="${k==='gender'?'entry.1858008117':k==='permission'?'entry.1691817220':'entry.38638229'}"]`);
-            if (!validators[k]()) { setFieldState(el.closest('.input-group'), false); valid = false; }
-        });
+        let isValid = true;
 
-        if (!valid) return;
+        // 1. Text Field Validations (Name parameters)
+        if (input.id === "fullName") {
+            const nameValue = input.value.trim();
+            const nameRegex = /^[A-Za-z\s]{3,40}$/;
+            isValid = nameRegex.test(nameValue);
+        }
+        
+        // 2. Alphanumeric Token Validations (SIC Codes)
+        else if (input.id === "sicCode") {
+            const sicValue = input.value.trim();
+            const sicRegex = /^[A-Za-z0-9]{8}$/;
+            isValid = sicRegex.test(sicValue);
+        }
+        
+        // 3. Numeric System Boundary Overrides (Height, Weight, Experience)
+        else if (input.type === "number") {
+            const val = parseFloat(input.value);
+            const min = parseFloat(input.min);
+            const max = parseFloat(input.max);
+            isValid = (!isNaN(val) && val >= min && val <= max);
+        }
+        
+        // 4. Default Node Selection Matrices (Dropdowns & Radios)
+        else if (input.tagName === "SELECT" || input.type === "radio") {
+            if (input.type === "radio") {
+                const group = form.querySelectorAll(`input[name="${input.name}"]`);
+                isValid = Array.from(group).some(r => r.checked);
+            } else {
+                isValid = input.value !== "";
+            }
+        }
+        
+        // 5. File System Validation Parameters
+        else if (input.type === "file") {
+            isValid = input.files.length > 0;
+            if (isValid && input.files[0].size > 5 * 1024 * 1024) {
+                isValid = false; // Limit parameter capped at 5MB
+            }
+        }
 
-        submitBtn.classList.add("loading");
-        submitBtn.disabled = true;
+        // Toggle error utility classes based on field validity status
+        if (!isValid) {
+            inputGroup.classList.add("invalid-parameter");
+        } else {
+            inputGroup.classList.remove("invalid-parameter");
+        }
 
-        fetch(form.action, {
-            method: "POST",
-            body: new FormData(form),
-            mode: "no-cors"
-        })
-        .then(() => {
-            successPopup.classList.add("active");
-            setTimeout(() => {
-                form.reset();
-                document.querySelectorAll(".valid-state, .invalid-state").forEach(el => el.classList.remove("valid-state", "invalid-state"));
-                updateProgressEngine();
-                submitBtn.classList.remove("loading");
-                submitBtn.disabled = false;
-                successPopup.classList.remove("active");
-            }, 3000);
-        })
-        .catch(() => {
-            submitBtn.classList.remove("loading");
-            submitBtn.disabled = false;
-        });
+        return isValid;
+    }
+
+    // Attach validation listeners for user inputs
+    inputs.forEach(input => {
+        input.addEventListener("blur", () => validateField(input));
+        if (input.tagName === "SELECT" || input.type === "radio") {
+            input.addEventListener("change", () => validateField(input));
+        }
     });
-}
+
+    /* ==========================================================================
+       05. SECURE ENDPOINT FORM SUBMISSION ROUTING
+       ========================================================================== */
+    form.addEventListener("submit", (e) => {
+        let isFormValid = true;
+
+        // Force execution across all required nodes
+        inputs.forEach(input => {
+            const isFieldValid = validateField(input);
+            if (!isFieldValid) {
+                isFormValid = false;
+            }
+        });
+
+        if (!isFormValid) {
+            e.preventDefault(); // Stop network traffic if structural parameters are invalid
+            
+            // Auto-scroll screen window up to first corrupted input group element
+            const firstInvalid = form.querySelector(".invalid-parameter");
+            if (firstInvalid) {
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } else {
+            // Success optimization loop (submit process running seamlessly)
+            const submitBtn = document.getElementById("submitBtn");
+            if (submitBtn) {
+                submitBtn.style.opacity = "0.6";
+                submitBtn.style.pointerEvents = "none";
+                submitBtn.innerText = "PROCESSING SUBMISSION...";
+            }
+        }
+    });
+});
