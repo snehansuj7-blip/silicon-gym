@@ -241,7 +241,7 @@ reader.onload = function(event) {
     };
 
     // Send the structured payload via standard POST request to your external API endpoint
-    fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_WEB_APP_ID/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzHlTTOiFf4whNwAbBzdQc3nJNyViRpE6hVkLulQB9GO0pS6f7g31oOICEfL4RhW3t3/exec', {
         method: 'POST',
         mode: 'no-cors', // Bypasses browser CORS restrictions for Google Apps Script redirects
         headers: {
