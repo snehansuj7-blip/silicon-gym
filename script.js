@@ -208,6 +208,76 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('input', calculateProgress);
     form.addEventListener('change', calculateProgress);
 
+    // Locate where your form submission validation succeeds (where formIsValid === true)
+const fileInput = document.getElementById('profilePhoto');
+const file = fileInput.files[0];
+const reader = new FileReader();
+
+// Block default submission behavior
+e.preventDefault();
+
+// Change button UI state to processing
+submitBtn.classList.add('loading');
+submitBtn.disabled = true;
+
+reader.onload = function(event) {
+    const base64String = event.target.result.split(',')[1]; // Isolate raw base64 data
+    
+    // Construct the data payload matching your form entries
+    const formDataPayload = {
+        fullName: document.getElementById('fullName').value,
+        sicCode: document.getElementById('sicCode').value,
+        academicBranch: document.getElementById('academicBranch').value,
+        academicYear: document.querySelector('input[name="entry.year_placeholder"]:checked')?.value || '',
+        gender: document.querySelector('input[name="entry.1858008117"]:checked')?.value || '',
+        height: document.getElementById('heightMetric').value,
+        weight: document.getElementById('weightMetric').value,
+        parentPermission: document.querySelector('input[name="entry.1691817220"]:checked')?.value || '',
+        experience: document.getElementById('gymExperience').value,
+        locker: document.querySelector('input[name="entry.38638229"]:checked')?.value || '',
+        // Include the binary biometric data
+        photoData: base64String,
+        photoType: file.type
+    };
+
+    // Send the structured payload via standard POST request to your external API endpoint
+    fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_WEB_APP_ID/exec', {
+        method: 'POST',
+        mode: 'no-cors', // Bypasses browser CORS restrictions for Google Apps Script redirects
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formDataPayload)
+    })
+    .then(() => {
+        // Since 'no-cors' mode returns an opaque response, trigger the success flow immediately
+        submitBtn.classList.remove('loading');
+        
+        if (successPopup) {
+            successPopup.setAttribute('aria-hidden', 'false');
+            successPopup.classList.add('active');
+            
+            setTimeout(() => {
+                form.reset();
+                calculateProgress(); // Recalculate your custom progress tracking bar
+                successPopup.classList.remove('active');
+                successPopup.setAttribute('aria-hidden', 'true');
+                submitBtn.disabled = false;
+                document.querySelector('.upload-main-text').textContent = "DRAG & DROP IMAGE FILE";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 4000);
+        }
+    })
+    .catch(error => {
+        console.error('Transmission fault encountered:', error);
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+    });
+};
+
+// Start reading the file binary track
+reader.readAsDataURL(file);
+
     // ==========================================
     // 6. INTERCEPT AND SUBMIT PROTOCOL
     // ==========================================
