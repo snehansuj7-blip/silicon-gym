@@ -6,15 +6,44 @@
     <title>COLLEGE GYM // Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="cyber-bg"></div>
+    <div class="cyber-bg"></div>
     <div class="cyber-overlay"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <main class="portal-container" role="main">
+    <!-- ==========================================================================
+       ADDED: CINEMATIC HERO ABOUT SECTION (FIRST VISIBLE LAYER)
+       ========================================================================== -->
+    <section class="about-hero-container">
+        <div class="about-hero-content">
+            <span class="about-tagline">SYSTEM INITIATION // OVERVIEW</span>
+            <h1 class="about-main-title">About Our College Gym</h1>
+            <div class="about-divider"></div>
+            
+            <p class="about-prose">
+                Welcome to the College Gym, a dedicated fitness facility designed to promote a healthy, active, and disciplined lifestyle among students. Our gym provides a safe, modern, and motivating environment equipped with quality fitness equipment to support strength training, endurance, and overall physical wellness.
+            </p>
+            <p class="about-prose">
+                Whether you're a beginner taking your first step toward fitness or an experienced athlete working to improve your performance, our gym offers the resources you need to achieve your goals. We encourage every student to develop healthy habits, build confidence, and maintain both physical and mental well-being through regular exercise.
+            </p>
+            <p class="about-callout">
+                Join our fitness community and take the first step toward becoming a stronger, healthier, and more confident version of yourself.
+            </p>
+
+            <a href="#registrationProtocol" class="about-scroll-btn">
+                <span>INITIALIZE REGISTRATION</span>
+                <span class="scroll-arrow">↓</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       REGISTRATION PROTOCOL MATRIX CONTAINER
+       ========================================================================== -->
+    <main id="registrationProtocol" class="portal-container" role="main">
         <div class="progress-wrapper" aria-label="Registration Progress">
             <div class="progress-text">PROGRESS: <span id="progressPercent">0%</span></div>
             <div class="progress-track">
@@ -30,8 +59,9 @@
             <p class="sub-title">Registration Protocol</p>
         </header>
 
-        <form id="cyberpunkForm" action="https://docs.google.com/forms/u/0/d/1Ba8FLfA5I0h6qtfvX_BgexDfHPIBpmCv1nVdyToKfwQ/formResponse" method="POST" novalidate>
+        <form id="cyberpunkForm" action="https://docs.google.com/forms/u/0/d/1Ba8FLfA5I0h6qtfvX_BgexDfHPIBpmCv1nVdyToKfwQ/formResponse" method="POST" enctype="multipart/form-data" novalidate>
             
+            <!-- SECTION 01: PERSONAL INFORMATION -->
             <section class="form-section">
                 <h2 class="section-title"><span class="sec-num">01 //</span> Personal Information</h2>
                 
@@ -45,6 +75,44 @@
                     <label for="sicCode">SIC-Number</label>
                     <input type="text" id="sicCode" name="entry.1894580731" placeholder="ENTER 8-DIGIT ALPHANUMERIC" autocomplete="off" required>
                     <span class="helper-text" id="sicError">Required: Exactly 8 alphanumeric structural characters.</span>
+                </div>
+
+                <!-- Academic Branch Identifier Component -->
+                <div class="input-group">
+                    <label for="academicBranch">Branch Stream</label>
+                    <select id="academicBranch" name="entry.branch_placeholder" class="cyber-select" required>
+                        <option value="" disabled selected hidden>SELECT ACADEMIC BRANCH</option>
+                        <option value="CSE">COMPUTER SCIENCE & ENGINEERING (CSE)</option>
+                        <option value="ECE">ELECTRONICS & COMMUNICATION (ECE)</option>
+                        <option value="EE">ELECTRICAL ENGINEERING (EE)</option>
+                        <option value="ME">MECHANICAL ENGINEERING (ME)</option>
+                        <option value="CE">CIVIL ENGINEERING (CE)</option>
+                    </select>
+                    <span class="helper-text" id="branchError">Branch parameter allocation required.</span>
+                </div>
+
+                <!-- Timeline Horizon (Year) Selection Matrix -->
+                <div class="input-group">
+                    <span class="radio-group-label">Current Academic Cycle (Year)</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="1st Year" required>
+                            <span class="custom-radio"></span> 1ST YEAR
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="2nd Year">
+                            <span class="custom-radio"></span> 2ND YEAR
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="3rd Year">
+                            <span class="custom-radio"></span> 3RD YEAR
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="4th Year">
+                            <span class="custom-radio"></span> 4TH YEAR
+                        </label>
+                    </div>
+                    <span class="helper-text" id="yearError">Timeline status selection parameter mandatory.</span>
                 </div>
 
                 <div class="input-group">
@@ -67,8 +135,26 @@
                 </div>
             </section>
 
+            <!-- SECTION 02: BIOMETRIC CAPTURE (PHOTO UPLOAD) -->
             <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">02 //</span> Physical Information</h2>
+                <h2 class="section-title"><span class="sec-num">02 //</span> Biometric Data Identification</h2>
+                <div class="input-group">
+                    <label for="profilePhoto">Profile Photo Capture</label>
+                    <div class="cyber-upload-box">
+                        <input type="file" id="profilePhoto" name="profile_photo" accept="image/*" required>
+                        <div class="upload-content">
+                            <span class="upload-icon">⇪</span>
+                            <span class="upload-main-text">DRAG & DROP IMAGE FILE</span>
+                            <span class="upload-sub-text">PNG, JPG OR JPEG BASELINE MATRIX (MAX 5MB)</span>
+                        </div>
+                    </div>
+                    <span class="helper-text" id="photoError">Valid identification image file required.</span>
+                </div>
+            </section>
+
+            <!-- SECTION 03: PHYSICAL INFORMATION -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">03 //</span> Physical Information</h2>
                 <div class="grid-2-col">
                     <div class="input-group">
                         <label for="heightMetric">Height (cm)</label>
@@ -83,8 +169,9 @@
                 </div>
             </section>
 
+            <!-- SECTION 04: PARENT PERMISSION PROTOCOLS -->
             <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">03 //</span> Parent Permission Protocols</h2>
+                <h2 class="section-title"><span class="sec-num">04 //</span> Parent Permission Protocols</h2>
                 <div class="input-group">
                     <span class="radio-group-label">Has parental/guardian clearance been authorized?</span>
                     <div class="cyber-radio-cluster">
@@ -101,8 +188,9 @@
                 </div>
             </section>
 
+            <!-- SECTION 05: PREVIOUS EXPERIENCE -->
             <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">04 //</span>Do You Have Any Previous Experience </h2>
+                <h2 class="section-title"><span class="sec-num">05 //</span> Do You Have Any Previous Experience</h2>
                 <div class="input-group">
                     <label for="gymExperience">Years of Previous Gym Activity</label>
                     <input type="number" id="gymExperience" name="entry.1862695856" placeholder="0 - 40" min="0" max="40" required>
@@ -110,8 +198,9 @@
                 </div>
             </section>
 
+            <!-- SECTION 06: SECURE LOCKER ALLOCATION -->
             <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">05 //</span> Secure Locker Allocation</h2>
+                <h2 class="section-title"><span class="sec-num">06 //</span> Secure Locker Allocation</h2>
                 <div class="input-group">
                     <span class="radio-group-label">Request localized hardware locker terminal?</span>
                     <div class="cyber-radio-cluster">
@@ -151,15 +240,14 @@
     </div>
 
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-   <!-- High-fidelity video engine layer replacing static assets -->
-<div class="cyber-bg-video-container">
-   <video autoplay loop muted playsinline aria-hidden="true" class="cyber-bg-video">
-    <source src="" type="video/mp4">
-</video>
-</div>
-<div class="cyber-overlay"></div>
-<canvas id="particleCanvas"></canvas>
-   
+    
+    <!-- Video Engine Canvas Integration Map Layer for 101000-video-1080.mp4 -->
+    <div class="cyber-bg-video-container">
+        <video autoplay loop muted playsinline aria-hidden="true" class="cyber-bg-video">
+            <source src="101000-video-1080.mp4" type="video/mp4">
+        </video>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
