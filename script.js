@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-//=============================
-// 1. PARTICLE WAVE STYLE
-//=============================
+    // ==========================================
+    // 1. LUXURY SHINY BLACK METALLIC BALL WAVE SYSTEM
+    // ==========================================
     const canvas = document.getElementById('particleCanvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.size = Math.random() * 3.5 + 2.5; // Larger metallic ball radius
                 this.phaseShift = Math.random() * Math.PI * 2;
                 
-                // Chrome and steel monochromatic dark metal color pallet
+                // Chrome and steel monochromatic dark metal color palette
                 const colors = ['#1a1a1a', '#2d2d30', '#404043', '#111111'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.alpha = Math.random() * 0.3 + 0.6; // Deeply enhanced opacity profile
@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     }
 
-      
     // ==========================================
     // 2. SMOOTH SCROLL PROTOCOL
     // ==========================================
@@ -118,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const successPopup = document.getElementById('successPopup');
     const submitBtn = document.getElementById('submitBtn');
 
-    // If the form isn't on this specific page layout, stop execution safely to avoid script crashes
     if (!form) return;
 
     form.setAttribute('target', 'hidden_iframe');
@@ -190,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 5. LIVE MATRIX PROGRESS CALCULATOR (SAFE EDITION)
     // ==========================================
-    const totalSteps= 11; 
+    const totalSteps = 11; 
     
     function calculateProgress() {
         let validFields = 0;
@@ -290,12 +288,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 photoType: file.type
             };
 
-                fetch('https://script.google.com/macros/s/AKfycbxbnKmy-9o2bDPfPobzLuE_cF1HgmhXvdn3nXObGM6VTTFQ1tWZsMzGVFqrz35Bjl75/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbxbnKmy-9o2bDPfPobzLuE_cF1HgmhXvdn3nXObGM6VTTFQ1tWZsMzGVFqrz35Bjl75/exec', {
                 method: 'POST',
                 mode: 'no-cors', 
                 headers: {
-               'Content-Type': 'text/plain;charset=utf-8' 
-
+                    'Content-Type': 'text/plain;charset=utf-8' 
                 },
                 body: JSON.stringify(formDataPayload)
             })
