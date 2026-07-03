@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-const canvas = document.getElementById('particleCanvas');
+//=============================
+// 1. PARTICLE WAVE STYLE
+//=============================
+    const canvas = document.getElementById('particleCanvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
