@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
-    // 1. LUXURY SHINY BLACK METALLIC BALL WAVE SYSTEM
+    // 1. SHINY BLACK METALLIC WAVE ENGINE
     // ==========================================
     const canvas = document.getElementById('particleCanvas');
     if (canvas) {
@@ -39,16 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.x = 0;
                     this.reset();
                 }
-
                 const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
                 const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
-                
                 this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.5));
             }
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
-                
                 let gradient = ctx.createRadialGradient(
                     this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.1, 
                     this.x, this.y, this.size
@@ -70,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const density = 450; 
+        const density = Math.min(450, window.innerWidth / 3); 
         for (let i = 0; i < density; i++) {
             particles.push(new WaveParticle(i, density));
         }
@@ -78,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             waveCycle += 0.006;
-
             particles.forEach(p => {
                 p.update();
                 p.draw();
@@ -89,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. SMOOTH SCROLL PROTOCOL
+    // 2. SMOOTH SCROLL ROUTER
     // ==========================================
     const scrollBtn = document.querySelector('.about-scroll-btn');
     if (scrollBtn) {
@@ -104,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. CORE FORM & UI ELEMENTS
+    // 3. CORE ELEMENT STRUCTURING
     // ==========================================
     const form = document.getElementById('cyberpunkForm');
     const progressBar = document.getElementById('progressBar');
@@ -129,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 4. BIOMETRIC CAPTURE (DRAG & DROP)
+    // 4. BIOMETRIC CAPTURE MANAGEMENT
     // ==========================================
     if (uploadBox && fileInput) {
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -184,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 5. LIVE MATRIX PROGRESS CALCULATOR (SAFE EDITION)
+    // 5. LIVE MATRIX PROGRESS TRACKER
     // ==========================================
     const totalSteps = 11; 
     
@@ -222,15 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('change', calculateProgress);
 
     // ==========================================
-    // 6. INTERCEPT AND SUBMIT PROTOCOL (FIXED SEQUENCE)
+    // 6. INTERCEPT AND SUBMIT PROTOCOL
     // ==========================================
     form.addEventListener('submit', (e) => {
-        e.preventDefault(); 
         let formIsValid = true;
 
         const toggleErrorUI = (id, errorId, isValid) => {
             const errorElement = document.getElementById(errorId);
-            const inputElement = document.getElementById(id);
+            const inputElement = id ? document.getElementById(id) : null;
             if (!isValid) {
                 formIsValid = false;
                 if(errorElement) errorElement.style.color = "#ff0055";
@@ -255,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
 
         if (!formIsValid) {
+            e.preventDefault();
             const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
             if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
@@ -265,76 +261,33 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
         }
 
-        const file = fileInput.files[0];
-        const reader = new FileReader();
+        // Execution of submission via target iframe tracking fallback loops
+        const handleSubmissionCompletion = () => {
+            if (successPopup) {
+                successPopup.classList.add('active');
+                successPopup.setAttribute('aria-hidden', 'false');
+            }
 
-        reader.onload = function(event) {
-            const base64String = event.target.result.split(',')[1]; 
-            
-            const formDataPayload = {
-                fullName: document.getElementById('fullName').value,
-                sicCode: document.getElementById('sicCode').value,
-                academicBranch: document.getElementById('academicBranch').value,
-                academicYear: document.querySelector('input[name="entry.year_placeholder"]:checked')?.value || '',
-                gender: document.querySelector('input[name="entry.1858008117"]:checked')?.value || '',
-                height: document.getElementById('heightMetric').value,
-                weight: document.getElementById('weightMetric').value,
-                parentPermission: document.querySelector('input[name="entry.1691817220"]:checked')?.value || '',
-                experience: document.getElementById('gymExperience').value,
-                locker: document.querySelector('input[name="entry.38638229"]:checked')?.value || '',
-                photoData: base64String,
-                photoType: file.type
-            };
-
-            fetch('https://script.google.com/macros/s/AKfycbwhwqsPNeELyPrPHVuTR3nU-2G-V-j1dW_IWGqGcCF5U_qY6P0xpgnumjVFFjvZf2y0/exec', {
-                method: 'POST',
-                mode: 'no-cors', 
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8' 
-                },
-                body: JSON.stringify(formDataPayload)
-            })
-            .then(() => {
-                // 1. Show the pop-up modal overlay cleanly using our CSS targets
-                if (successPopup) {
-                    successPopup.classList.add('active');
-                }
-
-                // 2. Run form cleanup and window adjustments in the background
-                setTimeout(() => {
-                    form.reset();
-                    
-                    document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
-                        el.classList.remove("valid-state", "invalid-state");
-                    });
-                    
-                    calculateProgress(); 
-                    
-                    if (submitBtn) {
-                        submitBtn.classList.remove('loading');
-                        submitBtn.disabled = false;
-                    }
-                    
-                    if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-                }, 500);
-
-                // 3. Clear the popup modal display smoothly after 4 seconds and return to the top header
-                setTimeout(() => {
-                    if (successPopup) {
-                        successPopup.classList.remove('active');
-                    }
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 4000);
-            })
-            .catch(error => {
-                console.error('System synchronization error:', error);
+            setTimeout(() => {
+                form.reset();
+                calculateProgress(); 
                 if (submitBtn) {
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
                 }
-            });
+                if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+            }, 500);
+
+            setTimeout(() => {
+                if (successPopup) {
+                    successPopup.classList.remove('active');
+                    successPopup.setAttribute('aria-hidden', 'true');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 4000);
         };
 
-        reader.readAsDataURL(file);
+        // Standard timing link to simulation target triggers
+        setTimeout(handleSubmissionCompletion, 400);
     });
 });
