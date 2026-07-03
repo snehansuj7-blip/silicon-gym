@@ -1,38 +1,91 @@
 document.addEventListener('DOMContentLoaded', () => {
-   // Change ONLY the fetch block inside your reader.onload function to look like this:
-fetch('YOUR_NEW_APPS_SCRIPT_URL_HERE', {
-    method: 'POST',
-    mode: 'no-cors', // Keeps browser from blocking cross-origin transit
-    headers: {
-        'Content-Type': 'text/plain;charset=utf-8' // Updated to bypass pre-flight blocker
-    },
-    body: JSON.stringify(formDataPayload)
-})
-.then(() => {
-    if (submitBtn) submitBtn.classList.remove('loading');
-    
-    if (successPopup) {
-        successPopup.setAttribute('aria-hidden', 'false');
-        successPopup.classList.add('active');
+const canvas = document.getElementById('particleCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let waveCycle = 0;
         
-        setTimeout(() => {
-            form.reset();
-            calculateProgress(); 
-            successPopup.classList.remove('active');
-            successPopup.setAttribute('aria-hidden', 'true');
-            if (submitBtn) submitBtn.disabled = false;
-            if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 4000);
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class WaveParticle {
+            constructor(index, total) {
+                this.index = index;
+                this.total = total;
+                this.reset();
+                this.x = (index / total) * canvas.width; 
+            }
+            reset() {
+                this.baseY = canvas.height * 0.6; // Higher base position for full visibility
+                this.amplitude = Math.random() * 60 + 40; // Higher wave motion depth
+                this.speed = Math.random() * 0.015 + 0.005; 
+                this.size = Math.random() * 3.5 + 2.5; // Larger metallic ball radius
+                this.phaseShift = Math.random() * Math.PI * 2;
+                
+                // Chrome and steel monochromatic dark metal color pallet
+                const colors = ['#1a1a1a', '#2d2d30', '#404043', '#111111'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.alpha = Math.random() * 0.3 + 0.6; // Deeply enhanced opacity profile
+            }
+            update() {
+                this.x += 0.6; // Slightly faster shift across screen matrix
+                if (this.x > canvas.width) {
+                    this.x = 0;
+                    this.reset();
+                }
+
+                const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
+                const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
+                
+                this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.5));
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                
+                // Creates a radial chrome-like reflection sheen inside each particle ball
+                let gradient = ctx.createRadialGradient(
+                    this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.1, 
+                    this.x, this.y, this.size
+                );
+                gradient.addColorStop(0, '#ffffff'); // Mirror specular highlight spot
+                gradient.addColorStop(0.2, '#666666'); // Transitional gray sheen
+                gradient.addColorStop(0.5, this.color); // Real base metal tone
+                gradient.addColorStop(1, '#000000'); // Ambient occlusion edge shadow
+
+                ctx.fillStyle = gradient;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'; // Enhanced backdrop depth contrast
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetY = 3;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const density = 450; // Massively scaled count for high volume visibility density
+        for (let i = 0; i < density; i++) {
+            particles.push(new WaveParticle(i, density));
+        }
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            waveCycle += 0.006;
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        };
+        animate();
     }
-})
-.catch(error => {
-    console.error('System synchronization error:', error);
-    if (submitBtn) {
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-    }
-});
 
       
     // ==========================================
