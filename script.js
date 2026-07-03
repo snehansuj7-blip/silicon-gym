@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 photoType: file.type
             };
 
-            fetch('https://script.google.com/macros/s/AKfycbxbnKmy-9o2bDPfPobzLuE_cF1HgmhXvdn3nXObGM6VTTFQ1tWZsMzGVFqrz35Bjl75/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwhwqsPNeELyPrPHVuTR3nU-2G-V-j1dW_IWGqGcCF5U_qY6P0xpgnumjVFFjvZf2y0/exec', {
                 method: 'POST',
                 mode: 'no-cors', 
                 headers: {
