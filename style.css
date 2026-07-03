@@ -542,22 +542,24 @@ input:focus {
    12. INTERFACE ANIMATIONS & MEDIA ENGINE ADAPTATIONS
    ========================================================================== */
 @keyframes interfaceBoot {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
-@media (max-width: 768px) {
-    body { padding: 20px 12px; }
-    .about-hero-container { padding: 20px 0 60px 0; min-height: auto; }
-    .about-hero-content { padding: 40px 24px; border-radius: 16px; }
-    .about-main-title { font-size: 2rem; }
-    .about-prose { font-size: 0.95rem; }
-    .portal-container { padding: 40px 24px; border-radius: 16px; }
-    .main-title { font-size: 1.75rem; }
-    .grid-2-col { grid-template-columns: 1fr; gap: 0; }
-    .cyber-radio-cluster { flex-direction: column; gap: 12px; }
+/* Apply safe, hardware-accelerated rendering rules to animated targets */
+.about-hero-container,
+.portal-container {
+    width: 100%;
+    max-width: 860px;
+    animation: interfaceBoot 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    will-change: transform, opacity; /* Forces GPU acceleration to prevent blank flashes */
 }
-
 /* ==========================================================================
    13. MODAL SUCCESS DIALOG PROTOCOL (ADDED FOR CORRESPONDING MODAL OBJECT)
    ========================================================================== */
