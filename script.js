@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
-    // 1. SHINY BLACK METALLIC WAVE ENGINE
+    // 1. BLACK METALLIC WAVE PARTICLE RUNTIME
     // ==========================================
     const canvas = document.getElementById('particleCanvas');
     if (canvas) {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const density = Math.min(450, window.innerWidth / 3); 
+        const density = Math.min(300, window.innerWidth / 4); 
         for (let i = 0; i < density; i++) {
             particles.push(new WaveParticle(i, density));
         }
@@ -85,14 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. SMOOTH SCROLL ROUTER
+    // 2. SMOOTH SECTION NAVIGATOR
     // ==========================================
     const scrollBtn = document.querySelector('.about-scroll-btn');
     if (scrollBtn) {
         scrollBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetId = scrollBtn.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
+            const targetSection = document.getElementById('registrationProtocol');
             if (targetSection) {
                 targetSection.scrollIntoView({ behavior: 'smooth' });
             }
@@ -100,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. CORE ELEMENT STRUCTURING
+    // 3. SELECTION ACCESS ROUTINES
     // ==========================================
     const form = document.getElementById('cyberpunkForm');
     const progressBar = document.getElementById('progressBar');
@@ -118,14 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const validationRules = {
         fullName: (val) => /^[A-Za-z\s]{3,40}$/.test(val.trim()),
         sicCode: (val) => /^[A-Za-z0-9]{8}$/.test(val.trim()),
-        academicBranch: (val) => val !== "",
+        academicBranch: (val) => val !== "" && val !== null,
         heightMetric: (val) => val >= 100 && val <= 250,
         weightMetric: (val) => val >= 20 && val <= 250,
-        gymExperience: (val) => val !== "" && val >= 0 && val <= 40
+        gymExperience: (val) => val !== "" && !isNaN(val) && val >= 0 && val <= 40
     };
 
     // ==========================================
-    // 4. BIOMETRIC CAPTURE MANAGEMENT
+    // 4. BIOMETRIC IDENTIFICATION ENGINE
     // ==========================================
     if (uploadBox && fileInput) {
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -174,13 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorSpan.textContent = "Valid identification image file loaded.";
                 errorSpan.style.color = "#00ffcc";
             }
-            if (uploadMainText) uploadMainText.textContent = `READY: ${file.name.substring(0, 20)}...`;
+            if (uploadMainText) uploadMainText.textContent = `READY: ${file.name.substring(0, 18)}...`;
         }
         calculateProgress();
     }
 
     // ==========================================
-    // 5. LIVE MATRIX PROGRESS TRACKER
+    // 5. MATRIX COMPUTATION TRACKER
     // ==========================================
     const totalSteps = 11; 
     
@@ -218,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('change', calculateProgress);
 
     // ==========================================
-    // 6. INTERCEPT AND SUBMIT PROTOCOL
+    // 6. FORM CAPTURE & DISPATCH SEQUENCE
     // ==========================================
     form.addEventListener('submit', (e) => {
         let formIsValid = true;
@@ -236,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        // Fire structural validations
         toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName')?.value || ''));
         toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode')?.value || ''));
         toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch')?.value || ''));
@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric')?.value || ''));
         toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience')?.value || ''));
 
+        // Check group metrics
         toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
         toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
         toggleErrorUI('', 'photoError', fileInput && fileInput.files && fileInput.files.length > 0);
@@ -250,24 +251,25 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
 
         if (!formIsValid) {
-            e.preventDefault();
+            e.preventDefault(); // Halt processing if errors present
             const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
             if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
 
+        // Form is legal, display the interface spinner
         if (submitBtn) {
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
         }
 
-        // Execution of submission via target iframe tracking fallback loops
-        const handleSubmissionCompletion = () => {
+        // Trigger native form transmission loop handling success updates smoothly
+        setTimeout(() => {
             if (successPopup) {
                 successPopup.classList.add('active');
-                successPopup.setAttribute('aria-hidden', 'false');
             }
 
+            // Cleanup form inputs
             setTimeout(() => {
                 form.reset();
                 calculateProgress(); 
@@ -276,18 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.disabled = false;
                 }
                 if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-            }, 500);
+            }, 600);
 
+            // Hide overlay window after 4 seconds
             setTimeout(() => {
                 if (successPopup) {
                     successPopup.classList.remove('active');
-                    successPopup.setAttribute('aria-hidden', 'true');
                 }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 4000);
-        };
 
-        // Standard timing link to simulation target triggers
-        setTimeout(handleSubmissionCompletion, 400);
+        }, 300);
     });
 });
