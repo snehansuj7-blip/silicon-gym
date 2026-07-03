@@ -64,170 +64,161 @@
 
         <form id="cyberpunkForm" action="https://docs.google.com/forms/u/0/d/1Ba8FLfA5I0h6qtfvX_BgexDfHPIBpmCv1nVdyToKfwQ/formResponse" method="POST" enctype="multipart/form-data" novalidate>
             
-            <div id="formFieldsContainer">
-                <!-- SECTION 01: PERSONAL INFORMATION -->
-                <section class="form-section">
-                    <h2 class="section-title"><span class="sec-num">01 //</span> Personal Information</h2>
-                    
-                    <div class="input-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="entry.374754270" placeholder="ENTER FULL NAME" autocomplete="off" required>
-                        <span class="helper-text" id="nameError">Required: Alphabetical characters only (3-40 chars).</span>
-                    </div>
+            <!-- SECTION 01: PERSONAL INFORMATION -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">01 //</span> Personal Information</h2>
+                
+                <div class="input-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="entry.374754270" placeholder="ENTER FULL NAME" autocomplete="off" required>
+                    <span class="helper-text" id="nameError">Required: Alphabetical characters only (3-40 chars).</span>
+                </div>
 
-                    <div class="input-group">
-                        <label for="sicCode">SIC-Number</label>
-                        <input type="text" id="sicCode" name="entry.1894580731" placeholder="ENTER 8-DIGIT ALPHANUMERIC" autocomplete="off" required>
-                        <span class="helper-text" id="sicError">Required: Exactly 8 alphanumeric structural characters.</span>
-                    </div>
+                <div class="input-group">
+                    <label for="sicCode">SIC-Number</label>
+                    <input type="text" id="sicCode" name="entry.1894580731" placeholder="ENTER 8-DIGIT ALPHANUMERIC" autocomplete="off" required>
+                    <span class="helper-text" id="sicError">Required: Exactly 8 alphanumeric structural characters.</span>
+                </div>
 
-                    <!-- Academic Branch Identifier Component -->
-                    <div class="input-group">
-                        <label for="academicBranch">Branch Stream</label>
-                        <select id="academicBranch" name="entry.branch_placeholder" class="cyber-select" required>
-                            <option value="" disabled selected hidden>SELECT ACADEMIC BRANCH</option>
-                            <option value="CSE">COMPUTER SCIENCE & ENGINEERING (CSE)</option>
-                            <option value="ECE">ELECTRONICS & COMMUNICATION (ECE)</option>
-                            <option value="EE">ELECTRICAL ENGINEERING (EE)</option>
-                            <option value="ME">MECHANICAL ENGINEERING (ME)</option>
-                            <option value="CE">CIVIL ENGINEERING (CE)</option>
-                        </select>
-                        <span class="helper-text" id="branchError">Branch parameter allocation required.</span>
-                    </div>
+                <!-- Academic Branch Identifier Component -->
+                <div class="input-group">
+                    <label for="academicBranch">Branch Stream</label>
+                    <select id="academicBranch" name="entry.branch_placeholder" class="cyber-select" required>
+                        <option value="" disabled selected hidden>SELECT ACADEMIC BRANCH</option>
+                        <option value="CSE">COMPUTER SCIENCE & ENGINEERING (CSE)</option>
+                        <option value="ECE">ELECTRONICS & COMMUNICATION (ECE)</option>
+                        <option value="EE">ELECTRICAL ENGINEERING (EE)</option>
+                        <option value="ME">MECHANICAL ENGINEERING (ME)</option>
+                        <option value="CE">CIVIL ENGINEERING (CE)</option>
+                    </select>
+                    <span class="helper-text" id="branchError">Branch parameter allocation required.</span>
+                </div>
 
-                    <!-- Timeline Horizon (Year) Selection Matrix -->
-                    <div class="input-group">
-                        <span class="radio-group-label">Current Academic Cycle (Year)</span>
-                        <div class="cyber-radio-cluster">
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.year_placeholder" value="1st Year" required>
-                                <span class="custom-radio"></span> 1ST YEAR
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.year_placeholder" value="2nd Year">
-                                <span class="custom-radio"></span> 2ND YEAR
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.year_placeholder" value="3rd Year">
-                                <span class="custom-radio"></span> 3RD YEAR
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.year_placeholder" value="4th Year">
-                                <span class="custom-radio"></span> 4TH YEAR
-                            </label>
-                        </div>
-                        <span class="helper-text" id="yearError">Timeline status selection parameter mandatory.</span>
+                <!-- Timeline Horizon (Year) Selection Matrix -->
+                <div class="input-group">
+                    <span class="radio-group-label">Current Academic Cycle (Year)</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="1st Year" required>
+                            <span class="custom-radio"></span> 1ST YEAR
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="2nd Year">
+                            <span class="custom-radio"></span> 2ND YEAR
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="3rd Year">
+                            <span class="custom-radio"></span> 3RD YEAR
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.year_placeholder" value="4th Year">
+                            <span class="custom-radio"></span> 4TH YEAR
+                        </label>
                     </div>
+                    <span class="helper-text" id="yearError">Timeline status selection parameter mandatory.</span>
+                </div>
 
-                    <div class="input-group">
-                        <span class="radio-group-label">Gender Identity</span>
-                        <div class="cyber-radio-cluster">
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.1858008117" value="Male" required>
-                                <span class="custom-radio"></span> MALE
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.1858008117" value="Female">
-                                <span class="custom-radio"></span> FEMALE
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.1858008117" value="Other">
-                                <span class="custom-radio"></span> OTHER
-                            </label>
-                        </div>
-                        <span class="helper-text" id="genderError">Selection parameters required.</span>
+                <div class="input-group">
+                    <span class="radio-group-label">Gender Identity</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1858008117" value="Male" required>
+                            <span class="custom-radio"></span> MALE
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1858008117" value="Female">
+                            <span class="custom-radio"></span> FEMALE
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1858008117" value="Other">
+                            <span class="custom-radio"></span> OTHER
+                        </label>
                     </div>
-                </section>
+                    <span class="helper-text" id="genderError">Selection parameters required.</span>
+                </div>
+            </section>
 
-                <!-- SECTION 02: BIOMETRIC CAPTURE (PHOTO UPLOAD) -->
-                <section class="form-section">
-                    <h2 class="section-title"><span class="sec-num">02 //</span> Biometric Data Identification</h2>
-                    <div class="input-group">
-                        <label for="profilePhoto">Profile Photo Capture</label>
-                        <div class="cyber-upload-box">
-                            <input type="file" id="profilePhoto" name="profile_photo" accept="image/*" required>
-                            <div class="upload-content">
-                                <span class="upload-icon">⇪</span>
-                                <span class="upload-main-text">DRAG & DROP IMAGE FILE</span>
-                                <span class="upload-sub-text">PNG, JPG OR JPEG BASELINE MATRIX (MAX 5MB)</span>
-                            </div>
-                        </div>
-                        <span class="helper-text" id="photoError">Valid identification image file required.</span>
-                    </div>
-                </section>
-
-                <!-- SECTION 03: PHYSICAL INFORMATION -->
-                <section class="form-section">
-                    <h2 class="section-title"><span class="sec-num">03 //</span> Physical Information</h2>
-                    <div class="grid-2-col">
-                        <div class="input-group">
-                            <label for="heightMetric">Height (cm)</label>
-                            <input type="number" id="heightMetric" name="entry.1423537159" placeholder="100 - 250" min="100" max="250" required>
-                            <span class="helper-text" id="heightError">Valid range: 100cm - 250cm</span>
-                        </div>
-                        <div class="input-group">
-                            <label for="weightMetric">Weight (kg)</label>
-                            <input type="number" id="weightMetric" name="entry.373257491" placeholder="20 - 250" min="20" max="250" required>
-                            <span class="helper-text" id="weightError">Valid range: 20kg - 250kg</span>
+            <!-- SECTION 02: BIOMETRIC CAPTURE (PHOTO UPLOAD) -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">02 //</span> Biometric Data Identification</h2>
+                <div class="input-group">
+                    <label for="profilePhoto">Profile Photo Capture</label>
+                    <div class="cyber-upload-box">
+                        <input type="file" id="profilePhoto" name="profile_photo" accept="image/*" required>
+                        <div class="upload-content">
+                            <span class="upload-icon">⇪</span>
+                            <span class="upload-main-text">DRAG & DROP IMAGE FILE</span>
+                            <span class="upload-sub-text">PNG, JPG OR JPEG BASELINE MATRIX (MAX 5MB)</span>
                         </div>
                     </div>
-                </section>
+                    <span class="helper-text" id="photoError">Valid identification image file required.</span>
+                </div>
+            </section>
 
-                <!-- SECTION 04: PARENT PERMISSION PROTOCOLS -->
-                <section class="form-section">
-                    <h2 class="section-title"><span class="sec-num">04 //</span> Parent Permission Protocols</h2>
+            <!-- SECTION 03: PHYSICAL INFORMATION -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">03 //</span> Physical Information</h2>
+                <div class="grid-2-col">
                     <div class="input-group">
-                        <span class="radio-group-label">Has parental/guardian clearance been authorized?</span>
-                        <div class="cyber-radio-cluster">
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.1691817220" value="Yes" required>
-                                <span class="custom-radio"></span> YES // ACCEPTED
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.1691817220" value="No">
-                                <span class="custom-radio"></span> NO // DENIED
-                            </label>
-                        </div>
-                        <span class="helper-text" id="permissionError">System access requires clearance identification.</span>
+                        <label for="heightMetric">Height (cm)</label>
+                        <input type="number" id="heightMetric" name="entry.1423537159" placeholder="100 - 250" min="100" max="250" required>
+                        <span class="helper-text" id="heightError">Valid range: 100cm - 250cm</span>
                     </div>
-                </section>
-
-                <!-- SECTION 05: PREVIOUS EXPERIENCE -->
-                <section class="form-section">
-                    <h2 class="section-title"><span class="sec-num">05 //</span> Do You Have Any Previous Experience</h2>
                     <div class="input-group">
-                        <label for="gymExperience">Years of Previous Gym Activity</label>
-                        <input type="number" id="gymExperience" name="entry.1862695856" placeholder="0 - 40" min="0" max="40" required>
-                        <span class="helper-text" id="experienceError">Valid baseline timeline metrics: 0 to 40 standard cycles.</span>
+                        <label for="weightMetric">Weight (kg)</label>
+                        <input type="number" id="weightMetric" name="entry.373257491" placeholder="20 - 250" min="20" max="250" required>
+                        <span class="helper-text" id="weightError">Valid range: 20kg - 250kg</span>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- SECTION 06: SECURE LOCKER ALLOCATION -->
-                <section class="form-section">
-                    <h2 class="section-title"><span class="sec-num">06 //</span> Secure Locker Allocation</h2>
-                    <div class="input-group">
-                        <span class="radio-group-label">Request localized hardware locker terminal?</span>
-                        <div class="cyber-radio-cluster">
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.38638229" value="Yes" required>
-                                <span class="custom-radio"></span> REQUIRED 
-                            </label>
-                            <label class="cyber-radio-label">
-                                <input type="radio" name="entry.38638229" value="No">
-                                <span class="custom-radio"></span> DECLINE 
-                            </label>
-                        </div>
-                        <span class="helper-text" id="lockerError">Storage configuration selection mandatory.</span>
+            <!-- SECTION 04: PARENT PERMISSION PROTOCOLS -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">04 //</span> Parent Permission Protocols</h2>
+                <div class="input-group">
+                    <span class="radio-group-label">Has parental/guardian clearance been authorized?</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1691817220" value="Yes" required>
+                            <span class="custom-radio"></span> YES // ACCEPTED
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.1691817220" value="No">
+                            <span class="custom-radio"></span> NO // DENIED
+                        </label>
                     </div>
-                </section>
-            </div>
+                    <span class="helper-text" id="permissionError">System access requires clearance identification.</span>
+                </div>
+            </section>
 
-            <!-- INLINE TERMINAL NOTIFICATION (No popups) -->
-            <div id="inlineSuccessBanner" class="inline-success-banner" style="display: none; padding: 20px; border: 1px dashed #00ffcc; background: rgba(0, 20, 15, 0.8); margin-bottom: 25px; text-align: center;">
-                <p style="font-family: 'Orbitron', sans-serif; color: #00ffcc; font-size: 1.1rem; letter-spacing: 2px; margin: 0;">
-                    ✔ REGISTRATION SUCCESSFUL // PROFILE LINKED
-                </p>
-            </div>
+            <!-- SECTION 05: PREVIOUS EXPERIENCE -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">05 //</span> Do You Have Any Previous Experience</h2>
+                <div class="input-group">
+                    <label for="gymExperience">Years of Previous Gym Activity</label>
+                    <input type="number" id="gymExperience" name="entry.1862695856" placeholder="0 - 40" min="0" max="40" required>
+                    <span class="helper-text" id="experienceError">Valid baseline timeline metrics: 0 to 40 standard cycles.</span>
+                </div>
+            </section>
+
+            <!-- SECTION 06: SECURE LOCKER ALLOCATION -->
+            <section class="form-section">
+                <h2 class="section-title"><span class="sec-num">06 //</span> Secure Locker Allocation</h2>
+                <div class="input-group">
+                    <span class="radio-group-label">Request localized hardware locker terminal?</span>
+                    <div class="cyber-radio-cluster">
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.38638229" value="Yes" required>
+                            <span class="custom-radio"></span> REQUIRED 
+                        </label>
+                        <label class="cyber-radio-label">
+                            <input type="radio" name="entry.38638229" value="No">
+                            <span class="custom-radio"></span> DECLINE 
+                        </label>
+                    </div>
+                    <span class="helper-text" id="lockerError">Storage configuration selection mandatory.</span>
+                </div>
+            </section>
 
             <div class="premium-action-footer">
                 <button type="submit" class="cyber-submit-btn" id="submitBtn">
@@ -237,6 +228,20 @@
             </div>
         </form>
     </main>
+
+    <!-- SUCCESS POPUP MODAL ARCHITECTURE -->
+    <div class="success-popup" id="successPopup" role="dialog" aria-hidden="true">
+        <div class="success-card">
+            <div class="checkmark-wrapper">
+                <svg class="checkmark-svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h3 class="success-title">CONGRATULATION</h3>
+            <p class="success-message">Registration Successful // Profile Linked</p>
+        </div>
+    </div>
 
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
     
