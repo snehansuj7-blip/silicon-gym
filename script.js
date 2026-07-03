@@ -1,229 +1,340 @@
-/* ==========================================================================
-   SILICON GYM // INTERFACE ENGINE & VALIDATION PROTOCOL
-   ========================================================================== */
-
 document.addEventListener('DOMContentLoaded', () => {
+    // ==========================================
+    // 1. LUXURY SHINY BLACK METALLIC BALL WAVE SYSTEM
+    // ==========================================
+    const canvas = document.getElementById('particleCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let waveCycle = 0;
+        
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class WaveParticle {
+            constructor(index, total) {
+                this.index = index;
+                this.total = total;
+                this.reset();
+                this.x = (index / total) * canvas.width; 
+            }
+            reset() {
+                this.baseY = canvas.height * 0.6; 
+                this.amplitude = Math.random() * 60 + 40; 
+                this.speed = Math.random() * 0.015 + 0.005; 
+                this.size = Math.random() * 3.5 + 2.5; 
+                this.phaseShift = Math.random() * Math.PI * 2;
+                
+                const colors = ['#1a1a1a', '#2d2d30', '#404043', '#111111'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.alpha = Math.random() * 0.3 + 0.6; 
+            }
+            update() {
+                this.x += 0.6; 
+                if (this.x > canvas.width) {
+                    this.x = 0;
+                    this.reset();
+                }
+
+                const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
+                const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
+                
+                this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.5));
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                
+                let gradient = ctx.createRadialGradient(
+                    this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.1, 
+                    this.x, this.y, this.size
+                );
+                gradient.addColorStop(0, '#ffffff'); 
+                gradient.addColorStop(0.2, '#666666'); 
+                gradient.addColorStop(0.5, this.color); 
+                gradient.addColorStop(1, '#000000'); 
+
+                ctx.fillStyle = gradient;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'; 
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetY = 3;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const density = 450; 
+        for (let i = 0; i < density; i++) {
+            particles.push(new WaveParticle(i, density));
+        }
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            waveCycle += 0.006;
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        };
+        animate();
+    }
+
+    // ==========================================
+    // 2. SMOOTH SCROLL PROTOCOL
+    // ==========================================
+    const scrollBtn = document.querySelector('.about-scroll-btn');
+    if (scrollBtn) {
+        scrollBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = scrollBtn.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    // ==========================================
+    // 3. CORE FORM & UI ELEMENTS
+    // ==========================================
     const form = document.getElementById('cyberpunkForm');
     const progressBar = document.getElementById('progressBar');
     const progressPercent = document.getElementById('progressPercent');
+    const fileInput = document.getElementById('profilePhoto');
+    const uploadBox = document.querySelector('.cyber-upload-box');
+    const uploadMainText = document.querySelector('.upload-main-text');
     const submitBtn = document.getElementById('submitBtn');
-    const btnSpinner = document.getElementById('btnSpinner');
     const successPopup = document.getElementById('successPopup');
 
     if (!form) return;
 
-    // List of input names used for radio cluster grouping checks
-    const radioGroups = [
-        'entry.1858008117', // Gender Identity
-        'entry.year_placeholder', // Academic Cycle (Year)
-        'entry.1691817220', // Parental Clearance
-        'entry.38638229'    // Locker Allocation
-    ];
+    form.setAttribute('target', 'hidden_iframe');
 
-    /* ==========================================================================
-       01. DYNAMIC PROGRESS TRACKER MATRIX
-       ========================================================================== */
-    function updateProgress() {
-        let totalMetrics = 0;
-        let completedMetrics = 0;
+    const validationRules = {
+        fullName: (val) => /^[A-Za-z\s]{3,40}$/.test(val.trim()),
+        sicCode: (val) => /^[A-Za-z0-9]{8}$/.test(val.trim()),
+        academicBranch: (val) => val !== "",
+        heightMetric: (val) => val >= 100 && val <= 250,
+        weightMetric: (val) => val >= 20 && val <= 250,
+        gymExperience: (val) => val !== "" && val >= 0 && val <= 40
+    };
 
-        // Track regular text, numbers, and dropdown selection fields
-        const standardFields = form.querySelectorAll('input[type="text"], input[type="number"], select');
-        standardFields.forEach(field => {
-            totalMetrics++;
-            if (field.value.trim() !== "" && field.value !== "SELECT ACADEMIC BRANCH") {
-                completedMetrics++;
+    // ==========================================
+    // 4. BIOMETRIC CAPTURE (DRAG & DROP)
+    // ==========================================
+    if (uploadBox && fileInput) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                uploadBox.classList.add('highlight');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                uploadBox.classList.remove('highlight');
+            }, false);
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length) {
+                fileInput.files = files;
+                handleFileDisplay(files[0]);
             }
         });
 
-        // Track custom file upload block field
-        const fileField = document.getElementById('profilePhoto');
-        if (fileField) {
-            totalMetrics++;
-            if (fileField.files && fileField.files.length > 0) {
-                completedMetrics++;
-            }
-        }
-
-        // Track radio button cluster choices
-        radioGroups.forEach(groupName => {
-            const radios = form.querySelectorAll(`input[name="${groupName}"]`);
-            if (radios.length > 0) {
-                totalMetrics++;
-                const isChecked = Array.from(radios).some(r => r.checked);
-                if (isChecked) completedMetrics++;
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFileDisplay(e.target.files[0]);
             }
         });
-
-        // Compute percentage output matrix
-        const percentage = totalMetrics > 0 ? Math.round((completedMetrics / totalMetrics) * 100) : 0;
-        
-        // Update DOM elements layout smoothly
-        progressBar.style.width = `${percentage}%`;
-        progressPercent.innerText = `${percentage}%`;
     }
 
-    // Attach passive listeners to calculate system progress on user activity
-    form.addEventListener('input', updateProgress);
-    form.addEventListener('change', updateProgress);
+    function handleFileDisplay(file) {
+        const maxSize = 5 * 1024 * 1024; 
+        const errorSpan = document.getElementById('photoError');
 
-
-    /* ==========================================================================
-       02. STAGE VALIDATION CRITERIA ENGINE
-       ========================================================================== */
-    form.addEventListener('submit', (event) => {
-        let isFormValid = true;
-
-        // A. Validate Text & Number Inputs
-        const inputs = form.querySelectorAll('input[required], select[required]');
-        
-        inputs.forEach(input => {
-            let isValid = true;
-
-            // Handle standard string structures
-            if (!input.value.trim()) {
-                isValid = false;
-            } 
-            // Target numeric ranges safely (Height, Weight, Experience ranges)
-            else if (input.type === "number") {
-                const val = parseFloat(input.value);
-                const min = parseFloat(input.getAttribute('min'));
-                const max = parseFloat(input.getAttribute('max'));
-                if (val < min || val > max) {
-                    isValid = false;
-                }
+        if (file.size > maxSize) {
+            if (errorSpan) {
+                errorSpan.textContent = "CRITICAL ERROR: Matrix limit exceeded (Max 5MB).";
+                errorSpan.style.color = "#ff0055";
             }
-
-            if (!isValid) {
-                isFormValid = false;
-                applyErrorState(input);
-            } else {
-                clearErrorState(input);
-            }
-        });
-
-        // B. Validate Radio Cluster Formulations
-        radioGroups.forEach(groupName => {
-            const radios = form.querySelectorAll(`input[name="${groupName}"]`);
-            if (radios.length > 0) {
-                const isGroupChecked = Array.from(radios).some(radio => radio.checked);
-                const container = radios[0].closest('.input-group') || radios[0].parentElement;
-                const errorText = container.querySelector('.helper-text');
-
-                if (!isGroupChecked) {
-                    isFormValid = false;
-                    if (errorText) errorText.style.color = 'var(--neon-error)';
-                } else {
-                    if (errorText) errorText.style.color = 'var(--text-muted)';
-                }
-            }
-        });
-
-        // C. Validate Hidden/Custom File Inputs Matrix
-        const fileInput = document.getElementById('profilePhoto');
-        if (fileInput && fileInput.hasAttribute('required')) {
-            const uploadBox = fileInput.closest('.cyber-upload-box');
-            const errorText = document.getElementById('photoError');
-
-            if (!fileInput.files || fileInput.files.length === 0) {
-                isFormValid = false;
-                if (uploadBox) uploadBox.style.borderColor = 'var(--neon-error)';
-                if (errorText) errorText.style.color = 'var(--neon-error)';
-            } else {
-                if (uploadBox) uploadBox.style.borderColor = 'var(--border-dim)';
-                if (errorText) errorText.style.color = 'var(--text-muted)';
-            }
-        }
-
-        // D. Intercept Form Redirection if Validation Fails
-        if (!isFormValid) {
-            event.preventDefault();
-            triggerSubmitButtonError();
+            fileInput.value = "";
+            if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
         } else {
-            // Form is completely valid! Trigger secure submission processing feedback loop
-            executeTerminalSubmission();
-        }
-    });
-
-    /* ==========================================================================
-       03. INTERACTIVE FEEDBACK UTILITIES
-       ========================================================================== */
-    function applyErrorState(element) {
-        element.style.borderColor = 'var(--neon-error)';
-        element.style.boxShadow = '0 0 10px rgba(255, 0, 85, 0.2)';
-        
-        // Turn corresponding helper text tag red
-        const group = element.closest('.form-group, .input-group');
-        if (group) {
-            const helper = group.querySelector('.form-help-text, .helper-text');
-            if (helper) helper.style.color = 'var(--neon-error)';
-        }
-    }
-
-    function clearErrorState(element) {
-        element.style.borderColor = 'var(--border-dim)';
-        element.style.boxShadow = 'none';
-
-        const group = element.closest('.form-group, .input-group');
-        if (group) {
-            const helper = group.querySelector('.form-help-text, .helper-text');
-            if (helper) helper.style.color = 'var(--text-muted)';
-        }
-    }
-
-    function triggerSubmitButtonError() {
-        const originalText = submitBtn.querySelector('.btn-text').innerText;
-        submitBtn.style.background = 'var(--neon-error)';
-        submitBtn.querySelector('.btn-text').innerText = "CRITICAL ERROR // CRITERIA MISSING";
-        
-        setTimeout(() => {
-            submitBtn.style.background = '#ffffff';
-            submitBtn.querySelector('.btn-text').innerText = originalText;
-        }, 2500);
-    }
-
-    function executeTerminalSubmission() {
-        // Show loading animations
-        if (btnSpinner) btnSpinner.style.display = 'block';
-        submitBtn.style.pointerEvents = 'none';
-        submitBtn.style.opacity = '0.8';
-
-        // Direct submission target stream routing to hidden iframe to prevent default blank redirection pages
-        form.setAttribute('target', 'hidden_iframe');
-
-        // Handle target frame state load to trigger our elegant custom success popup card
-        const iframe = document.getElementById('hidden_iframe');
-        if (iframe) {
-            iframe.onload = () => {
-                if (btnSpinner) btnSpinner.style.display = 'none';
-                
-                // Active custom success modal popup layout wrapper
-                successPopup.classList.add('active');
-                successPopup.setAttribute('aria-hidden', 'false');
-                
-                // Clear state parameters back to baseline default data matrix
-                form.reset();
-                updateProgress();
-                
-                submitBtn.style.pointerEvents = 'auto';
-                submitBtn.style.opacity = '1';
-            };
-        }
-    }
-
-    // Dynamic clean update on file text visual assignment row layout box
-    const fileSelector = document.getElementById('profilePhoto');
-    if (fileSelector) {
-        fileSelector.addEventListener('change', function() {
-            const mainText = this.closest('.cyber-upload-box').querySelector('.upload-main-text');
-            if (this.files && this.files.length > 0) {
-                mainText.innerText = `READY: ${this.files[0].name.toUpperCase()}`;
-                mainText.style.color = 'var(--neon-accent)';
-            } else {
-                mainText.innerText = "DRAG & DROP IMAGE FILE";
-                mainText.style.color = 'var(--text-main)';
+            if (errorSpan) {
+                errorSpan.textContent = "Valid identification image file loaded.";
+                errorSpan.style.color = "#00ffcc";
             }
-            updateProgress();
-        });
+            if (uploadMainText) uploadMainText.textContent = `READY: ${file.name.substring(0, 20)}...`;
+        }
+        calculateProgress();
     }
+
+    // ==========================================
+    // 5. LIVE MATRIX PROGRESS CALCULATOR (SAFE EDITION)
+    // ==========================================
+    const totalSteps = 11; 
+    
+    function calculateProgress() {
+        let validFields = 0;
+
+        const nameEl = document.getElementById('fullName');
+        const sicEl = document.getElementById('sicCode');
+        const branchEl = document.getElementById('academicBranch');
+        const heightEl = document.getElementById('heightMetric');
+        const weightEl = document.getElementById('weightMetric');
+        const expEl = document.getElementById('gymExperience');
+
+        if (nameEl && validationRules.fullName(nameEl.value)) validFields++;
+        if (sicEl && validationRules.sicCode(sicEl.value)) validFields++;
+        if (branchEl && validationRules.academicBranch(branchEl.value)) validFields++;
+        if (document.querySelector('input[name="entry.year_placeholder"]:checked')) validFields++;
+        if (document.querySelector('input[name="entry.1858008117"]:checked')) validFields++;
+        if (fileInput && fileInput.files && fileInput.files.length > 0) validFields++;
+        if (heightEl && validationRules.heightMetric(heightEl.value)) validFields++;
+        if (weightEl && validationRules.weightMetric(weightEl.value)) validFields++;
+        if (document.querySelector('input[name="entry.1691817220"]:checked')) validFields++;
+        if (expEl && validationRules.gymExperience(expEl.value)) validFields++;
+        if (document.querySelector('input[name="entry.38638229"]:checked')) validFields++;
+
+        const percentage = Math.round((validFields / totalSteps) * 100);
+        
+        if (progressBar && progressPercent) {
+            progressBar.style.width = `${percentage}%`;
+            progressPercent.textContent = `${percentage}%`;
+        }
+    }
+
+    form.addEventListener('input', calculateProgress);
+    form.addEventListener('change', calculateProgress);
+
+    // ==========================================
+    // 6. INTERCEPT AND SUBMIT PROTOCOL (FIXED SEQUENCE)
+    // ==========================================
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); 
+        let formIsValid = true;
+
+        const toggleErrorUI = (id, errorId, isValid) => {
+            const errorElement = document.getElementById(errorId);
+            const inputElement = document.getElementById(id);
+            if (!isValid) {
+                formIsValid = false;
+                if(errorElement) errorElement.style.color = "#ff0055";
+                if(inputElement) inputElement.style.borderColor = "#ff0055";
+            } else {
+                if(errorElement) errorElement.style.color = "";
+                if(inputElement) inputElement.style.borderColor = "";
+            }
+        };
+
+        toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName')?.value || ''));
+        toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode')?.value || ''));
+        toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch')?.value || ''));
+        toggleErrorUI('heightMetric', 'heightError', validationRules.heightMetric(document.getElementById('heightMetric')?.value || ''));
+        toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric')?.value || ''));
+        toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience')?.value || ''));
+
+        toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
+        toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
+        toggleErrorUI('', 'photoError', fileInput && fileInput.files && fileInput.files.length > 0);
+        toggleErrorUI('', 'permissionError', document.querySelector('input[name="entry.1691817220"]:checked') !== null);
+        toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
+
+        if (!formIsValid) {
+            const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        if (submitBtn) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const base64String = event.target.result.split(',')[1]; 
+            
+            const formDataPayload = {
+                fullName: document.getElementById('fullName').value,
+                sicCode: document.getElementById('sicCode').value,
+                academicBranch: document.getElementById('academicBranch').value,
+                academicYear: document.querySelector('input[name="entry.year_placeholder"]:checked')?.value || '',
+                gender: document.querySelector('input[name="entry.1858008117"]:checked')?.value || '',
+                height: document.getElementById('heightMetric').value,
+                weight: document.getElementById('weightMetric').value,
+                parentPermission: document.querySelector('input[name="entry.1691817220"]:checked')?.value || '',
+                experience: document.getElementById('gymExperience').value,
+                locker: document.querySelector('input[name="entry.38638229"]:checked')?.value || '',
+                photoData: base64String,
+                photoType: file.type
+            };
+
+            fetch('https://script.google.com/macros/s/AKfycbwhwqsPNeELyPrPHVuTR3nU-2G-V-j1dW_IWGqGcCF5U_qY6P0xpgnumjVFFjvZf2y0/exec', {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8' 
+                },
+                body: JSON.stringify(formDataPayload)
+            })
+            .then(() => {
+                // 1. Show the pop-up modal overlay cleanly using our CSS targets
+                if (successPopup) {
+                    successPopup.classList.add('active');
+                }
+
+                // 2. Run form cleanup and window adjustments in the background
+                setTimeout(() => {
+                    form.reset();
+                    
+                    document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
+                        el.classList.remove("valid-state", "invalid-state");
+                    });
+                    
+                    calculateProgress(); 
+                    
+                    if (submitBtn) {
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                    }
+                    
+                    if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+                }, 500);
+
+                // 3. Clear the popup modal display smoothly after 4 seconds and return to the top header
+                setTimeout(() => {
+                    if (successPopup) {
+                        successPopup.classList.remove('active');
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 4000);
+            })
+            .catch(error => {
+                console.error('System synchronization error:', error);
+                if (submitBtn) {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }
+            });
+        };
+
+        reader.readAsDataURL(file);
+    });
 });
