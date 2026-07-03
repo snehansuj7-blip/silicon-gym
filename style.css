@@ -1,15 +1,14 @@
 /* ==========================================================================
-   01. ARCHITECTURE DESIGN VARIABLES & GLOBAL SYSTEM RESET
+   01. GLOBAL ARTIFACT RESET & BASE ENVIRONMENT
    ========================================================================== */
 :root {
     --bg-prime: #050505;
-    --card-surface: rgba(13, 13, 15, 0.85); /* Slightly increased transparency for background visibility */
+    --card-surface: rgba(10, 10, 12, 0.45); /* Clear transparency window for waves */
     --neon-accent: #00ffcc;
-    --neon-error: #ff0055;
     --text-main: #ffffff;
-    --text-muted: #80808a;
-    --border-glow: rgba(0, 255, 204, 0.15);
+    --text-muted: #6b6b76;
     --border-dim: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(0, 255, 204, 0.2);
     --font-cyber: 'Orbitron', sans-serif;
     --font-data: 'Rajdhani', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -22,26 +21,26 @@
 }
 
 html, body {
-    background-color: var(--bg-prime);
+    background-color: var(--bg-prime) !important;
     color: var(--text-main);
     font-family: var(--font-body);
-    overflow-x: hidden;
     min-height: 100vh;
+    width: 100%;
     position: relative;
 }
 
 /* ==========================================================================
-   02. PERSISTENT BACKGROUND INTERFACE LAYERS (FIXED Z-INDEX VISIBILITY)
+   02. BACKGROUND RENDERING STACK (PERMANENT Z-INDEX WINDOW)
    ========================================================================== */
 .cyber-bg {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    /* Changed center color to transparent so particles underneath/inside don't get covered up */
-    background: radial-gradient(circle at 50% 50%, rgba(16, 16, 20, 0) 0%, #050505 100%);
-    z-index: -1; 
+    width: 100vw;
+    height: 100vh;
+    /* Clean radial gradient mask that won't clip your canvas animations */
+    background: radial-gradient(circle at 50% 50%, rgba(5, 5, 5, 0.1) 0%, #050505 100%);
+    z-index: -3;
     pointer-events: none;
 }
 
@@ -51,211 +50,78 @@ html, body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    display: block;  /* Prevents inline element spacing issues */
-    z-index: -2;    /* Positioned perfectly behind layout but in front of deep base colors */
-    pointer-events: none;
-}
-
-.cyber-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
-    background-size: 100% 4px, 6px 100%;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.3;
-}
-
-
-/* ==========================================================================
-   03. HERO & MAIN VIEWPORT WRAPPERS
-   ========================================================================== */
-.about-hero-container {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    z-index: 10;
-}
-
-.about-hero-content {
-    background: var(--card-surface);
-    border: 1px solid var(--border-dim);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    width: 100%;
-    max-width: 800px;
-    padding: 50px 40px;
-    text-align: center;
-    border-radius: 4px;
-}
-
-.portal-container {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto 100px auto;
-    padding: 50px 40px;
-    background: var(--card-surface);
-    border: 1px solid var(--border-dim);
-    border-radius: 4px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-    z-index: 10;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-}
-
-/* Typography elements */
-.about-tagline {
-    font-family: var(--font-cyber);
-    color: var(--neon-accent);
-    font-size: 0.85rem;
-    letter-spacing: 4px;
     display: block;
-    margin-bottom: 15px;
-}
-
-.about-main-title {
-    font-family: var(--font-cyber);
-    font-weight: 900;
-    font-size: 2.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    background: linear-gradient(180deg, #fff 0%, #a5a5a5 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.about-divider {
-    width: 60px;
-    height: 3px;
-    background: var(--neon-accent);
-    margin: 0 auto 30px;
-    box-shadow: 0 0 10px var(--neon-accent);
-}
-
-.about-prose {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #d1d1d6;
-    margin-bottom: 20px;
-    text-align: justify;
-}
-
-.about-callout {
-    font-family: var(--font-data);
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--neon-accent);
-    margin: 35px 0;
-    letter-spacing: 1px;
-}
-
-.about-scroll-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-cyber);
-    color: var(--text-main);
-    text-decoration: none;
-    border: 1px solid var(--neon-accent);
-    padding: 14px 30px;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-    background: transparent;
-    cursor: pointer;
-}
-
-.about-scroll-btn:hover {
-    background: rgba(0, 255, 204, 0.1);
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
-    transform: translateY(-2px);
+    z-index: -2; /* Sits over cyber-bg, but completely behind text layout elements */
+    pointer-events: none;
 }
 
 /* ==========================================================================
-   04. DATA MANAGEMENT TRACKS (PROGRESS MATRIX)
+   03. MAIN APPLICATION INTERFACE CONTAINER
    ========================================================================== */
-.progress-wrapper {
-    margin-bottom: 40px;
-}
-
-.progress-text {
-    font-family: var(--font-cyber);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-    color: var(--text-muted);
-}
-
-#progressPercent {
-    color: var(--neon-accent);
-    font-weight: bold;
-}
-
-.progress-track {
+.form-container, .registration-card, main {
     width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2px;
-    overflow: hidden;
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 45px;
+    background: var(--card-surface) !important; 
+    border: 1px solid var(--border-dim);
+    border-top: 4px solid var(--neon-accent);
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+    
+    /* Elegant modern blur window that accents the animated metallic particles behind it */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: var(--neon-accent);
-    box-shadow: 0 0 10px var(--neon-accent);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* ==========================================================================
+   04. DATA LAYER COMPONENT CONTROLS (FIXES BLANK INLINE INPUT BOXES)
+   ========================================================================== */
+/* Wrap your form element lines in block form-groups inside your HTML layout */
+.form-group {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
 }
 
-/* Header Text elements */
-.portal-header {
-    text-align: center;
-    margin-bottom: 50px;
+/* Explicit targeting for every input node configuration */
+input[type="text"],
+input[type="number"],
+.cyber-input {
+    width: 100% !important;
+    max-width: 100%;
+    background: rgba(15, 15, 18, 0.85) !important;
+    border: 1px solid var(--border-dim) !important;
+    padding: 12px 16px !important;
+    color: var(--text-main) !important;
+    font-family: var(--font-data) !important;
+    font-size: 1rem !important;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.premium-brand-logo {
-    font-family: var(--font-cyber);
-    font-weight: 900;
-    font-size: 1.6rem;
-    letter-spacing: 6px;
-    color: var(--text-main);
-    margin-bottom: 5px;
+/* Active system focus state indicators */
+input[type="text"]:focus,
+input[type="number"]:focus,
+.cyber-input:focus {
+    border-color: var(--neon-accent) !important;
+    box-shadow: 0 0 10px var(--border-glow) !important;
+    background: rgba(20, 20, 25, 0.95) !important;
 }
 
-.brand-subline {
-    font-family: var(--font-data);
-    font-size: 0.8rem;
+/* Style corrections for inline text explanations */
+.form-help-text {
+    font-size: 0.75rem;
     color: var(--text-muted);
-    letter-spacing: 1px;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-}
-
-.main-title {
-    font-family: var(--font-cyber);
-    font-size: 1.8rem;
-    font-weight: 700;
-    line-height: 1.4;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-.sub-title {
-    font-family: var(--font-data);
-    font-size: 1.1rem;
-    color: var(--neon-accent);
-    text-transform: uppercase;
-    letter-spacing: 3px;
+    font-family: var(--font-body);
+    margin-top: 2px;
 }
 
 /* ==========================================================================
