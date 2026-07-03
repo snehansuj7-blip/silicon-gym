@@ -1,15 +1,17 @@
 /* ==========================================================================
-   01. DESIGN ARCHITECTURE VARIABLES & SYSTEM RESET
+   01. DESIGN ARCHITECTURE VARIABLES & GLOBAL PROTOCOL RESET
    ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Orbitron:wght@600;800&family=Rajdhani:wght@600;700&display=swap');
+
 :root {
     --bg-prime: #050505;
-    --card-surface: rgba(10, 10, 12, 0.55); /* Window transparency for metallic wave */
+    --card-surface: rgba(10, 10, 12, 0.45);
     --neon-accent: #00ffcc;
-    --neon-error: #ff0055;
-    --text-main: #ffffff;
-    --text-muted: #72727e;
-    --border-glow: rgba(0, 255, 204, 0.2);
+    --neon-glow: rgba(0, 255, 204, 0.25);
     --border-dim: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-muted: #8a8a93;
+    
     --font-cyber: 'Orbitron', sans-serif;
     --font-data: 'Rajdhani', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -19,6 +21,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
 
 html, body {
@@ -27,24 +30,12 @@ html, body {
     font-family: var(--font-body);
     min-height: 100vh;
     width: 100%;
-    position: relative;
     overflow-x: hidden;
 }
 
 /* ==========================================================================
-   02. PERSISTENT BACKGROUND INTERFACE LAYERS (Z-INDEX MATRIX)
+   02. PERSISTENT CANVAS UNDERLAY PROTECTION MATRIX
    ========================================================================== */
-.cyber-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: radial-gradient(circle at 50% 50%, rgba(5, 5, 5, 0.1) 0%, #050505 100%);
-    z-index: -3;
-    pointer-events: none;
-}
-
 #particleCanvas {
     position: fixed !important;
     top: 0 !important;
@@ -52,230 +43,286 @@ html, body {
     width: 100vw !important;
     height: 100vh !important;
     display: block !important;
-    z-index: -2 !important; /* Positions canvas explicitly behind everything except the raw background */
+    z-index: -2 !important;
     pointer-events: none !important;
 }
 
-.cyber-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-    background-size: 100% 4px;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.2;
-}
-
 /* ==========================================================================
-   03. POLISHED HERO ABOUT SECTION (SCREENSHOT 2026-07-03 155345.png FIX)
+   03. HERO SECTION OVERHAUL (FIXES SCREENSHOT 2026-07-03 155345_2.png)
    ========================================================================== */
+/* Targets the raw text block sitting outside the card layout wrapper */
+section:first-of-type, 
+div[class*="about-hero"],
 .about-hero-section {
     width: 100%;
     max-width: 900px;
-    margin: 40px auto 10px auto;
-    padding: 20px 45px;
-    position: relative;
-    z-index: 2;
-}
-
-.system-tag {
-    font-family: var(--font-cyber);
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    letter-spacing: 2px;
+    margin: 40px auto 20px auto !important;
+    padding: 0 45px !important;
     display: block;
-    margin-bottom: 8px;
 }
 
-.about-hero-title {
-    font-family: var(--font-cyber);
-    font-size: 2.2rem;
-    color: var(--text-main);
+/* Fixes "SYSTEM INITIATION // OVERVIEW" layout row */
+section:first-of-type > text,
+section:first-of-type > span,
+section:first-of-type > p:first-of-type {
+    font-family: var(--font-cyber) !important;
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    letter-spacing: 2px !important;
     text-transform: uppercase;
+}
+
+/* Fixes "About Our College Gym" Title Header */
+section:first-of-type h1,
+section:first-of-type h2 {
+    font-family: var(--font-cyber) !important;
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    color: var(--text-main) !important;
+    text-transform: uppercase;
+    margin: 8px 0 16px 0 !important;
     letter-spacing: 1px;
-    margin-bottom: 18px;
 }
 
-.about-hero-content {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 24px;
+/* Fixes paragraph bodies */
+section:first-of-type p {
+    font-family: var(--font-body) !important;
+    font-size: 0.95rem !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    line-height: 1.6 !important;
+    margin-bottom: 12px !important;
 }
 
-.about-hero-content p {
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.6;
-}
-
-.cyber-btn-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-cyber);
-    font-size: 0.85rem;
-    color: var(--neon-accent);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 10px 20px;
-    border: 1px solid rgba(0, 255, 204, 0.3);
-    background: rgba(0, 255, 204, 0.02);
+/* Upgrades "INITIALIZE REGISTRATION" link to a sleek interface terminal prompt button */
+section:first-of-type a,
+a[href*="registrationProtocol"] {
+    display: inline-flex !important;
+    font-family: var(--font-cyber) !important;
+    font-size: 0.8rem !important;
+    color: var(--neon-accent) !important;
+    text-decoration: none !important;
+    letter-spacing: 2px !important;
+    border: 1px solid rgba(0, 255, 204, 0.3) !important;
+    background: rgba(0, 255, 204, 0.03) !important;
+    padding: 10px 20px !important;
+    margin-top: 10px !important;
     border-radius: 4px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-.cyber-btn-link:hover {
-    background: rgba(0, 255, 204, 0.1);
-    border-color: var(--neon-accent);
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
-    color: #ffffff;
-}
-
-.cyber-btn-link .arrow {
-    font-size: 1.1rem;
-    transition: transform 0.25s ease;
-}
-
-.cyber-btn-link:hover .arrow {
-    transform: translateY(3px);
+section:first-of-type a:hover {
+    background: rgba(0, 255, 204, 0.1) !important;
+    box-shadow: 0 0 15px var(--neon-glow) !important;
+    color: #ffffff !important;
 }
 
 /* ==========================================================================
-   04. MAIN APPLICATION CARD INTERFACE BLOCK
+   04. CONTAINER INTERFACE GLASS WRAPPER
    ========================================================================== */
-.form-container, .registration-card, main {
-    width: 100%;
+/* Targets your core inner module blocks shown across all screenshots */
+div[class*="container"], 
+div[class*="card"],
+main, 
+form {
     max-width: 900px;
-    margin: 30px auto 80px auto;
-    padding: 45px;
-    background: var(--card-surface) !important; 
-    border: 1px solid var(--border-dim);
-    border-top: 4px solid var(--neon-accent);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form {
+    background: var(--card-surface) !important;
+    border: 1px solid var(--border-dim) !important;
+    border-top: 4px solid var(--neon-accent) !important;
+    padding: 45px !important;
     border-radius: 4px;
-    position: relative;
-    z-index: 1;
-    
-    /* Layer filter glass configuration */
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+}
+
+/* Typography mapping within form */
+form h2, .section-title {
+    font-family: var(--font-cyber) !important;
+    font-size: 1.35rem !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 30px !important;
+    margin-bottom: 15px !important;
+    color: var(--text-main) !important;
+}
+
+form h2:first-of-type {
+    margin-top: 0 !important;
 }
 
 /* ==========================================================================
-   05. COMPONENT INPUT DESIGN CONTROL ENGINE (STRUCTURAL INPUT REFACTOR)
+   05. DATA FIELD & TEXT INPUT SYSTEM (STRUCTURAL INPUT UNIFICATION)
    ========================================================================== */
-.form-group {
-    margin-bottom: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    width: 100%;
-}
-
-.form-group label, .field-label {
-    font-family: var(--font-cyber);
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    color: var(--text-main);
-    display: block;
-}
-
-/* Overrides unstyled inline browser default fields completely */
 input[type="text"],
 input[type="number"],
-.cyber-input {
+input[class*="cyber"] {
     width: 100% !important;
-    max-width: 100% !important;
     display: block !important;
-    background: rgba(15, 15, 18, 0.85) !important;
+    background: rgba(15, 15, 18, 0.9) !important;
     border: 1px solid var(--border-dim) !important;
     padding: 14px 16px !important;
     color: var(--text-main) !important;
     font-family: var(--font-data) !important;
-    font-size: 1.05rem !important;
-    letter-spacing: 1px;
-    border-radius: 4px;
-    outline: none;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.1rem !important;
+    letter-spacing: 1px !important;
+    border-radius: 4px !important;
+    outline: none !important;
     box-sizing: border-box !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus,
-.cyber-input:focus {
+input[type="number"]:focus {
     border-color: var(--neon-accent) !important;
-    box-shadow: 0 0 12px var(--border-glow) !important;
-    background: rgba(20, 20, 25, 0.95) !important;
+    box-shadow: 0 0 12px var(--neon-glow) !important;
 }
 
-.form-help-text {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-    margin-top: 2px;
+/* Help validation strings ("Required: ...") */
+input + font, 
+input + span, 
+input + p,
+.form-help {
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    display: block !important;
+    margin-bottom: 20px !important;
+    font-family: var(--font-body) !important;
 }
 
 /* ==========================================================================
-   06. SELECTION PANELS & SYSTEM DROPDOWN CONTROLS (BRANCH FIX)
+   06. INTERACTIVE DROPDOWN SYSTEM (FIXES SCREENSHOT 2026-07-03 160700.png)
    ========================================================================== */
+select, 
 .cyber-select {
     width: 100% !important;
-    background: rgba(15, 15, 18, 0.95) !important;
+    display: block !important;
+    background: rgba(15, 15, 18, 0.9) !important;
     border: 1px solid var(--border-dim) !important;
     padding: 14px 16px !important;
     color: var(--text-main) !important;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    border-radius: 4px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='%2300ffcc' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") !important;
+    font-family: var(--font-body) !important;
+    font-size: 0.95rem !important;
+    border-radius: 4px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%2300ffcc' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") !important;
     background-repeat: no-repeat !important;
     background-position: right 16px center !important;
     cursor: pointer;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
 }
 
-.cyber-select option {
-    background-color: #0d0d0f !important;
-    color: var(--text-main) !important;
-    padding: 12px;
-}
-
-.cyber-select:focus {
+select:focus {
     border-color: var(--neon-accent) !important;
-    box-shadow: 0 0 12px var(--border-glow) !important;
+}
+
+select option {
+    background-color: #0c0c0e !important;
+    color: var(--text-main) !important;
 }
 
 /* ==========================================================================
-   07. SUBMIT COMPONENT SUB-SYSTEM (REGISTER NOW BUTTON)
+   07. RADIO TIMELINE BUTTON MATRIX (FIXES SCREENSHOT 2026-07-03 160700.png)
    ========================================================================== */
-.cyber-submit-btn, button[type="submit"] {
-    width: 100%;
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-family: var(--font-cyber);
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    margin-top: 15px;
+/* Realigns inline messy text streams into crisp interactive selector row nodes */
+input[type="radio"] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    border: 2px solid var(--border-dim) !important;
+    border-radius: 50% !important;
+    background: rgba(15, 15, 18, 0.9) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px !important;
+    margin-left: 16px !important;
+    vertical-align: middle !important;
+    position: relative;
+    top: -1px;
+    transition: all 0.2s ease;
 }
 
+input[type="radio"]:first-of-type {
+    margin-left: 0 !important;
+}
+
+input[type="radio"]:checked {
+    border-color: var(--neon-accent) !important;
+    background: var(--neon-accent) !important;
+    box-shadow: 0 0 8px var(--neon-glow) !important;
+}
+
+/* ==========================================================================
+   08. HARDWARE MEDIA CAPTURE FIELD (FIXES SCREENSHOT 2026-07-03 160700.png)
+   ========================================================================== */
+input[type="file"] {
+    background: rgba(15, 15, 18, 0.6) !important;
+    border: 1px dashed var(--border-dim) !important;
+    padding: 18px !important;
+    color: var(--text-muted) !important;
+    font-family: var(--font-body) !important;
+    font-size: 0.85rem !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+/* Styles the raw operating system "Choose File" inside block */
+input[type="file"]::-webkit-file-upload-button {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--border-dim) !important;
+    color: var(--text-main) !important;
+    padding: 6px 12px !important;
+    border-radius: 3px !important;
+    font-family: var(--font-cyber) !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    cursor: pointer !important;
+    margin-right: 12px !important;
+    transition: background 0.2s;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background: rgba(0, 255, 204, 0.1) !important;
+    border-color: var(--neon-accent) !important;
+}
+
+/* ==========================================================================
+   09. ULTIMATE ACTION TERMINAL KEY (FIXES SCREENSHOT 2026-07-03 160717.png)
+   ========================================================================== */
+button[type="submit"],
+.cyber-submit-btn {
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: var(--font-cyber) !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    padding: 16px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    margin-top: 25px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button[type="submit"]:hover,
 .cyber-submit-btn:hover {
     background: var(--neon-accent) !important;
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.45) !important;
 }
