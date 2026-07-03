@@ -259,49 +259,11 @@ html, body {
 }
 
 /* ==========================================================================
-   05. COMPONENT FORM CONTROLS & INPUT GROUPS
+   05. COMPONENT FORM CONTROLS & INPUT GROUPS (BRANCH SELECT FIX)
    ========================================================================== */
-.form-section {
-    margin-bottom: 45px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.section-title {
-    font-family: var(--font-cyber);
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-    color: #e1e1e6;
-}
-
-.sec-num {
-    color: var(--neon-accent);
-}
-
-.input-group {
-    margin-bottom: 25px;
-    display: flex;
-    flex-direction: column;
-}
-
-.input-group label, 
-.radio-group-label {
-    font-family: var(--font-data);
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: #c1c1cc;
-}
-
-input[type="text"],
-input[type="number"],
 .cyber-select {
     width: 100%;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(13, 13, 15, 0.95) !important; /* Forces dark container surface */
     border: 1px solid var(--border-dim);
     padding: 14px 16px;
     color: var(--text-main);
@@ -309,22 +271,29 @@ input[type="number"],
     font-size: 0.95rem;
     transition: all 0.25s ease;
     border-radius: 4px;
+    appearance: none; /* Removes native OS styling overrides */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%2300ffcc' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    cursor: pointer;
 }
 
-input:focus,
+/* Fixes the actual dropdown options container panel */
+.cyber-select option {
+    background-color: #0d0d0f; /* Fixed matching dark background */
+    color: var(--text-main);
+    padding: 12px;
+    font-family: var(--font-body);
+}
+
+/* Focus and active states */
 .cyber-select:focus {
     outline: none;
     border-color: var(--neon-accent);
-    background: rgba(0, 255, 204, 0.02);
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.08);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.15);
 }
-
-.grid-2-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
 /* ==========================================================================
    06. CUSTOM CLUSTERS (RADIOS & PHOTO CAPTURE FRAMEWORK)
    ========================================================================== */
