@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadBox = document.querySelector('.cyber-upload-box');
     const uploadMainText = document.querySelector('.upload-main-text');
     const submitBtn = document.getElementById('submitBtn');
+    const successPopup = document.getElementById('successPopup');
 
     if (!form) return;
 
@@ -221,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('change', calculateProgress);
 
     // ==========================================
-    // 6. INTERCEPT AND SUBMIT PROTOCOL
+    // 6. INTERCEPT AND SUBMIT PROTOCOL (FIXED SEQUENCE)
     // ==========================================
     form.addEventListener('submit', (e) => {
         e.preventDefault(); 
@@ -294,11 +295,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(formDataPayload)
             })
             .then(() => {
-                // Success actions (without displaying the popup modal)
+                // 1. Show the pop-up modal overlay cleanly using our CSS targets
+                if (successPopup) {
+                    successPopup.classList.add('active');
+                }
+
+                // 2. Run form cleanup and window adjustments in the background
                 setTimeout(() => {
                     form.reset();
                     
-                    // Strip visual validation states safely
                     document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
                         el.classList.remove("valid-state", "invalid-state");
                     });
@@ -311,8 +316,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+                }, 500);
+
+                // 3. Clear the popup modal display smoothly after 4 seconds and return to the top header
+                setTimeout(() => {
+                    if (successPopup) {
+                        successPopup.classList.remove('active');
+                    }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 1000); // 1-second timeout before clear for processing feel
+                }, 4000);
             })
             .catch(error => {
                 console.error('System synchronization error:', error);
