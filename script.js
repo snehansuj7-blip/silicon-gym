@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('profilePhoto');
     const uploadBox = document.querySelector('.cyber-upload-box');
     const uploadMainText = document.querySelector('.upload-main-text');
-    const successPopup = document.getElementById('successPopup');
     const submitBtn = document.getElementById('submitBtn');
 
     if (!form) return;
@@ -295,32 +294,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(formDataPayload)
             })
             .then(() => {
-                // Ensure form and success animations trigger clearly
-                if (successPopup) {
-                    successPopup.setAttribute('aria-hidden', 'false');
-                    successPopup.classList.add('active');
+                // Success actions (without displaying the popup modal)
+                setTimeout(() => {
+                    form.reset();
                     
-                    setTimeout(() => {
-                        form.reset();
-                        
-                        // Strip validation state styles out so animation cleanly re-runs next cycle
-                        document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
-                            el.classList.remove("valid-state", "invalid-state");
-                        });
-                        
-                        calculateProgress(); 
-                        
-                        if (submitBtn) {
-                            submitBtn.classList.remove('loading');
-                            submitBtn.disabled = false;
-                        }
-                        
-                        successPopup.classList.remove('active');
-                        successPopup.setAttribute('aria-hidden', 'true');
-                        if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }, 4000);
-                }
+                    // Strip visual validation states safely
+                    document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
+                        el.classList.remove("valid-state", "invalid-state");
+                    });
+                    
+                    calculateProgress(); 
+                    
+                    if (submitBtn) {
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                    }
+                    
+                    if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 1000); // 1-second timeout before clear for processing feel
             })
             .catch(error => {
                 console.error('System synchronization error:', error);
