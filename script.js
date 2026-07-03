@@ -23,19 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.x = (index / total) * canvas.width; 
             }
             reset() {
-                this.baseY = canvas.height * 0.6; // Higher base position for full visibility
-                this.amplitude = Math.random() * 60 + 40; // Higher wave motion depth
+                this.baseY = canvas.height * 0.6; 
+                this.amplitude = Math.random() * 60 + 40; 
                 this.speed = Math.random() * 0.015 + 0.005; 
-                this.size = Math.random() * 3.5 + 2.5; // Larger metallic ball radius
+                this.size = Math.random() * 3.5 + 2.5; 
                 this.phaseShift = Math.random() * Math.PI * 2;
                 
-                // Chrome and steel monochromatic dark metal color palette
                 const colors = ['#1a1a1a', '#2d2d30', '#404043', '#111111'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.3 + 0.6; // Deeply enhanced opacity profile
+                this.alpha = Math.random() * 0.3 + 0.6; 
             }
             update() {
-                this.x += 0.6; // Slightly faster shift across screen matrix
+                this.x += 0.6; 
                 if (this.x > canvas.width) {
                     this.x = 0;
                     this.reset();
@@ -50,18 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
                 
-                // Creates a radial chrome-like reflection sheen inside each particle ball
                 let gradient = ctx.createRadialGradient(
                     this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.1, 
                     this.x, this.y, this.size
                 );
-                gradient.addColorStop(0, '#ffffff'); // Mirror specular highlight spot
-                gradient.addColorStop(0.2, '#666666'); // Transitional gray sheen
-                gradient.addColorStop(0.5, this.color); // Real base metal tone
-                gradient.addColorStop(1, '#000000'); // Ambient occlusion edge shadow
+                gradient.addColorStop(0, '#ffffff'); 
+                gradient.addColorStop(0.2, '#666666'); 
+                gradient.addColorStop(0.5, this.color); 
+                gradient.addColorStop(1, '#000000'); 
 
                 ctx.fillStyle = gradient;
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'; // Enhanced backdrop depth contrast
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'; 
                 ctx.shadowBlur = 8;
                 ctx.shadowOffsetY = 3;
                 
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const density = 450; // Massively scaled count for high volume visibility density
+        const density = 450; 
         for (let i = 0; i < density; i++) {
             particles.push(new WaveParticle(i, density));
         }
@@ -297,18 +295,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(formDataPayload)
             })
             .then(() => {
-                if (submitBtn) submitBtn.classList.remove('loading');
-                
+                // Ensure form and success animations trigger clearly
                 if (successPopup) {
                     successPopup.setAttribute('aria-hidden', 'false');
                     successPopup.classList.add('active');
                     
                     setTimeout(() => {
                         form.reset();
+                        
+                        // Strip validation state styles out so animation cleanly re-runs next cycle
+                        document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
+                            el.classList.remove("valid-state", "invalid-state");
+                        });
+                        
                         calculateProgress(); 
+                        
+                        if (submitBtn) {
+                            submitBtn.classList.remove('loading');
+                            submitBtn.disabled = false;
+                        }
+                        
                         successPopup.classList.remove('active');
                         successPopup.setAttribute('aria-hidden', 'true');
-                        if (submitBtn) submitBtn.disabled = false;
                         if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }, 4000);
