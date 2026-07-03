@@ -337,7 +337,7 @@ input:focus {
 }
 
 /* ==========================================================================
-   07. ADDED: ACADEMIC BRANCH DROPDOWN DESIGN SELECTION
+   07. ACADEMIC BRANCH DROPDOWN DESIGN SELECTION
    ========================================================================== */
 .cyber-select {
     width: 100%;
@@ -364,7 +364,6 @@ input:focus {
     background-color: rgba(255, 255, 255, 0.04);
 }
 
-/* Style settings for custom popover options inside dropdowns */
 .cyber-select option {
     background-color: #121418;
     color: var(--text-pure);
@@ -376,7 +375,7 @@ input:focus {
 }
 
 /* ==========================================================================
-   08. ADDED: YEAR MATRIX & RADIO CLUSTER ELEMENTS
+   08. YEAR MATRIX & RADIO CLUSTER ELEMENTS
    ========================================================================== */
 .cyber-radio-cluster {
     display: flex;
@@ -397,12 +396,10 @@ input:focus {
     color: var(--text-pure);
 }
 
-/* Hide standard ugly browser input bubbles */
 .cyber-radio-label input[type="radio"] {
     display: none;
 }
 
-/* Premium Custom Radio Core Outer Vector */
 .custom-radio {
     width: 18px;
     height: 18px;
@@ -413,20 +410,17 @@ input:focus {
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Radio Element Focus Hover state */
 .cyber-radio-label:hover .custom-radio {
     border-color: rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.02);
 }
 
-/* Active Activation Sequence for radio components */
 .cyber-radio-label input[type="radio"]:checked + .custom-radio {
     border-color: var(--primary-yellow);
     background: var(--primary-yellow);
     box-shadow: 0 0 12px rgba(245, 194, 66, 0.35);
 }
 
-/* Internal aesthetic node indicator inside custom option dials */
 .cyber-radio-label input[type="radio"]:checked + .custom-radio::after {
     content: '';
     position: absolute;
@@ -492,7 +486,7 @@ input:focus {
 
 .upload-sub-text {
     font-family: 'Inter', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.7 her;
     color: var(--text-muted);
 }
 
@@ -508,9 +502,8 @@ input:focus {
     transition: color 0.2s ease;
 }
 
-/* Styling applied when custom validation conditions fail */
 .input-group.invalid-parameter .helper-text {
-    color: #ef4444; /* Alert System Red */
+    color: #ef4444; 
 }
 
 .input-group.invalid-parameter input,
@@ -563,4 +556,101 @@ input:focus {
     .main-title { font-size: 1.75rem; }
     .grid-2-col { grid-template-columns: 1fr; gap: 0; }
     .cyber-radio-cluster { flex-direction: column; gap: 12px; }
+}
+
+/* ==========================================================================
+   13. MODAL SUCCESS DIALOG PROTOCOL (ADDED FOR CORRESPONDING MODAL OBJECT)
+   ========================================================================== */
+.success-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 6, 7, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* State changes toggled via active script status updates */
+.success-popup.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.success-card {
+    background: #121418;
+    border: 1px solid rgba(245, 194, 66, 0.15);
+    padding: 50px 40px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.success-popup.active .success-card {
+    transform: scale(1);
+}
+
+/* Animated Checkmark Vectors */
+.checkmark-wrapper {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 24px auto;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: var(--primary-yellow);
+    fill: none;
+    animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke-width: 3;
+    stroke: var(--primary-yellow);
+    fill: none;
+    animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+.success-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: var(--primary-yellow);
+    margin-bottom: 10px;
+}
+
+.success-message {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #e5e7eb;
+}
+
+/* Micro-Interaction Animation Splines */
+@keyframes strokeCircle {
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes strokeCheck {
+    100% { stroke-dashoffset: 0; }
 }
