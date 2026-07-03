@@ -378,95 +378,85 @@ input[type="number"]:focus,
 }
 
 /* ==========================================================================
-   08. SUCCESS POPUP OVERLAY MODAL SYSTEM
+   08. HERO ABOUT SECTION OVERHAUL (MATCHING REGISTRATION CARD THEME)
    ========================================================================== */
-.success-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(3, 3, 4, 0.95);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.success-popup.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.success-card {
-    background: #0d0d0f;
-    border: 1px solid var(--neon-accent);
-    padding: 50px 40px;
-    text-align: center;
-    max-width: 420px;
-    width: 90%;
-    border-radius: 4px;
-    box-shadow: 0 0 50px rgba(0, 255, 204, 0.3);
-    transform: scale(0.85);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.success-popup.active .success-card {
-    transform: scale(1);
-}
-
-.checkmark-wrapper {
-    width: 72px;
-    height: 72px;
-    margin: 0 auto 25px;
-}
-
-.checkmark-svg {
+.about-hero-section {
     width: 100%;
-    height: 100%;
-    stroke: var(--neon-accent);
-    stroke-width: 2;
-    stroke-miterlimit: 10;
+    max-width: 900px; /* Perfectly matches the width of your form layout below */
+    margin: 40px auto 20px auto;
+    padding: 20px 45px;
+    position: relative;
+    z-index: 2;
 }
 
-.checkmark-circle {
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-    fill: none;
-    animation: strokeCircle 0.5s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
-
-.checkmark-check {
-    transform-origin: 50% 50%;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
-}
-
-.success-title {
-    font-family: var(--font-cyber);
-    font-size: 1.4rem;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
-    background: linear-gradient(180deg, #fff 0%, #999 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.success-message {
-    font-family: var(--font-data);
+.system-tag {
+    font-family: var(--font-cyber), 'Orbitron', sans-serif;
+    font-size: 0.8rem;
     color: var(--text-muted);
-    font-size: 1rem;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 8px;
 }
 
+.about-hero-title {
+    font-family: var(--font-cyber), 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+}
+
+.about-hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px; /* Clean spacing between paragraphs */
+    margin-bottom: 24px;
+}
+
+.about-hero-content p {
+    font-family: var(--font-body), 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85); /* Slightly muted white for better readability */
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+}
+
+/* Transform the default blue link into a professional neon command button */
+.cyber-btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-cyber), 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    color: var(--neon-accent);
+    text-decoration: none; /* Removes the basic underline */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 10px 20px;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    background: rgba(0, 255, 204, 0.03);
+    border-radius: 4px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+/* Hover effects */
+.cyber-btn-link:hover {
+    background: rgba(0, 255, 204, 0.1);
+    border-color: var(--neon-accent);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+    color: #ffffff;
+}
+
+.cyber-btn-link .arrow {
+    font-size: 1.1rem;
+    transition: transform 0.25s ease;
+}
+
+.cyber-btn-link:hover .arrow {
+    transform: translateY(3px); /* Subtle downward bounce on hover */
+}
 /* ==========================================================================
    09. ANIMATION ENGINE RUNTIME & ADAPTATIONS
    ========================================================================== */
