@@ -230,6 +230,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('input', calculateProgress);
     form.addEventListener('change', calculateProgress);
+/* ==========================================================================
+   FORM VALIDATION & ERROR HANDLER SYSTEM
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form');
+    
+    if (!form) return; // Guard clause if form doesn't exist on page
+
+    form.addEventListener('submit', (event) => {
+        let isFormValid = true;
+
+        // 1. Target all structural text and number inputs
+        const standardInputs = form.querySelectorAll('input[type="text"], input[type="number"], select');
+        
+        standardInputs.forEach(input => {
+            // Trim whitespace to check if field is truly empty
+            if (!input.value.trim() || input.value === "SELECT ACADEMIC BRANCH") {
+                isFormValid = false;
+                applyErrorState(input);
+            } else {
+                clearErrorState(input);
+            }
+        });
+
+        // 2. Validate Radio Button Clusters (Year, Gender, Permission, Locker)
+        const radioGroups = ['year', 'gender', 'parentalClearance', 'lockerTerminal']; // Replace with your actual radio 'name' attributes
+        
+        radioGroups.forEach(groupName => {
+            const radios = form.querySelectorAll(`input[name="${groupName}"]`);
+            if (radios.length > 0) {
+                const isGroupChecked = Array.from(radios).some(radio => radio.checked);
+                
+                // Find parent container or label to apply error style to the text row
+                const container = radios[0].closest('div') || radios[0].parentElement;
+                
+                if (!isGroupChecked) {
+                    isFormValid = false;
+                    container.style.color = 'var(--neon-error)';
+                } else {
+                    container.style.color = 'var(--text-main)';
+                }
+            }
+        });
+
+        // 3. Prevent form from routing or reloading if any criteria failed
+        if (!isFormValid) {
+            event.preventDefault();
+            
+            // Optional visual structural alert feedback loop
+            const submitBtn = form.querySelector('button[type="submit"], .cyber-submit-btn');
+            if (submitBtn) {
+                submitBtn.style.background = 'var(--neon-error)';
+                submitBtn.innerText = "CRITICAL ERROR // CHECKS FAILED";
+                
+                setTimeout(() => {
+                    submitBtn.style.background = '#ffffff';
+                    submitBtn.innerText = "REGISTER NOW";
+                }, 2000);
+            }
+        }
+    });
+
+    // Helper functions to manage border glowing states cleanly
+    function applyErrorState(element) {
+        element.style.borderColor = 'var(--neon-error)';
+        element.style.boxShadow = '0 0 10px rgba(255, 0, 85, 0.3)';
+    }
+
+    function clearErrorState(element) {
+        element.style.borderColor = 'var(--border-dim)';
+        element.style.boxShadow = 'none';
+    }
+});
 
     // ==========================================
     // 6. FORM CAPTURE & DISPATCH SEQUENCE
