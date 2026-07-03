@@ -8,57 +8,60 @@ document.addEventListener('DOMContentLoaded', () => {
         let particles = [];
         let waveCycle = 0;
         
+        // Ensure explicit execution window attributes
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            // Re-initialize arrays cleanly upon resolution change
+            initializeParticles();
         };
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
         class WaveParticle {
             constructor(index, total) {
                 this.index = index;
                 this.total = total;
                 this.reset();
-                this.x = (index / total) * canvas.width; 
+                this.x = (index / total) * window.innerWidth; 
             }
             reset() {
-                this.baseY = canvas.height * 0.6; 
-                this.amplitude = Math.random() * 60 + 40; 
-                this.speed = Math.random() * 0.015 + 0.005; 
-                this.size = Math.random() * 3.5 + 2.5; 
+                this.baseY = window.innerHeight * 0.55; 
+                this.amplitude = Math.random() * 80 + 40; 
+                this.speed = Math.random() * 0.012 + 0.004; 
+                this.size = Math.random() * 3.5 + 2.0; 
                 this.phaseShift = Math.random() * Math.PI * 2;
                 
-                const colors = ['#1a1a1a', '#2d2d30', '#404043', '#111111'];
+                // Chrome/Mercury style metallic color profiles
+                const colors = ['#ffffff', '#a8a8b2', '#4a4a4f', '#222226', '#111113'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.3 + 0.6; 
+                this.alpha = Math.random() * 0.4 + 0.4; 
             }
             update() {
-                this.x += 0.6; 
+                this.x += 0.8; 
                 if (this.x > canvas.width) {
                     this.x = 0;
                     this.reset();
                 }
-                const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
-                const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
-                this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.5));
+                const wave1 = Math.sin((this.x * 0.0025) + waveCycle + this.phaseShift);
+                const wave2 = Math.cos((this.x * 0.0012) - (waveCycle * 0.4));
+                this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.6));
             }
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
+                
                 let gradient = ctx.createRadialGradient(
-                    this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.1, 
+                    this.x - this.size * 0.3, this.y - this.size * 0.3, this.size * 0.05, 
                     this.x, this.y, this.size
                 );
-                gradient.addColorStop(0, '#ffffff'); 
-                gradient.addColorStop(0.2, '#666666'); 
-                gradient.addColorStop(0.5, this.color); 
-                gradient.addColorStop(1, '#000000'); 
+                gradient.addColorStop(0, '#ffffff'); // Chrome shine specular highlight
+                gradient.addColorStop(0.3, '#9c9ca7'); 
+                gradient.addColorStop(0.7, this.color); 
+                gradient.addColorStop(1, '#050505'); 
 
                 ctx.fillStyle = gradient;
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'; 
-                ctx.shadowBlur = 8;
-                ctx.shadowOffsetY = 3;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 6;
                 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -67,14 +70,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const density = Math.min(300, window.innerWidth / 4); 
-        for (let i = 0; i < density; i++) {
-            particles.push(new WaveParticle(i, density));
+        function initializeParticles() {
+            particles = [];
+            const density = Math.min(250, Math.floor(window.innerWidth / 5)); 
+            for (let i = 0; i < density; i++) {
+                particles.push(new WaveParticle(i, density));
+            }
         }
 
+        // Initialize viewport limits directly
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initializeParticles();
+
         const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            waveCycle += 0.006;
+            // Using a trace alpha clear color creates a subtle metallic motion blur trail effect
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            waveCycle += 0.005;
             particles.forEach(p => {
                 p.update();
                 p.draw();
@@ -83,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         animate();
     }
+});
 
     // ==========================================
     // 2. SMOOTH SECTION NAVIGATOR
