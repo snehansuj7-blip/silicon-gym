@@ -100,7 +100,7 @@ body {
 
 /* Inject the arrow icon using Google Material Symbols codepoint */
 .md\:hidden.text-primary .material-symbols-outlined::before {
-    content: "arrow_downward"; /* Changes the icon to an arrow */
+    content: "⇩"; /* Changes the icon to an arrow */
     font-size: 24px; /* Restores the icon size */
 }
 
