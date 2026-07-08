@@ -92,12 +92,12 @@ tailwind.config = {
     },
 };
 
-
 // --- Three.js Background Animation Script ---
 (function() {
     const container = document.getElementById('threejs-container-ANIMATION_1');
     if (!container) return;
     
+    const devicePixelRatio = window.devicePixelRatio || 1;
     let width = container.clientWidth || window.innerWidth;
     let height = container.clientHeight || window.innerHeight;
 
@@ -110,6 +110,7 @@ tailwind.config = {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
+    // Particles Setup
     const particlesCount = 3000;
     const posArray = new Float32Array(particlesCount * 3);
     for(let i = 0; i < particlesCount * 3; i++) {
@@ -126,11 +127,10 @@ tailwind.config = {
         blending: THREE.AdditiveBlending
     });
 
-
-
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
+    // Spheres Setup
     const spheresGroup = new THREE.Group();
     const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32);
     const sphereMaterial = new THREE.MeshPhongMaterial({
@@ -143,16 +143,23 @@ tailwind.config = {
 
     for(let i = 0; i < 20; i++) {
         const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.set((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 5);
+        sphere.position.set(
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 5
+        );
         spheresGroup.add(sphere);
     }
     scene.add(spheresGroup);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
     const pointLight = new THREE.PointLight('#f3e600', 2);
     pointLight.position.set(2, 3, 4);
     scene.add(pointLight);
 
+    // Mouse Interaction
     let mouseX = 0;
     let mouseY = 0;
     document.addEventListener('mousemove', (event) => {
@@ -162,9 +169,11 @@ tailwind.config = {
 
     const animate = () => {
         requestAnimationFrame(animate);
+        
         particlesMesh.rotation.y += 0.001;
         particlesMesh.rotation.x += 0.0005;
         
+        // Wave animation logic
         const positions = particlesGeometry.attributes.position.array;
         const time = Date.now() * 0.0005;
         for (let i = 0; i < particlesCount; i++) {
@@ -174,6 +183,7 @@ tailwind.config = {
         }
         particlesGeometry.attributes.position.needsUpdate = true;
 
+        // Follow mouse repulsion effect
         particlesMesh.position.x += (mouseX * 0.5 - particlesMesh.position.x) * 0.05;
         particlesMesh.position.y += (-mouseY * 0.5 - particlesMesh.position.y) * 0.05;
 
@@ -183,6 +193,7 @@ tailwind.config = {
 
         renderer.render(scene, camera);
     };
+
     animate();
 
     window.addEventListener('resize', () => {
@@ -195,7 +206,15 @@ tailwind.config = {
 })();
 
 // --- Application UI/UX Logic ---
+
+// Global string to hold image base64 data
 let base64ImageData = "";
+
+// Intersection Observer for fade-up
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -203,39 +222,30 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.classList.add('visible');
         }
     });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-document.addEventListener("DOMContentLoaded", function () {
-    // Target the button using its exact HTML classes
-    const arrowBtn = document.querySelector('.md\\:hidden.text-primary');
-    
-    // Target your about section (adjust 'section.about' to match your actual about element)
-    const aboutSection = document.querySelector('section.about') || document.querySelector('#about');
-
-    if (arrowBtn && aboutSection) {
-        arrowBtn.addEventListener('click', function() {
-            aboutSection.scrollIntoView({ 
-                behavior: 'smooth' 
-            });
-        });
-    }
-});
+}, observerOptions);
 
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// Sliders
+// Slider Value Displays
 const heightSlider = document.getElementById('heightSlider');
 const heightVal = document.getElementById('heightVal');
-if(heightSlider && heightVal) heightSlider.oninput = () => heightVal.textContent = heightSlider.value;
+if(heightSlider && heightVal) {
+    heightSlider.oninput = () => heightVal.textContent = heightSlider.value;
+}
 
 const weightSlider = document.getElementById('weightSlider');
 const weightVal = document.getElementById('weightVal');
-if(weightSlider && weightVal) weightSlider.oninput = () => weightVal.textContent = weightSlider.value;
+if(weightSlider && weightVal) {
+    weightSlider.oninput = () => weightVal.textContent = weightSlider.value;
+}
 
 const expSlider = document.getElementById('expSlider');
 const expVal = document.getElementById('expVal');
-if(expSlider && expVal) expSlider.oninput = () => expVal.textContent = expSlider.value;
+if(expSlider && expVal) {
+    expSlider.oninput = () => expVal.textContent = expSlider.value;
+}
 
-// File Upload
+// Image Upload Logic
 const dropZone = document.getElementById('dropZone');
 const imageInput = document.getElementById('imageInput');
 const previewImg = document.getElementById('previewImg');
@@ -246,13 +256,23 @@ const clearBtn = document.getElementById('clearBtn');
 
 if(dropZone && imageInput) {
     dropZone.onclick = () => imageInput.click();
-    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-primary'); };
-    dropZone.ondragleave = () => dropZone.classList.remove('border-primary');
+
+    dropZone.ondragover = (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-primary');
+    };
+
+    dropZone.ondragleave = () => {
+        dropZone.classList.remove('border-primary');
+    };
+
     dropZone.ondrop = (e) => {
         e.preventDefault();
         dropZone.classList.remove('border-primary');
-        handleFile(e.dataTransfer.files[0]);
+        const file = e.dataTransfer.files[0];
+        handleFile(file);
     };
+
     imageInput.onchange = (e) => handleFile(e.target.files[0]);
 }
 
@@ -261,7 +281,7 @@ function handleFile(file) {
         const reader = new FileReader();
         reader.onload = (e) => {
             previewImg.src = e.target.result;
-            base64ImageData = e.target.result;
+            base64ImageData = e.target.result; // Stores base64 string including header data:image/...
             uploadPreview.classList.remove('hidden');
             uploadPlaceholder.classList.add('hidden');
             simulateUpload();
@@ -294,10 +314,9 @@ if(clearBtn) {
     };
 }
 
-// --- Form Submissions and Popup Triggers ---
+// Form Validation & Success Handling
 const form = document.getElementById('registrationForm');
 const successPopup = document.getElementById('successPopup');
-const closePopupBtn = document.getElementById('closePopupBtn');
 
 if(form) {
     form.onsubmit = (e) => {
@@ -314,47 +333,41 @@ if(form) {
         });
 
         if (!hasError) {
-            // FIX: Remove both 'hidden' and 'opacity-0' to bypass the transparency bug
-            if (successPopup) {
-                successPopup.classList.remove('hidden');
-                successPopup.classList.remove('opacity-0');
-                successPopup.classList.add('opacity-100');
-            }
+            successPopup.classList.remove('hidden');
+            setTimeout(() => successPopup.classList.add('opacity-100'), 10);
             
+            // Package data explicitly into standard search params
             const formData = new FormData(form);
             const searchParams = new URLSearchParams();
             
             for (const pair of formData.entries()) {
                 searchParams.append(pair[0], pair[1]);
             }
-            searchParams.append('entry.image', base64ImageData || '');
+            
+            // Crucial component injection: Adds image base64 data to parameters payload
+            if(base64ImageData) {
+                searchParams.append('entry.image', base64ImageData);
+            } else {
+                searchParams.append('entry.image', '');
+            }
             
             fetch(form.action, {
                 method: 'POST',
-                body: searchParams.toString(), // FIX: explicitly serialized to string layout
+                body: searchParams,
                 mode: 'no-cors', 
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             })
             .then(() => {
-                console.log('Successfully sent textual form parameters to Google Sheets!');
+                console.log('Successfully sent textual form parameters and image base64 data to Apps Script!');
                 form.reset(); 
                 base64ImageData = "";
-                if(uploadPreview) uploadPreview.classList.add('hidden');
-                if(uploadPlaceholder) uploadPlaceholder.classList.remove('hidden');
+                uploadPreview.classList.add('hidden');
+                uploadPlaceholder.classList.remove('hidden');
             })
             .catch(error => console.error('Submission Blocked:', error));
         }
-    };
-}
-
-// Pop-up dismiss handler
-if(closePopupBtn && successPopup) {
-    closePopupBtn.onclick = () => {
-        successPopup.classList.remove('opacity-100');
-        successPopup.classList.add('opacity-0');
-        setTimeout(() => successPopup.classList.add('hidden'), 500);
     };
 }
 
