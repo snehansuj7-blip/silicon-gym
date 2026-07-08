@@ -1,254 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COLLEGE GYM // Portal</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SILICON GYM | ENGINEERED FOR EXCELLENCE</title>
     
-    <!-- Link to the clean CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=300;400;500;600;700&family=Outfit:wght=300;400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="">
 </head>
-<body>
-    <div class="cyber-bg"></div>
-    <div class="cyber-overlay"></div>
-    <canvas id="particleCanvas"></canvas>
+<body class="bg-background selection:bg-primary-container selection:text-white">
 
-    <!-- ==========================================================================
-       CINEMATIC HERO ABOUT SECTION (FIRST VISIBLE LAYER)
-       ========================================================================== -->
-    <section class="about-hero-container">
-        <div class="about-hero-content">
-            <span class="about-tagline">SYSTEM INITIATION // OVERVIEW</span>
-            <h1 class="about-main-title">About Our College Gym</h1>
-            <div class="about-divider"></div>
-            
-            <p class="about-prose">
-                Welcome to the College Gym, a dedicated fitness facility designed to promote a healthy, active, and disciplined lifestyle among students. Our gym provides a safe, modern, and motivating environment equipped with quality fitness equipment to support strength training, endurance, and overall physical wellness.
-            </p>
-            <p class="about-prose">
-                Whether you're a beginner taking your first step toward fitness or an experienced athlete working to improve your performance, our gym offers the resources you need to achieve your goals. We encourage every student to develop healthy habits, build confidence, and maintain both physical and mental well-being through regular exercise.
-            </p>
-            <p class="about-callout">
-                Join our fitness community and take the first step toward becoming a stronger, healthier, and more confident version of yourself.
-            </p>
+    <nav class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(197,0,60,0.1)]">
+        <div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto">
+            <div class="font-display-lg text-headline-md tracking-tighter text-primary">SILICON GYM</div>
+            <div class="hidden md:flex items-center gap-10">
+                <a class="font-display-lg text-label-caps uppercase text-primary border-b-2 border-primary pb-1" href="#home">Home</a>
+                <a class="font-display-lg text-label-caps uppercase text-on-surface/70 hover:text-primary transition-colors duration-300" href="#about">About</a>
+                <a class="font-display-lg text-label-caps uppercase text-on-surface/70 hover:text-primary transition-colors duration-300" href="#registration">Registration</a>
+                <a class="text-primary hover:underline font-display-lg text-label-caps uppercase font-medium" href="admin.html">Admin Portal</a>
+                <a class="bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-display-lg text-label-caps uppercase hover:scale-105 active:scale-95 transition-transform" href="#registration">JOIN ELITE</a>
+            </div>
+           
+        </div>
+    </nav>
 
-            <a href="#registrationProtocol" class="about-scroll-btn">
-                <span>INITIALIZE REGISTRATION</span>
-                <span class="scroll-arrow">↓</span>
-            </a>
+    <section class="relative h-screen flex items-center justify-center overflow-hidden" id="home">
+        <div class="absolute inset-0 w-full h-full z-0 opacity-60" style="display:block;">
+            <div id="threejs-container-ANIMATION_1" style="width:100%;height:100%"></div>
+        </div>
+        <div class="relative z-10 text-center px-margin-mobile md:px-0">
+            <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase text-white mb-4 tracking-tighter">SILICON GYM</h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto mb-10 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
+                Train Smart. Stay Strong. Transform Yourself. Engineered for the next generation of elite performers.
+            </p>
+            <a class="inline-block bg-primary-container hover:bg-inverse-primary text-on-primary-container px-10 py-5 rounded-lg font-display-lg text-label-caps uppercase tracking-widest shadow-[0_0_30px_rgba(197,0,60,0.3)] transition-all duration-300 hover:scale-105 active:scale-95" href="#registration">Join Now</a>
+            <br><br>
+            <a class="inline-block bg-primary-container hover:bg-inverse-primary text-on-primary-container px-10 py-5 rounded-lg font-display-lg text-label-caps uppercase tracking-widest shadow-[0_0_30px_rgba(197,0,60,0.3)] transition-all duration-300 hover:scale-105 active:scale-95" href="#about">About</a>
+        </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
+            <span class="material-symbols-outlined text-4xl"></span>
         </div>
     </section>
 
-    <!-- ==========================================================================
-       REGISTRATION PROTOCOL MATRIX CONTAINER
-       ========================================================================== -->
-    <main id="registrationProtocol" class="portal-container" role="main">
-        <div class="progress-wrapper" aria-label="Registration Progress">
-            <div class="progress-text">PROGRESS: <span id="progressPercent">0%</span></div>
-            <div class="progress-track">
-                <div class="progress-bar" id="progressBar"></div>
+    <section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto overflow-hidden" id="about">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div class="fade-up">
+                <h2 class="font-display-lg text-headline-xl mb-8 uppercase text-primary">About Silicon Gym</h2>
+               
+ <p class="font-body-lg text-on-surface text-lg leading-relaxed">
+                        Welcome to the College Gym, a dedicated fitness facility designed to promote a healthy, active, and disciplined lifestyle among students. Our gym provides a safe, modern, and motivating environment equipped with quality fitness equipment to support strength training, endurance, and overall physical wellness.
+                    </p>
+                    <p class="font-body-lg text-on-surface-variant">
+                        Whether you're a beginner taking your first step toward fitness or an experienced athlete working to improve your performance, our gym offers the resources you need to achieve your goals. We encourage every student to develop healthy habits, build confidence, and maintain both physical and mental well-being through regular exercise.
+                    </p>
+               
+               
+            
+           
+            </div>
+            <div class="relative fade-up">
+                <div class="glass-panel p-4 rounded-xl rotate-3 hover:rotate-0 transition-transform duration-700">
+                    <div class="aspect-[4/5] bg-cover bg-center rounded-lg shadow-2xl" style="background-image: url('https://i.pinimg.com/736x/e2/e3/fc/e2e3fc79943682868c948a64dc5d46b6.jpg')"></div>
+                    <div class="absolute -bottom-6 -left-6 bg-tertiary-container text-on-tertiary-container p-6 rounded-lg font-display-lg text-label-caps uppercase">
+                        GO BEYOND STRENGTH<br/>STEP INTO CONTROL
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <header class="portal-header">
-            <div class="premium-brand-logo">SILICON GYM</div>
-            <p class="brand-subline"><i><b>PROVIDES A CLEAR OVERVIEW OF A FITNESS FACILITY'S AMENITIES, LAYOUT AND ATMOSPHERE</b></i></p>
+    <section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-lowest" id="registration">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 fade-up">
+                <h2 class="font-display-lg text-headline-xl uppercase text-white mb-4">Gym Registration Form</h2>
+                <p class="font-body-md text-on-surface-variant">Secure your spot in the elite physical training program.</p>
+            </div>
             
-            <h1 class="main-title">GO BEYOND STRENGTH<br>STEP INTO CONTROL,</h1>
-            <p class="sub-title">Registration Protocol</p>
-        </header>
-
-        <form id="cyberpunkForm" action="https://docs.google.com/forms/u/0/d/1Ba8FLfA5I0h6qtfvX_BgexDfHPIBpmCv1nVdyToKfwQ/formResponse" method="POST" enctype="multipart/form-data" novalidate>
-            
-            <!-- SECTION 01: PERSONAL INFORMATION -->
-            <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">01 //</span> Personal Information</h2>
-                
-                <div class="form-group">
-                    <label class="field-label">Full Name</label>
-                    <!-- IMPORTANT: Replace entry.1111111111 with your actual Google Form Entry ID for Name -->
-                    <input type="text" name="entry.1111111111" placeholder="ENTER FULL NAME" required>
-                    <span class="form-help-text">Required: Alphabetical characters only (3-40 chars).</span>
-                </div>
-
-                <div class="form-group">
-                    <label class="field-label">SIC-Number</label>
-                    <!-- IMPORTANT: Replace entry.2222222222 with your actual Google Form Entry ID for SIC-Number -->
-                    <input type="text" name="entry.2222222222" placeholder="ENTER 8-DIGIT ALPHANUMERIC" required>
-                    <span class="form-help-text">Required: Exactly 8 alphanumeric structural characters.</span>
-                </div>
-
-                <!-- Academic Branch Identifier Component -->
-                <div class="input-group">
-                    <label for="academicBranch">Branch Stream</label>
-                    <!-- IMPORTANT: Replace entry.branch_placeholder with your actual Google Form Entry ID for Branch -->
-                    <select id="academicBranch" name="entry.branch_placeholder" class="cyber-select" required>
-                        <option value="" disabled selected hidden>SELECT ACADEMIC BRANCH</option>
-                        <option value="CSE">COMPUTER SCIENCE & ENGINEERING (CSE)</option>
-                        <option value="ECE">ELECTRONICS & COMMUNICATION (ECE)</option>
-                        <option value="EE">ELECTRICAL ENGINEERING (EE)</option>
-                        <option value="ME">MECHANICAL ENGINEERING (ME)</option>
-                        <option value="CE">CIVIL ENGINEERING (CE)</option>
-                    </select>
-                    <span class="helper-text" id="branchError">Branch parameter allocation required.</span>
-                </div>
-
-                <!-- Timeline Horizon (Year) Selection Matrix -->
-                <div class="input-group">
-                    <span class="radio-group-label">Current Academic Cycle (Year)</span>
-                    <div class="cyber-radio-cluster">
-                        <label class="cyber-radio-label">
-                            <!-- IMPORTANT: Replace entry.year_placeholder with your actual Google Form Entry ID for Year -->
-                            <input type="radio" name="entry.year_placeholder" value="1st Year" required>
-                            <span class="custom-radio"></span> 1ST YEAR
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.year_placeholder" value="2nd Year">
-                            <span class="custom-radio"></span> 2ND YEAR
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.year_placeholder" value="3rd Year">
-                            <span class="custom-radio"></span> 3RD YEAR
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.year_placeholder" value="4th Year">
-                            <span class="custom-radio"></span> 4TH YEAR
-                        </label>
-                    </div>
-                    <span class="helper-text" id="yearError">Timeline status selection parameter mandatory.</span>
-                </div>
-
-                <div class="input-group">
-                    <span class="radio-group-label">Gender Identity</span>
-                    <div class="cyber-radio-cluster">
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.1858008117" value="Male" required>
-                            <span class="custom-radio"></span> MALE
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.1858008117" value="Female">
-                            <span class="custom-radio"></span> FEMALE
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.1858008117" value="Other">
-                            <span class="custom-radio"></span> OTHER
-                        </label>
-                    </div>
-                    <span class="helper-text" id="genderError">Selection parameters required.</span>
-                </div>
-            </section>
-
-            <!-- SECTION 02: BIOMETRIC CAPTURE (PHOTO UPLOAD) -->
-            <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">02 //</span> Biometric Data Identification</h2>
-                <div class="input-group">
-                    <label for="profilePhoto">Profile Photo Capture</label>
-                    <div class="cyber-upload-box">
-                        <input type="file" id="profilePhoto" name="profile_photo" accept="image/*" required>
-                        <div class="upload-content">
-                            <span class="upload-icon">⇪</span>
-                            <span class="upload-main-text">DRAG & DROP IMAGE FILE</span>
-                            <span class="upload-sub-text">PNG, JPG OR JPEG BASELINE MATRIX (MAX 5MB)</span>
+            <div class="glass-panel data-corner relative p-8 md:p-12 rounded-xl fade-up">
+                <form action="https://script.google.com/macros/s/AKfycbyCpMjirgPnyN-4Fqtiv8FvtIqq2T6NvridYvf02-t6Ha7pVGzWPpTCW-m_nE9M3DTN/exec" class="space-y-12" id="registrationForm" method="POST">
+                    
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
+                            <span class="font-display-lg text-label-caps text-primary">01</span>
+                            <h3 class="font-display-lg text-headline-md uppercase">Personal Info</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                            <div class="space-y-2">
+                                <label class="font-label-caps text-on-surface-variant uppercase text-xs">Full Name</label>
+                                <input id="userNameInput" class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.374754270" placeholder="YOUR NAME" required="" type="text"/>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-caps text-on-surface-variant uppercase text-xs">SIC Number</label>
+                                <input id="userSicInput" class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.1894580731" placeholder="YOUR SIC" required="" type="text"/>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-caps text-on-surface-variant uppercase text-xs">Course</label>
+                                <select class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.1967550226" required="">
+                                    <option disabled="" selected="" value="">Select Course</option>
+                                    <option value="B.Tech">B.Tech</option>
+                                    <option value="M.Tech">M.Tech</option>
+                                    <option value="MCA">MCA</option>
+                                    <option value="IMCA">IMCA</option>
+                                    <option value="M.SC">M.SC</option>
+                                    <option value="OTHER">OTHER</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-caps text-on-surface-variant uppercase text-xs">Branch</label>
+                                <select id="userBranchInput" class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.148217808" required="">
+                                    <option disabled="" selected="" value="">Select Branch</option>
+                                    <option value="CSE">CSE</option>
+                                    <option value="ECE">ECE</option>
+                                    <option value="EEE">EEE</option>
+                                    <option value="EIE">EIE</option>
+                                    <option value="IMCA">IMCA</option>
+                                    <option value="MCA">MCA</option>
+                                    <option value="M.SC(DATA SCIENCE)">M.SC(DATA SCIENCE)</option>
+                                    <option value="OTHER">OTHER</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-caps text-on-surface-variant uppercase text-xs">Year</label>
+                                <select class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.1312666232" required="">
+                                    <option disabled="" selected="" value="">Select Year</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-caps text-on-surface-variant uppercase text-xs">Gender</label>
+                                <div class="flex gap-6 p-3">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1858008117" type="radio" value="Male" checked/>
+                                        <span class="font-body-md">Male</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1858008117" type="radio" value="Female"/>
+                                        <span class="font-body-md">Female</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <span class="helper-text" id="photoError">Valid identification image file required.</span>
-                </div>
-            </section>
 
-            <!-- SECTION 03: PHYSICAL INFORMATION -->
-            <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">03 //</span> Physical Information</h2>
-                <div class="grid-2-col">
-                    <div class="input-group">
-                        <label for="heightMetric">Height (cm)</label>
-                        <input type="number" id="heightMetric" name="entry.1423537159" placeholder="100 - 250" min="100" max="250" required>
-                        <span class="helper-text" id="heightError">Valid range: 100cm - 250cm</span>
-                    </div>
-                    <div class="input-group">
-                        <label for="weightMetric">Weight (kg)</label>
-                        <input type="number" id="weightMetric" name="entry.373257491" placeholder="20 - 250" min="20" max="250" required>
-                        <span class="helper-text" id="weightError">Valid range: 20kg - 250kg</span>
-                    </div>
+                     <div class="space-y-8">
+    <div class="flex items-center gap-3 border-l-4 border-[#c5003c] pl-4">
+        <span class="font-display-lg text-label-caps text-[#ffb2b7]">02</span>
+        <h3 class="font-display-lg text-headline-md uppercase text-white">Biometric Data</h3>
+    </div>
+    <div class="relative group">
+        <div class="w-full h-64 border-2 border-dashed border-[#5c3f41] hover:border-[#ffb2b7] rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer bg-[#1e2020]/30" id="dropZone">
+            <div class="hidden absolute inset-0 rounded-xl overflow-hidden" id="uploadPreview">
+                <img class="w-full h-full object-cover" id="previewImg" src=""/>
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <button class="text-white hover:text-[#ffb2b7] transition-colors" id="clearBtn" type="button">
+                        <span class="material-symbols-outlined text-4xl">delete</span>
+                    </button>
                 </div>
-            </section>
-
-            <!-- SECTION 04: PARENT PERMISSION PROTOCOLS -->
-            <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">04 //</span> Parent Permission Protocols</h2>
-                <div class="input-group">
-                    <span class="radio-group-label">Has parental/guardian clearance been authorized?</span>
-                    <div class="cyber-radio-cluster">
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.1691817220" value="Yes" required>
-                            <span class="custom-radio"></span> YES // ACCEPTED
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.1691817220" value="No">
-                            <span class="custom-radio"></span> NO // DENIED
-                        </label>
-                    </div>
-                    <span class="helper-text" id="permissionError">System access requires clearance identification.</span>
-                </div>
-            </section>
-
-            <!-- SECTION 05: PREVIOUS EXPERIENCE -->
-            <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">05 //</span> Do You Have Any Previous Experience</h2>
-                <div class="input-group">
-                    <label for="gymExperience">Years of Previous Gym Activity</label>
-                    <input type="number" id="gymExperience" name="entry.1862695856" placeholder="0 - 40" min="0" max="40" required>
-                    <span class="helper-text" id="experienceError">Valid baseline timeline metrics: 0 to 40 standard cycles.</span>
-                </div>
-            </section>
-
-            <!-- SECTION 06: SECURE LOCKER ALLOCATION -->
-            <section class="form-section">
-                <h2 class="section-title"><span class="sec-num">06 //</span> Secure Locker Allocation</h2>
-                <div class="input-group">
-                    <span class="radio-group-label">Request localized hardware locker terminal?</span>
-                    <div class="cyber-radio-cluster">
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.38638229" value="Yes" required>
-                            <span class="custom-radio"></span> REQUIRED 
-                        </label>
-                        <label class="cyber-radio-label">
-                            <input type="radio" name="entry.38638229" value="No">
-                            <span class="custom-radio"></span> DECLINE 
-                        </label>
-                    </div>
-                    <span class="helper-text" id="lockerError">Storage configuration selection mandatory.</span>
-                </div>
-            </section>
-
-            <div class="premium-action-footer">
-                <button type="submit" class="cyber-submit-btn" id="submitBtn">
-                    <span class="btn-text">REGISTER NOW</span>
-                    <span class="btn-spinner" id="btnSpinner"></span>
-                </button>
             </div>
-        </form>
-    </main>
-
-    <!-- SUCCESS POPUP MODAL ARCHITECTURE -->
-    <div class="success-popup" id="successPopup" role="dialog" aria-hidden="true">
-        <div class="success-card">
-            <div class="checkmark-wrapper">
-                <svg class="checkmark-svg" viewBox="0 0 52 52">
-                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                </svg>
+                                 <div class="text-center" id="uploadPlaceholder">
+                <div class="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 border-2 border-dashed border-[#c5003c]/40 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    <div class="absolute inset-2 border border-[#ffb2b7]/20 rounded-full group-hover:border-[#c5003c]/60 transition-colors duration-300"></div>
+                    <span class="material-symbols-outlined text-5xl text-[#e4bdbe] group-hover:text-[#ffb2b7] transition-colors duration-300 relative z-10 bio-scan-icon">
+                        🎴
+                    </span>
+                </div>
+                <p class="font-display-lg text-label-caps uppercase text-[#ffb2b7] tracking-widest">Upload Profile Image</p>
+                <p class="text-xs text-[#e4bdbe]/70 mt-2 tracking-wider">DRAG &amp; DROP OR CLICK TO UPLOAD</p>
             </div>
-            <h3 class="success-title">CONGRATULATION</h3>
-            <p class="success-message">Registration Successful // Profile Linked</p>
+                                <div class="hidden absolute bottom-0 left-0 h-1 bg-primary transition-all duration-300" id="uploadProgress" style="width: 0%"></div>
+                            </div>
+                            <input accept="image/*" class="hidden" id="imageInput" required="" type="file"/>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
+                            <span class="font-display-lg text-label-caps text-primary">03</span>
+                            <h3 class="font-display-lg text-headline-md uppercase">Physical Metrics</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <label class="font-label-caps text-on-surface-variant uppercase text-xs">Height</label>
+                                    <span class="font-stats-number text-primary text-xl"><span id="heightVal">170</span>cm</span>
+                                </div>
+                                <input class="accent-primary w-full" id="heightSlider" name="entry.1423537159" max="250" min="100" type="range" value="170"/>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <label class="font-label-caps text-on-surface-variant uppercase text-xs">Weight</label>
+                                    <span class="font-stats-number text-primary text-xl"><span id="weightVal">70</span>kg</span>
+                                </div>
+                                <input class="accent-primary w-full" id="weightSlider" name="entry.373257491" max="250" min="20" type="range" value="70"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
+                                <span class="font-display-lg text-label-caps text-primary">04</span>
+                                <h3 class="font-display-lg text-label-caps uppercase">Parent Permission</h3>
+                            </div>
+                            <div class="flex gap-6 p-3 glass-panel rounded-lg">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1691817220" required="" type="radio" value="Yes" >
+                                    <span class="font-body-md">Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1691817220" required="" type="radio" value="No">
+                                    <span class="font-body-md">No</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
+                                <span class="font-display-lg text-label-caps text-primary">05</span>
+                                <h3 class="font-display-lg text-label-caps uppercase">Previous Gym Experience</h3>
+                            </div>
+                            <div class="space-y-2 px-3">
+                                <div class="flex justify-between">
+                                    <span class="text-xs text-on-surface-variant">YEARS</span>
+                                    <span class="text-primary font-bold" id="expVal">0</span>
+                                </div>
+                                <input class="w-full" id="expSlider" name="entry.1862695856" max="20" min="0" type="range" value="0"/>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
+                                <span class="font-display-lg text-label-caps text-primary">06</span>
+                                <h3 class="font-display-lg text-label-caps uppercase">Secure Locker(One Time Pay)</h3>
+                            </div>
+                            <div class="flex gap-6 p-3 glass-panel rounded-lg">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.38638229" type="radio" value="Yes" >
+                                    <span class="font-body-md">Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.38638229" type="radio" value="No"/>
+                                    <span class="font-body-md">No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full bg-primary-container hover:bg-inverse-primary text-on-primary-container p-6 rounded-lg font-display-lg text-label-caps uppercase tracking-widest text-lg shadow-[0_0_20px_rgba(197,0,60,0.2)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]" type="submit">
+                        Confirm Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md hidden opacity-0 transition-all duration-500" id="successPopup">
+        <div class="glass-panel p-12 rounded-2xl text-center max-w-md mx-margin-mobile relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 blur-3xl"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-primary-container text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(197,0,60,0.5)]">
+                    <span class="material-symbols-outlined text-5xl">check_circle</span>
+                </div>
+                <h2 class="font-display-lg text-headline-xl uppercase text-white mb-4">Welcome to Gym</h2>
+                <p class="font-body-md text-on-surface-variant mb-10">Your biometric profile has been verified and registered into the Silicon Gym ecosystem.</p>
+                <button id="closePopupBtn" class="w-full py-4 glass-panel border-primary/40 hover:bg-primary-container transition-colors uppercase font-display-lg text-label-caps">Close Terminal</button>
+            </div>
         </div>
     </div>
 
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-    
-    <script src="script.js"></script>
+    <footer class="bg-surface-container-lowest border-t border-outline-variant/20 py-section-gap">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop max-w-container-max mx-auto items-center">
+            <div class="md:col-span-4">
+                <div class="font-display-lg text-headline-md text-on-surface mb-4">SILICON GYM</div>
+                <p class="font-body-md text-on-surface-variant max-w-xs">Redefining human performance through technology and discipline.</p>
+            </div>
+            <div class="md:col-span-12 text-center mt-12 pt-12 border-t border-outline-variant/10">
+                <p class="text-on-surface-variant font-body-md text-sm uppercase tracking-widest">© 2026 SILICON GYM. ENGINEERED FOR EXCELLENCE.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src=""></script>
 </body>
 </html>
