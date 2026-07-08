@@ -7,11 +7,11 @@
     
     <!-- External Frameworks & Fonts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=300;400;500;600;700&family=Outfit:wght=300;400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://script.google.com/macros/s/AKfycbxbRYzKjS0Ny450Y9o7u-L7pC99JeTgTLOVBZKiW7Z2a4D7YGB9QmMxSSsdpTR_GDqO/exec" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     
     <!-- External Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 <body class="bg-background selection:bg-primary-container selection:text-white">
 
@@ -97,7 +97,7 @@
             
             <!-- Form Card -->
             <div class="glass-panel data-corner relative p-8 md:p-12 rounded-xl fade-up">
-                <form action="https://script.google.com/macros/s/AKfycbwe4IfJOar0ZyE_kPsYdecFDkI0pU707mZmC6QSTRBqvHq57X1YzCr82NFQ08kh2_ng/exec" class="space-y-12" id="registrationForm" method="POST">
+                <form action="https://script.google.com/macros/s/AKfycbwe4IfJOar0ZyE_kPsYdecFDkI0pU707mZmC6QSTRBqvHq57X1YzCr82NFQ08kh2_ng/exec" method="POST" target="_blank">
                     
                     <!-- Section 1: Personal Info -->
                     <div class="space-y-8">
@@ -173,17 +173,17 @@
                             <h3 class="font-display-lg text-headline-md uppercase">Biometric Data</h3>
                         </div>
                         <div class="relative group">
-        <div class="w-full h-64 border-2 border-dashed border-[#5c3f41] hover:border-[#ffb2b7] rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer bg-[#1e2020]/30" id="dropZone">
-            <div class="hidden absolute inset-0 rounded-xl overflow-hidden" id="uploadPreview">
-                <img class="w-full h-full object-cover" id="previewImg" src=""/>
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <button class="text-white hover:text-[#ffb2b7] transition-colors" id="clearBtn" type="button">
-                        <span class="material-symbols-outlined text-4xl">delete</span>
-                    </button>
-                </div>
-            </div>
-                                  <div class="text-center" id="uploadPlaceholder">
-                                    <span class="material-symbols-outlined text-6xl text-on-surface-variant mb-4">logo</span>
+                            <div class="w-full h-64 border-2 border-dashed border-outline-variant hover:border-primary rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer bg-surface-container/30" id="dropZone">
+                                <div class="hidden absolute inset-0 rounded-xl overflow-hidden" id="uploadPreview">
+                                    <img class="w-full h-full object-cover" id="previewImg" src=""/>
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                        <button class="text-white hover:text-primary transition-colors" id="clearBtn" type="button">
+                                            <span class="material-symbols-outlined text-4xl">delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-center" id="uploadPlaceholder">
+                                    <span class="material-symbols-outlined text-6xl text-on-surface-variant mb-4">account_circle</span>
                                     <p class="font-display-lg text-label-caps uppercase text-primary">Upload Profile Image</p>
                                     <p class="text-xs text-on-surface-variant mt-2">DRAG &amp; DROP OR CLICK TO UPLOAD</p>
                                 </div>
@@ -279,7 +279,7 @@
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 blur-3xl"></div>
             <div class="relative z-10">
                 <div class="w-20 h-20 bg-primary-container text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(197,0,60,0.5)]">
-                    <span class="material-symbols-outlined text-5xl">✅</span>
+                    <span class="material-symbols-outlined text-5xl">check_circle</span>
                 </div>
                 <h2 class="font-display-lg text-headline-xl uppercase text-white mb-4">Welcome to Gym</h2>
                 <p class="font-body-md text-on-surface-variant mb-10">Your biometric profile has been verified and registered into the Silicon Gym ecosystem.</p>
@@ -304,6 +304,6 @@
     </footer>
 
     <!-- External Custom Logic -->
-    <script src="script.js"></script>
+    <script src="new.js"></script>
 </body>
 </html>
