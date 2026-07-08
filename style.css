@@ -1,633 +1,160 @@
-/* ==========================================================================
-   01. DESIGN ARCHITECTURE VARIABLES & GLOBAL PROTOCOL RESET
-   ========================================================================== */
-:root {
-    --bg-prime: #050505;
-    --card-surface: rgba(10, 10, 12, 0.65);
-    --neon-accent: #00ffcc;
-    --neon-glow: rgba(0, 255, 204, 0.25);
-    --neon-error: #ff0055;
-    --border-dim: rgba(255, 255, 255, 0.08);
-    --text-main: #ffffff;
-    --text-muted: #8a8a93;
-    
-    --font-cyber: 'Orbitron', sans-serif;
-    --font-data: 'Rajdhani', sans-serif;
-    --font-body: 'Inter', sans-serif;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
 body {
-    background-color: var(--bg-prime);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    min-height: 100vh;
-    width: 100%;
+    background-color: #121414;
+    color: #e3e2e2;
     overflow-x: hidden;
-    position: relative;
+    font-family: 'Outfit', sans-serif;
 }
-
-/* Persistent Canvas Underlays */
-.cyber-bg, .cyber-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -3;
-    pointer-events: none;
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
-.cyber-overlay {
-    background: radial-gradient(circle at 50% 50%, transparent 20%, #000000 90%);
-    z-index: -2;
-}
-#particleCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    z-index: -1;
-    pointer-events: none;
-}
-
-/* ==========================================================================
-   02. CINEMATIC HERO ABOUT SECTION
-   ========================================================================== */
-.about-hero-container {
-    width: 100%;
-    max-width: 850px;
-    margin: 60px auto 40px auto;
-    padding: 0 24px;
-}
-
-.about-hero-content {
-    background: rgba(12, 12, 15, 0.4);
-    border: 1px solid var(--border-dim);
-    border-left: 3px solid var(--neon-accent);
-    padding: 40px;
-    border-radius: 4px;
-    backdrop-filter: blur(8px);
-}
-
-.about-tagline {
-    font-family: var(--font-cyber);
-    font-size: 0.75rem;
-    color: var(--neon-accent);
-    letter-spacing: 2px;
-    display: block;
-}
-
-.about-main-title {
-    font-family: var(--font-cyber);
-    font-size: 2.2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin: 10px 0 15px 0;
-    letter-spacing: -0.5px;
-}
-
-.about-divider {
-    height: 2px;
-    width: 60px;
-    background: var(--neon-accent);
-    margin-bottom: 25px;
-}
-
-.about-prose {
-    font-size: 0.98rem;
-    color: rgba(255, 255, 255, 0.75);
-    line-height: 1.7;
-    margin-bottom: 20px;
-}
-
-.about-callout {
-    font-family: var(--font-data);
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-main);
-    letter-spacing: 0.5px;
-    margin: 25px 0 35px 0;
-    border-left: 2px solid rgba(255, 255, 255, 0.2);
-    padding-left: 15px;
-}
-
-.about-scroll-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-cyber);
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #000000;
-    background: var(--neon-accent);
-    text-decoration: none;
-    padding: 14px 24px;
-    border-radius: 4px;
+.data-corner::after {
+    content: '0x-SG-2024';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    opacity: 0.4;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+}
+/* --- Premium Sci-Fi Token Maps --- */
+
+:root {
+    --primary: #c5003c;
+    --primary-hover: #ffb2b7;
+    --outline-variant: rgba(255, 178, 183, 0.15);
+    --surface-container-30: rgba(30, 32, 32, 0.4);
+    --on-surface-variant: #e4bdbe;
 }
 
-.about-scroll-btn:hover {
-    box-shadow: 0 0 20px var(--neon-glow);
+/* --- Utility Class Polyfills --- */
+.border-outline-variant {
+    border-color: var(--outline-variant) !important;
+}
+
+.hover\:border-primary:hover {
+    border-color: var(--primary) !important;
+}
+
+.bg-surface-container\/30 {
+    background-color: var(--surface-container-30) !important;
+    backdrop-filter: blur(10px);
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.hover\:text-primary:hover {
+    color: var(--primary-hover) !important;
+}
+
+.text-on-surface-variant {
+    color: var(--on-surface-variant) !important;
+    opacity: 0.7;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+/* --- Structural Label Overrides --- */
+.font-display-lg {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+}
+
+.text-label-caps {
+    text-transform: uppercase;
+}
+
+/* --- Smooth Interaction States --- */
+#dropZone {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#dropZone:hover {
+    box-shadow: 0 0 25px rgba(197, 0, 60, 0.15);
     transform: translateY(-2px);
 }
 
-.scroll-arrow {
-    font-size: 1rem;
-    font-weight: 900;
+/* Active drag over states (Use via JS adding class 'dragover') */
+#dropZone.dragover {
+    border-color: var(--primary-hover) !important;
+    background-color: rgba(197, 0, 60, 0.05) !important;
+    box-shadow: 0 0 35px rgba(197, 0, 60, 0.3);
 }
 
-/* ==========================================================================
-   03. PORTAL CORE CONTAINER & PROGRESS TRACKER
-   ========================================================================== */
-.portal-container {
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto 100px auto;
-    padding: 0 24px;
+/* Target the span inside your specific button */
+.md\:hidden.text-primary .material-symbols-outlined {
+    font-size: 0; /* Hides the text "menu" */
+    position: relative;
+    display: inline-block;
+    animation: bounce 2s infinite;
 }
 
-.progress-wrapper {
-    margin-bottom: 30px;
+/* Inject the arrow icon using Google Material Symbols codepoint */
+.md\:hidden.text-primary .material-symbols-outlined::before {
+    content: "arrow_downward"; /* Changes the icon to an arrow */
+    font-size: 24px; /* Restores the icon size */
 }
 
-.progress-text {
-    font-family: var(--font-cyber);
-    font-size: 0.75rem;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+/* Arrow bounce animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-6px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
 }
 
-.progress-track {
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+.animate-shake { animation: shake 0.2s ease-in-out 0s 2; }
+.fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+input[type="range"] {
+    -webkit-appearance: none;
     width: 100%;
     height: 4px;
-    background: rgba(255, 255, 255, 0.05);
+    background: #343535;
     border-radius: 2px;
-    overflow: hidden;
 }
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--neon-accent);
-    box-shadow: 0 0 10px var(--neon-glow);
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ==========================================================================
-   04. PORTAL BRANDING HEADER
-   ========================================================================== */
-.portal-header {
-    text-align: center;
-    margin-bottom: 45px;
-}
-
-.premium-brand-logo {
-    font-family: var(--font-cyber);
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: 4px;
-    color: var(--text-main);
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-}
-
-.brand-subline {
-    font-size: 0.75rem;
-    color: var(--neon-accent);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 6px;
-    opacity: 0.8;
-}
-
-.main-title {
-    font-family: var(--font-cyber);
-    font-size: 2.4rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 35px 0 8px 0;
-    letter-spacing: -1px;
-}
-
-.sub-title {
-    font-family: var(--font-data);
-    font-size: 1.3rem;
-    color: var(--text-muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-/* ==========================================================================
-   05. HIGH-SPEC INTERFACE COMPONENT LAYER (FORM & INPUTS)
-   ========================================================================== */
-form {
-    background: var(--card-surface);
-    border: 1px solid var(--border-dim);
-    border-top: 4px solid var(--neon-accent);
-    padding: 50px 45px;
-    border-radius: 4px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-}
-
-.form-section {
-    margin-bottom: 45px;
-}
-
-.section-title {
-    font-family: var(--font-cyber);
-    font-size: 1.15rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-main);
-    border-bottom: 1px solid var(--border-dim);
-    padding-bottom: 12px;
-    margin-bottom: 28px;
-}
-
-.sec-num {
-    color: var(--neon-accent);
-    margin-right: 6px;
-}
-
-.form-group, .input-group {
-    margin-bottom: 24px;
-    position: relative;
-}
-
-.grid-2-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-}
-
-/* Field Labels */
-.field-label, .input-group label, .radio-group-label {
-    display: block;
-    font-family: var(--font-data);
-    font-size: 1.05rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 8px;
-}
-
-/* Interactive Raw Field Input Framework */
-input[type="text"],
-input[type="number"],
-.cyber-select {
-    width: 100%;
-    background: rgba(15, 15, 18, 0.85);
-    border: 1px solid var(--border-dim);
-    padding: 14px 16px;
-    color: var(--text-main);
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    border-radius: 4px;
-    outline: none;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-input[type="text"]::placeholder,
-input[type="number"]::placeholder {
-    font-family: var(--font-data);
-    font-size: 1.05rem;
-    letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.2);
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-.cyber-select:focus {
-    border-color: var(--neon-accent);
-    box-shadow: 0 0 12px var(--neon-glow);
-    background: rgba(20, 20, 25, 0.95);
-}
-
-/* Help validation strings */
-.form-help-text, .helper-text {
-    display: block;
-    font-size: 0.76rem;
-    color: var(--text-muted);
-    margin-top: 6px;
-    line-height: 1.4;
-}
-
-/* Custom Interactive Select Arrow Adjustments */
-.cyber-select {
-    appearance: none;
+input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='%2300ffcc' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    cursor: pointer;
-}
-
-.cyber-select option {
-    background: #0f0f12;
-    color: var(--text-main);
-}
-
-/* ==========================================================================
-   06. CUSTOM RADIO TIMELINE SELECTION MATRIX
-   ========================================================================== */
-.cyber-radio-cluster {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 10px;
-}
-
-.cyber-radio-label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    font-family: var(--font-cyber);
-    font-size: 0.78rem;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    user-select: none;
-    position: relative;
-    transition: color 0.2s ease;
-}
-
-/* Hide standard HTML default radio dots */
-.cyber-radio-label input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-/* Build custom vector layout radio track nodes */
-.custom-radio {
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    margin-right: 8px;
+    background: #ffb2b7;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(197, 0, 60, 0.4);
+}
+
+/* Custom Glow Animation for the Biometric Scanner */
+@keyframes pulseScan {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); color: #ffb2b7; }
+}
+
+#dropZone:hover .bio-scan-icon {
+    animation: pulseScan 1.5s ease-in-out infinite;
+}
+
+/* Ensure material icons render with premium alignment */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
     display: inline-block;
-    position: relative;
-    transition: all 0.2s ease;
-}
-
-.cyber-radio-label:hover .custom-radio {
-    border-color: rgba(0, 255, 204, 0.5);
-}
-
-/* Radio Checked State Framework styles */
-.cyber-radio-label input[type="radio"]:checked ~ .custom-radio {
-    border-color: var(--neon-accent);
-    background: transparent;
-    box-shadow: 0 0 8px var(--neon-glow);
-}
-
-.cyber-radio-label input[type="radio"]:checked ~ .custom-radio::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: var(--neon-accent);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.cyber-radio-label input[type="radio"]:checked {
-    color: var(--text-main);
-}
-
-/* ==========================================================================
-   07. BIOMETRIC CAPTURE (DRAG & DROP FILE SELECTION SYSTEM)
-   ========================================================================== */
-.cyber-upload-box {
-    position: relative;
-    width: 100%;
-    min-height: 120px;
-    border: 1px dashed rgba(255, 255, 255, 0.15);
-    background: rgba(15, 15, 18, 0.5);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 24px;
-    cursor: pointer;
-    transition: border-color 0.2s ease;
-}
-
-.cyber-upload-box:hover {
-    border-color: var(--neon-accent);
-}
-
-.cyber-upload-box input[type="file"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.upload-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    pointer-events: none;
-}
-
-.upload-icon {
-    font-size: 1.6rem;
-    color: var(--neon-accent);
-    line-height: 1;
-}
-
-.upload-main-text {
-    font-family: var(--font-data);
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-.upload-sub-text {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-}
-
-/* ==========================================================================
-   08. ULTIMATE ACTION TERMINAL FOOTER BUTTON
-   ========================================================================== */
-.premium-action-footer {
-    margin-top: 15px;
-}
-
-.cyber-submit-btn {
-    width: 100%;
-    background: #ffffff;
-    color: #000000;
-    font-family: var(--font-cyber);
-    font-size: 0.95rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cyber-submit-btn:hover {
-    background: var(--neon-accent);
-    box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
-}
-
-/* Loading Spinner Matrix Elements */
-.btn-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-top-color: #000000;
-    border-radius: 50%;
-    display: none;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* ==========================================================================
-   09. SUCCESS POPUP MODAL ARCHITECTURE
-   ========================================================================== */
-.success-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(3, 3, 4, 0.85);
-    backdrop-filter: blur(12px);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-/* Call class dynamically via JS implementation logic */
-.success-popup.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.success-card {
-    background: #0d0d11;
-    border: 1px solid var(--border-dim);
-    border-top: 4px solid var(--neon-accent);
-    padding: 40px;
-    width: 90%;
-    max-width: 420px;
-    text-align: center;
-    border-radius: 4px;
-    transform: scale(0.9);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.success-popup.active .success-card {
-    transform: scale(1);
-}
-
-/* SVG Vector Morph checkmark configurations */
-.checkmark-wrapper {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 20px auto;
-}
-
-.checkmark-svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-.checkmark-circle {
-    stroke: var(--neon-accent);
-    stroke-width: 2;
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-miterlimit: 10;
-    animation: strokeArc 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
-
-.checkmark-check {
-    transform-origin: 50% 50%;
-    stroke: var(--neon-accent);
-    stroke-width: 3;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
-}
-
-@keyframes strokeArc {
-    to { stroke-dashoffset: 0; }
-}
-
-@keyframes strokeCheck {
-    to { stroke-dashoffset: 0; }
-}
-
-.success-title {
-    font-family: var(--font-cyber);
-    font-size: 1.3rem;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-}
-
-.success-message {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-}
-
-/* ==========================================================================
-   10. MEDIA QUERIES (RESPONSIVE GRID LAYOUT PROTECTION)
-   ========================================================================== */
-@media (max-width: 768px) {
-    form {
-        padding: 35px 24px;
-    }
-    .grid-2-col {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-    .main-title {
-        font-size: 1.8rem;
-    }
-    .about-hero-content {
-        padding: 24px;
-    }
+    vertical-align: middle;
 }
