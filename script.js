@@ -1,340 +1,385 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // ==========================================
-    // 1. LUXURY SHINY BLACK METALLIC BALL WAVE SYSTEM
-    // ==========================================
-    const canvas = document.getElementById('particleCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let waveCycle = 0;
-        
-        const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class WaveParticle {
-            constructor(index, total) {
-                this.index = index;
-                this.total = total;
-                this.reset();
-                this.x = (index / total) * canvas.width; 
+// Tailwind System Theme Configurations
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            "colors": {
+                "secondary-fixed-dim": "#ffb3b6",
+                "surface-container": "#1e2020",
+                "secondary-fixed": "#ffdada",
+                "background": "#121414",
+                "surface-container-high": "#292a2a",
+                "inverse-primary": "#be003a",
+                "on-error-container": "#ffdad6",
+                "inverse-on-surface": "#2f3131",
+                "primary": "#ffb2b7",
+                "on-error": "#690005",
+                "error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#4d4800",
+                "on-secondary": "#680019",
+                "surface-bright": "#38393a",
+                "on-secondary-fixed-variant": "#8f0c29",
+                "surface-tint": "#ffb2b7",
+                "tertiary-fixed-dim": "#d6ca00",
+                "on-secondary-fixed": "#40000c",
+                "on-primary-fixed-variant": "#92002a",
+                "secondary-container": "#8f0c29",
+                "on-background": "#e3e2e2",
+                "surface-container-lowest": "#0d0e0f",
+                "surface-dim": "#121414",
+                "primary-container": "#c5003c",
+                "on-tertiary-fixed": "#1e1c00",
+                "tertiary-container": "#b9af00",
+                "surface-variant": "#343535",
+                "surface-container-highest": "#343535",
+                "inverse-surface": "#e3e2e2",
+                "tertiary": "#d6ca00",
+                "on-surface-variant": "#e4bdbe",
+                "on-secondary-container": "#ff989e",
+                "on-surface": "#e3e2e2",
+                "on-tertiary": "#353100",
+                "error": "#ffb4ab",
+                "outline": "#ab8889",
+                "on-primary-fixed": "#40000d",
+                "primary-fixed": "#ffdadb",
+                "surface-container-low": "#1a1c1c",
+                "outline-variant": "#5c3f41",
+                "on-tertiary-container": "#454100",
+                "tertiary-fixed": "#f4e703",
+                "surface": "#121414",
+                "secondary": "#ffb3b6",
+                "on-primary-container": "#ffd4d6",
+                "on-primary": "#67001b",
+                "primary-fixed-dim": "#ffb2b7"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "gutter": "24px",
+                "margin-desktop": "64px",
+                "section-gap": "120px",
+                "margin-mobile": "20px",
+                "base": "8px",
+                "container-max": "1440px"
+            },
+            "fontFamily": {
+                "display-lg": ["Space Grotesk"],
+                "body-md": ["Outfit"],
+                "label-caps": ["Space Grotesk"],
+                "body-lg": ["Outfit"],
+                "stats-number": ["Space Grotesk"],
+                "headline-xl-mobile": ["Space Grotesk"],
+                "headline-md": ["Space Grotesk"],
+                "headline-xl": ["Space Grotesk"],
+                "display-lg-mobile": ["Space Grotesk"]
+            },
+            "fontSize": {
+                "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "stats-number": ["32px", {"lineHeight": "1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-xl-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "1.4", "letterSpacing": "0em", "fontWeight": "500"}],
+                "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                "display-lg-mobile": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}]
             }
-            reset() {
-                this.baseY = canvas.height * 0.6; 
-                this.amplitude = Math.random() * 60 + 40; 
-                this.speed = Math.random() * 0.015 + 0.005; 
-                this.size = Math.random() * 3.5 + 2.5; 
-                this.phaseShift = Math.random() * Math.PI * 2;
-                
-                const colors = ['#1a1a1a', '#2d2d30', '#404043', '#111111'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.3 + 0.6; 
-            }
-            update() {
-                this.x += 0.6; 
-                if (this.x > canvas.width) {
-                    this.x = 0;
-                    this.reset();
-                }
+        },
+    },
+};
 
-                const wave1 = Math.sin((this.x * 0.003) + waveCycle + this.phaseShift);
-                const wave2 = Math.cos((this.x * 0.001) - (waveCycle * 0.5));
-                
-                this.y = this.baseY + (wave1 * this.amplitude) + (wave2 * (this.amplitude * 0.5));
-            }
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                
-                let gradient = ctx.createRadialGradient(
-                    this.x - this.size * 0.25, this.y - this.size * 0.25, this.size * 0.1, 
-                    this.x, this.y, this.size
-                );
-                gradient.addColorStop(0, '#ffffff'); 
-                gradient.addColorStop(0.2, '#666666'); 
-                gradient.addColorStop(0.5, this.color); 
-                gradient.addColorStop(1, '#000000'); 
 
-                ctx.fillStyle = gradient;
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'; 
-                ctx.shadowBlur = 8;
-                ctx.shadowOffsetY = 3;
-                
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
-        const density = 450; 
-        for (let i = 0; i < density; i++) {
-            particles.push(new WaveParticle(i, density));
-        }
-
-        const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            waveCycle += 0.006;
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        };
-        animate();
-    }
-
-    // ==========================================
-    // 2. SMOOTH SCROLL PROTOCOL
-    // ==========================================
-    const scrollBtn = document.querySelector('.about-scroll-btn');
-    if (scrollBtn) {
-        scrollBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = scrollBtn.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
-
-    // ==========================================
-    // 3. CORE FORM & UI ELEMENTS
-    // ==========================================
-    const form = document.getElementById('cyberpunkForm');
-    const progressBar = document.getElementById('progressBar');
-    const progressPercent = document.getElementById('progressPercent');
-    const fileInput = document.getElementById('profilePhoto');
-    const uploadBox = document.querySelector('.cyber-upload-box');
-    const uploadMainText = document.querySelector('.upload-main-text');
-    const submitBtn = document.getElementById('submitBtn');
-    const successPopup = document.getElementById('successPopup');
-
-    if (!form) return;
-
-    form.setAttribute('target', 'hidden_iframe');
-
-    const validationRules = {
-        fullName: (val) => /^[A-Za-z\s]{3,40}$/.test(val.trim()),
-        sicCode: (val) => /^[A-Za-z0-9]{8}$/.test(val.trim()),
-        academicBranch: (val) => val !== "",
-        heightMetric: (val) => val >= 100 && val <= 250,
-        weightMetric: (val) => val >= 20 && val <= 250,
-        gymExperience: (val) => val !== "" && val >= 0 && val <= 40
-    };
-
-    // ==========================================
-    // 4. BIOMETRIC CAPTURE (DRAG & DROP)
-    // ==========================================
-    if (uploadBox && fileInput) {
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadBox.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                uploadBox.classList.add('highlight');
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadBox.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                uploadBox.classList.remove('highlight');
-            }, false);
-        });
-
-        uploadBox.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files.length) {
-                fileInput.files = files;
-                handleFileDisplay(files[0]);
-            }
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                handleFileDisplay(e.target.files[0]);
-            }
-        });
-    }
-
-    function handleFileDisplay(file) {
-        const maxSize = 5 * 1024 * 1024; 
-        const errorSpan = document.getElementById('photoError');
-
-        if (file.size > maxSize) {
-            if (errorSpan) {
-                errorSpan.textContent = "CRITICAL ERROR: Matrix limit exceeded (Max 5MB).";
-                errorSpan.style.color = "#ff0055";
-            }
-            fileInput.value = "";
-            if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-        } else {
-            if (errorSpan) {
-                errorSpan.textContent = "Valid identification image file loaded.";
-                errorSpan.style.color = "#00ffcc";
-            }
-            if (uploadMainText) uploadMainText.textContent = `READY: ${file.name.substring(0, 20)}...`;
-        }
-        calculateProgress();
-    }
-
-    // ==========================================
-    // 5. LIVE MATRIX PROGRESS CALCULATOR (SAFE EDITION)
-    // ==========================================
-    const totalSteps = 11; 
+// --- Three.js Background Animation Script ---
+(function() {
+    const container = document.getElementById('threejs-container-ANIMATION_1');
+    if (!container) return;
     
-    function calculateProgress() {
-        let validFields = 0;
+    let width = container.clientWidth || window.innerWidth;
+    let height = container.clientHeight || window.innerHeight;
 
-        const nameEl = document.getElementById('fullName');
-        const sicEl = document.getElementById('sicCode');
-        const branchEl = document.getElementById('academicBranch');
-        const heightEl = document.getElementById('heightMetric');
-        const weightEl = document.getElementById('weightMetric');
-        const expEl = document.getElementById('gymExperience');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.z = 5;
 
-        if (nameEl && validationRules.fullName(nameEl.value)) validFields++;
-        if (sicEl && validationRules.sicCode(sicEl.value)) validFields++;
-        if (branchEl && validationRules.academicBranch(branchEl.value)) validFields++;
-        if (document.querySelector('input[name="entry.year_placeholder"]:checked')) validFields++;
-        if (document.querySelector('input[name="entry.1858008117"]:checked')) validFields++;
-        if (fileInput && fileInput.files && fileInput.files.length > 0) validFields++;
-        if (heightEl && validationRules.heightMetric(heightEl.value)) validFields++;
-        if (weightEl && validationRules.weightMetric(weightEl.value)) validFields++;
-        if (document.querySelector('input[name="entry.1691817220"]:checked')) validFields++;
-        if (expEl && validationRules.gymExperience(expEl.value)) validFields++;
-        if (document.querySelector('input[name="entry.38638229"]:checked')) validFields++;
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
 
-        const percentage = Math.round((validFields / totalSteps) * 100);
-        
-        if (progressBar && progressPercent) {
-            progressBar.style.width = `${percentage}%`;
-            progressPercent.textContent = `${percentage}%`;
-        }
+    const particlesCount = 3000;
+    const posArray = new Float32Array(particlesCount * 3);
+    for(let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 15;
     }
+    const particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-    form.addEventListener('input', calculateProgress);
-    form.addEventListener('change', calculateProgress);
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.015,
+        color: '#c5003c',
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending
+    });
 
-    // ==========================================
-    // 6. INTERCEPT AND SUBMIT PROTOCOL (FIXED SEQUENCE)
-    // ==========================================
-    form.addEventListener('submit', (e) => {
-        e.preventDefault(); 
-        let formIsValid = true;
 
-        const toggleErrorUI = (id, errorId, isValid) => {
-            const errorElement = document.getElementById(errorId);
-            const inputElement = document.getElementById(id);
-            if (!isValid) {
-                formIsValid = false;
-                if(errorElement) errorElement.style.color = "#ff0055";
-                if(inputElement) inputElement.style.borderColor = "#ff0055";
-            } else {
-                if(errorElement) errorElement.style.color = "";
-                if(inputElement) inputElement.style.borderColor = "";
-            }
-        };
 
-        toggleErrorUI('fullName', 'nameError', validationRules.fullName(document.getElementById('fullName')?.value || ''));
-        toggleErrorUI('sicCode', 'sicError', validationRules.sicCode(document.getElementById('sicCode')?.value || ''));
-        toggleErrorUI('academicBranch', 'branchError', validationRules.academicBranch(document.getElementById('academicBranch')?.value || ''));
-        toggleErrorUI('heightMetric', 'heightError', validationRules.heightMetric(document.getElementById('heightMetric')?.value || ''));
-        toggleErrorUI('weightMetric', 'weightError', validationRules.weightMetric(document.getElementById('weightMetric')?.value || ''));
-        toggleErrorUI('gymExperience', 'experienceError', validationRules.gymExperience(document.getElementById('gymExperience')?.value || ''));
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
 
-        toggleErrorUI('', 'yearError', document.querySelector('input[name="entry.year_placeholder"]:checked') !== null);
-        toggleErrorUI('', 'genderError', document.querySelector('input[name="entry.1858008117"]:checked') !== null);
-        toggleErrorUI('', 'photoError', fileInput && fileInput.files && fileInput.files.length > 0);
-        toggleErrorUI('', 'permissionError', document.querySelector('input[name="entry.1691817220"]:checked') !== null);
-        toggleErrorUI('', 'lockerError', document.querySelector('input[name="entry.38638229"]:checked') !== null);
+    const spheresGroup = new THREE.Group();
+    const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+    const sphereMaterial = new THREE.MeshPhongMaterial({
+        color: '#880425',
+        shininess: 100,
+        reflectivity: 1,
+        transparent: true,
+        opacity: 0.4
+    });
 
-        if (!formIsValid) {
-            const firstError = document.querySelector('.helper-text[style*="rgb(255, 0, 85)"]');
-            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return;
+    for(let i = 0; i < 20; i++) {
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.position.set((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 5);
+        spheresGroup.add(sphere);
+    }
+    scene.add(spheresGroup);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const pointLight = new THREE.PointLight('#f3e600', 2);
+    pointLight.position.set(2, 3, 4);
+    scene.add(pointLight);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) - 0.5;
+        mouseY = (event.clientY / window.innerHeight) - 0.5;
+    });
+
+    const animate = () => {
+        requestAnimationFrame(animate);
+        particlesMesh.rotation.y += 0.001;
+        particlesMesh.rotation.x += 0.0005;
+        
+        const positions = particlesGeometry.attributes.position.array;
+        const time = Date.now() * 0.0005;
+        for (let i = 0; i < particlesCount; i++) {
+            const x = positions[i * 3];
+            const z = positions[i * 3 + 2];
+            positions[i * 3 + 1] = Math.sin(x + time) * 0.5 + Math.cos(z + time) * 0.5;
         }
+        particlesGeometry.attributes.position.needsUpdate = true;
 
-        if (submitBtn) {
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
+        particlesMesh.position.x += (mouseX * 0.5 - particlesMesh.position.x) * 0.05;
+        particlesMesh.position.y += (-mouseY * 0.5 - particlesMesh.position.y) * 0.05;
+
+        spheresGroup.children.forEach((sphere, i) => {
+            sphere.position.y += Math.sin(time + i) * 0.005;
+        });
+
+        renderer.render(scene, camera);
+    };
+    animate();
+
+    window.addEventListener('resize', () => {
+        const w = container.clientWidth || window.innerWidth;
+        const h = container.clientHeight || window.innerHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+    });
+})();
+
+// --- Application UI/UX Logic ---
+let base64ImageData = "";
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
         }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.addEventListener("DOMContentLoaded", function () {
+    // Target the button using its exact HTML classes
+    const arrowBtn = document.querySelector('.md\\:hidden.text-primary');
+    
+    // Target your about section (adjust 'section.about' to match your actual about element)
+    const aboutSection = document.querySelector('section.about') || document.querySelector('#about');
 
-        const file = fileInput.files[0];
+    if (arrowBtn && aboutSection) {
+        arrowBtn.addEventListener('click', function() {
+            aboutSection.scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+    }
+});
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Sliders
+const heightSlider = document.getElementById('heightSlider');
+const heightVal = document.getElementById('heightVal');
+if(heightSlider && heightVal) heightSlider.oninput = () => heightVal.textContent = heightSlider.value;
+
+const weightSlider = document.getElementById('weightSlider');
+const weightVal = document.getElementById('weightVal');
+if(weightSlider && weightVal) weightSlider.oninput = () => weightVal.textContent = weightSlider.value;
+
+const expSlider = document.getElementById('expSlider');
+const expVal = document.getElementById('expVal');
+if(expSlider && expVal) expSlider.oninput = () => expVal.textContent = expSlider.value;
+
+// File Upload
+const dropZone = document.getElementById('dropZone');
+const imageInput = document.getElementById('imageInput');
+const previewImg = document.getElementById('previewImg');
+const uploadPreview = document.getElementById('uploadPreview');
+const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+const uploadProgress = document.getElementById('uploadProgress');
+const clearBtn = document.getElementById('clearBtn');
+
+if(dropZone && imageInput) {
+    dropZone.onclick = () => imageInput.click();
+    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-primary'); };
+    dropZone.ondragleave = () => dropZone.classList.remove('border-primary');
+    dropZone.ondrop = (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-primary');
+        handleFile(e.dataTransfer.files[0]);
+    };
+    imageInput.onchange = (e) => handleFile(e.target.files[0]);
+}
+
+function handleFile(file) {
+    if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImg.src = e.target.result;
+            base64ImageData = e.target.result;
+            uploadPreview.classList.remove('hidden');
+            uploadPlaceholder.classList.add('hidden');
+            simulateUpload();
+        };
+        reader.readAsDataURL(file);
+    }
+}
 
-        reader.onload = function(event) {
-            const base64String = event.target.result.split(',')[1]; 
+function simulateUpload() {
+    uploadProgress.classList.remove('hidden');
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 5;
+        uploadProgress.style.width = progress + '%';
+        if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => uploadProgress.classList.add('hidden'), 500);
+        }
+    }, 50);
+}
+
+if(clearBtn) {
+    clearBtn.onclick = (e) => {
+        e.stopPropagation();
+        previewImg.src = '';
+        base64ImageData = "";
+        uploadPreview.classList.add('hidden');
+        uploadPlaceholder.classList.remove('hidden');
+        imageInput.value = '';
+    };
+}
+
+// --- Form Submissions and Popup Triggers ---
+const form = document.getElementById('registrationForm');
+const successPopup = document.getElementById('successPopup');
+const closePopupBtn = document.getElementById('closePopupBtn');
+
+if(form) {
+    form.onsubmit = (e) => {
+        e.preventDefault(); 
+        let hasError = false;
+        
+        const inputs = form.querySelectorAll('input[required], select[required]');
+        inputs.forEach(input => {
+            if (!input.value) {
+                input.parentElement.classList.add('animate-shake');
+                setTimeout(() => input.parentElement.classList.remove('animate-shake'), 400);
+                hasError = true;
+            }
+        });
+
+        if (!hasError) {
+            // FIX: Remove both 'hidden' and 'opacity-0' to bypass the transparency bug
+            if (successPopup) {
+                successPopup.classList.remove('hidden');
+                successPopup.classList.remove('opacity-0');
+                successPopup.classList.add('opacity-100');
+            }
             
-            const formDataPayload = {
-                fullName: document.getElementById('fullName').value,
-                sicCode: document.getElementById('sicCode').value,
-                academicBranch: document.getElementById('academicBranch').value,
-                academicYear: document.querySelector('input[name="entry.year_placeholder"]:checked')?.value || '',
-                gender: document.querySelector('input[name="entry.1858008117"]:checked')?.value || '',
-                height: document.getElementById('heightMetric').value,
-                weight: document.getElementById('weightMetric').value,
-                parentPermission: document.querySelector('input[name="entry.1691817220"]:checked')?.value || '',
-                experience: document.getElementById('gymExperience').value,
-                locker: document.querySelector('input[name="entry.38638229"]:checked')?.value || '',
-                photoData: base64String,
-                photoType: file.type
-            };
-
-            fetch('https://script.google.com/macros/s/AKfycbwhwqsPNeELyPrPHVuTR3nU-2G-V-j1dW_IWGqGcCF5U_qY6P0xpgnumjVFFjvZf2y0/exec', {
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams();
+            
+            for (const pair of formData.entries()) {
+                searchParams.append(pair[0], pair[1]);
+            }
+            searchParams.append('entry.image', base64ImageData || '');
+            
+            fetch(form.action, {
                 method: 'POST',
+                body: searchParams.toString(), // FIX: explicitly serialized to string layout
                 mode: 'no-cors', 
                 headers: {
-                    'Content-Type': 'text/plain;charset=utf-8' 
-                },
-                body: JSON.stringify(formDataPayload)
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
             })
             .then(() => {
-                // 1. Show the pop-up modal overlay cleanly using our CSS targets
-                if (successPopup) {
-                    successPopup.classList.add('active');
-                }
-
-                // 2. Run form cleanup and window adjustments in the background
-                setTimeout(() => {
-                    form.reset();
-                    
-                    document.querySelectorAll(".valid-state, .invalid-state").forEach(el => {
-                        el.classList.remove("valid-state", "invalid-state");
-                    });
-                    
-                    calculateProgress(); 
-                    
-                    if (submitBtn) {
-                        submitBtn.classList.remove('loading');
-                        submitBtn.disabled = false;
-                    }
-                    
-                    if (uploadMainText) uploadMainText.textContent = "DRAG & DROP IMAGE FILE";
-                }, 500);
-
-                // 3. Clear the popup modal display smoothly after 4 seconds and return to the top header
-                setTimeout(() => {
-                    if (successPopup) {
-                        successPopup.classList.remove('active');
-                    }
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 4000);
+                console.log('Successfully sent textual form parameters to Google Sheets!');
+                form.reset(); 
+                base64ImageData = "";
+                if(uploadPreview) uploadPreview.classList.add('hidden');
+                if(uploadPlaceholder) uploadPlaceholder.classList.remove('hidden');
             })
-            .catch(error => {
-                console.error('System synchronization error:', error);
-                if (submitBtn) {
-                    submitBtn.classList.remove('loading');
-                    submitBtn.disabled = false;
-                }
-            });
-        };
+            .catch(error => console.error('Submission Blocked:', error));
+        }
+    };
+}
 
-        reader.readAsDataURL(file);
-    });
+// Pop-up dismiss handler
+if(closePopupBtn && successPopup) {
+    closePopupBtn.onclick = () => {
+        successPopup.classList.remove('opacity-100');
+        successPopup.classList.add('opacity-0');
+        setTimeout(() => successPopup.classList.add('hidden'), 500);
+    };
+}
+
+// Mouse Parallax for Hero
+window.addEventListener('mousemove', (e) => {
+    const amount = 20;
+    const x = (e.clientX / window.innerWidth - 0.5) * amount;
+    const y = (e.clientY / window.innerHeight - 0.5) * amount;
+    const heroText = document.querySelector('#home h1');
+    if (heroText) heroText.style.transform = `translate(${x}px, ${y}px)`;
 });
+
+// Card Tilt Effect
+if (window.matchMedia("(min-width: 768px)").matches) {
+    document.querySelectorAll('.glass-panel').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const rotateX = (y - rect.height / 2) / 20;
+            const rotateY = (rect.width / 2 - x) / 20;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        });
+    });
+}
