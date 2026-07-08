@@ -5,14 +5,17 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>SILICON GYM | ENGINEERED FOR EXCELLENCE</title>
     
+    <!-- External Frameworks & Fonts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=300;400;500;600;700&family=Outfit:wght=300;400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     
+    <!-- External Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-background selection:bg-primary-container selection:text-white">
 
+    <!-- TopNavBar -->
     <nav class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(197,0,60,0.1)]">
         <div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto">
             <div class="font-display-lg text-headline-md tracking-tighter text-primary">SILICON GYM</div>
@@ -20,46 +23,58 @@
                 <a class="font-display-lg text-label-caps uppercase text-primary border-b-2 border-primary pb-1" href="#home">Home</a>
                 <a class="font-display-lg text-label-caps uppercase text-on-surface/70 hover:text-primary transition-colors duration-300" href="#about">About</a>
                 <a class="font-display-lg text-label-caps uppercase text-on-surface/70 hover:text-primary transition-colors duration-300" href="#registration">Registration</a>
-                <a class="text-primary hover:underline font-display-lg text-label-caps uppercase font-medium" href="admin.html">Admin Portal</a>
                 <a class="bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-display-lg text-label-caps uppercase hover:scale-105 active:scale-95 transition-transform" href="#registration">JOIN ELITE</a>
             </div>
-           
+            <button class="md:hidden text-primary">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden" id="home">
         <div class="absolute inset-0 w-full h-full z-0 opacity-60" style="display:block;">
             <div id="threejs-container-ANIMATION_1" style="width:100%;height:100%"></div>
         </div>
         <div class="relative z-10 text-center px-margin-mobile md:px-0">
-            <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase text-white mb-4 tracking-tighter">SILICON GYM</h1>
+            <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase text-white mb-4 tracking-tighter">
+                SILICON GYM
+            </h1>
             <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto mb-10 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
                 Train Smart. Stay Strong. Transform Yourself. Engineered for the next generation of elite performers.
             </p>
-            <a class="inline-block bg-primary-container hover:bg-inverse-primary text-on-primary-container px-10 py-5 rounded-lg font-display-lg text-label-caps uppercase tracking-widest shadow-[0_0_30px_rgba(197,0,60,0.3)] transition-all duration-300 hover:scale-105 active:scale-95" href="#registration">Join Now</a>
+            <a class="inline-block bg-primary-container hover:bg-inverse-primary text-on-primary-container px-10 py-5 rounded-lg font-display-lg text-label-caps uppercase tracking-widest shadow-[0_0_30px_rgba(197,0,60,0.3)] transition-all duration-300 hover:scale-105 active:scale-95" href="#registration">
+                Join Now
+            </a>
             <br><br>
-            <a class="inline-block bg-primary-container hover:bg-inverse-primary text-on-primary-container px-10 py-5 rounded-lg font-display-lg text-label-caps uppercase tracking-widest shadow-[0_0_30px_rgba(197,0,60,0.3)] transition-all duration-300 hover:scale-105 active:scale-95" href="#about">About</a>
+            <a class="inline-block bg-primary-container hover:bg-inverse-primary text-on-primary-container px-10 py-5 rounded-lg font-display-lg text-label-caps uppercase tracking-widest shadow-[0_0_30px_rgba(197,0,60,0.3)] transition-all duration-300 hover:scale-105 active:scale-95" href="#about">
+                About
+            </a>
         </div>
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
-            <span class="material-symbols-outlined text-4xl"></span>
+            <span class="material-symbols-outlined text-4xl">expand_more</span>
         </div>
     </section>
 
+    <!-- About Section -->
     <section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto overflow-hidden" id="about">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
             <div class="fade-up">
                 <h2 class="font-display-lg text-headline-xl mb-8 uppercase text-primary">About Silicon Gym</h2>
-               
- <p class="font-body-lg text-on-surface text-lg leading-relaxed">
+                <div class="space-y-6">
+                    <p class="font-body-lg text-on-surface text-lg leading-relaxed">
                         Welcome to the College Gym, a dedicated fitness facility designed to promote a healthy, active, and disciplined lifestyle among students. Our gym provides a safe, modern, and motivating environment equipped with quality fitness equipment to support strength training, endurance, and overall physical wellness.
                     </p>
                     <p class="font-body-lg text-on-surface-variant">
                         Whether you're a beginner taking your first step toward fitness or an experienced athlete working to improve your performance, our gym offers the resources you need to achieve your goals. We encourage every student to develop healthy habits, build confidence, and maintain both physical and mental well-being through regular exercise.
                     </p>
-               
-               
-            
-           
+                    <div class="pt-6">
+                        <a class="group flex items-center gap-4 text-primary font-display-lg text-label-caps uppercase tracking-widest" href="#registration">
+                            Registration Access
+                            <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="relative fade-up">
                 <div class="glass-panel p-4 rounded-xl rotate-3 hover:rotate-0 transition-transform duration-700">
@@ -72,6 +87,7 @@
         </div>
     </section>
 
+    <!-- Registration Section -->
     <section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-lowest" id="registration">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16 fade-up">
@@ -79,9 +95,11 @@
                 <p class="font-body-md text-on-surface-variant">Secure your spot in the elite physical training program.</p>
             </div>
             
+            <!-- Form Card -->
             <div class="glass-panel data-corner relative p-8 md:p-12 rounded-xl fade-up">
-                <form action="https://script.google.com/macros/s/AKfycbyCpMjirgPnyN-4Fqtiv8FvtIqq2T6NvridYvf02-t6Ha7pVGzWPpTCW-m_nE9M3DTN/exec" class="space-y-12" id="registrationForm" method="POST">
+                <form action="https://script.google.com/macros/s/AKfycbzrmjXKY9Z02QwprhcmPO-6rYnHNPQeh3d5MU0tYpLqYzNpXHcI7XIl7JF1_sdQTgBp/exec" class="space-y-12" id="registrationForm" method="POST" target="_blank">
                     
+                    <!-- Section 1: Personal Info -->
                     <div class="space-y-8">
                         <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
                             <span class="font-display-lg text-label-caps text-primary">01</span>
@@ -90,11 +108,11 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
                             <div class="space-y-2">
                                 <label class="font-label-caps text-on-surface-variant uppercase text-xs">Full Name</label>
-                                <input id="userNameInput" class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.374754270" placeholder="YOUR NAME" required="" type="text"/>
+                                <input class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.374754270" placeholder="YOUR NAME" required="" type="text"/>
                             </div>
                             <div class="space-y-2">
                                 <label class="font-label-caps text-on-surface-variant uppercase text-xs">SIC Number</label>
-                                <input id="userSicInput" class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.1894580731" placeholder="YOUR SIC" required="" type="text"/>
+                                <input class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.1894580731" placeholder="YOUR SIC" required="" type="text"/>
                             </div>
                             <div class="space-y-2">
                                 <label class="font-label-caps text-on-surface-variant uppercase text-xs">Course</label>
@@ -110,7 +128,7 @@
                             </div>
                             <div class="space-y-2">
                                 <label class="font-label-caps text-on-surface-variant uppercase text-xs">Branch</label>
-                                <select id="userBranchInput" class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.148217808" required="">
+                                <select class="w-full bg-surface-container-high border-none border-b-2 border-outline-variant focus:border-primary transition-all p-3 text-on-surface focus:ring-0" name="entry.148217808" required="">
                                     <option disabled="" selected="" value="">Select Branch</option>
                                     <option value="CSE">CSE</option>
                                     <option value="ECE">ECE</option>
@@ -136,7 +154,7 @@
                                 <label class="font-label-caps text-on-surface-variant uppercase text-xs">Gender</label>
                                 <div class="flex gap-6 p-3">
                                     <label class="flex items-center gap-2 cursor-pointer">
-                                        <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1858008117" type="radio" value="Male" checked/>
+                                        <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1858008117" type="radio" value="Male"/>
                                         <span class="font-body-md">Male</span>
                                     </label>
                                     <label class="flex items-center gap-2 cursor-pointer">
@@ -148,38 +166,34 @@
                         </div>
                     </div>
 
-                     <div class="space-y-8">
-    <div class="flex items-center gap-3 border-l-4 border-[#c5003c] pl-4">
-        <span class="font-display-lg text-label-caps text-[#ffb2b7]">02</span>
-        <h3 class="font-display-lg text-headline-md uppercase text-white">Biometric Data</h3>
-    </div>
-    <div class="relative group">
-        <div class="w-full h-64 border-2 border-dashed border-[#5c3f41] hover:border-[#ffb2b7] rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer bg-[#1e2020]/30" id="dropZone">
-            <div class="hidden absolute inset-0 rounded-xl overflow-hidden" id="uploadPreview">
-                <img class="w-full h-full object-cover" id="previewImg" src=""/>
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <button class="text-white hover:text-[#ffb2b7] transition-colors" id="clearBtn" type="button">
-                        <span class="material-symbols-outlined text-4xl">delete</span>
-                    </button>
-                </div>
-            </div>
-                                 <div class="text-center" id="uploadPlaceholder">
-                <div class="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 border-2 border-dashed border-[#c5003c]/40 rounded-full animate-[spin_20s_linear_infinite]"></div>
-                    <div class="absolute inset-2 border border-[#ffb2b7]/20 rounded-full group-hover:border-[#c5003c]/60 transition-colors duration-300"></div>
-                    <span class="material-symbols-outlined text-5xl text-[#e4bdbe] group-hover:text-[#ffb2b7] transition-colors duration-300 relative z-10 bio-scan-icon">
-                        🎴
-                    </span>
-                </div>
-                <p class="font-display-lg text-label-caps uppercase text-[#ffb2b7] tracking-widest">Upload Profile Image</p>
-                <p class="text-xs text-[#e4bdbe]/70 mt-2 tracking-wider">DRAG &amp; DROP OR CLICK TO UPLOAD</p>
-            </div>
+                    <!-- Section 2: Biometric -->
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
+                            <span class="font-display-lg text-label-caps text-primary">02</span>
+                            <h3 class="font-display-lg text-headline-md uppercase">Biometric Data</h3>
+                        </div>
+                        <div class="relative group">
+                            <div class="w-full h-64 border-2 border-dashed border-outline-variant hover:border-primary rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer bg-surface-container/30" id="dropZone">
+                                <div class="hidden absolute inset-0 rounded-xl overflow-hidden" id="uploadPreview">
+                                    <img class="w-full h-full object-cover" id="previewImg" src=""/>
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                        <button class="text-white hover:text-primary transition-colors" id="clearBtn" type="button">
+                                            <span class="material-symbols-outlined text-4xl">delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-center" id="uploadPlaceholder">
+                                    <span class="material-symbols-outlined text-6xl text-on-surface-variant mb-4">account_circle</span>
+                                    <p class="font-display-lg text-label-caps uppercase text-primary">Upload Profile Image</p>
+                                    <p class="text-xs text-on-surface-variant mt-2">DRAG &amp; DROP OR CLICK TO UPLOAD</p>
+                                </div>
                                 <div class="hidden absolute bottom-0 left-0 h-1 bg-primary transition-all duration-300" id="uploadProgress" style="width: 0%"></div>
                             </div>
-                            <input accept="image/*" class="hidden" id="imageInput" required="" type="file"/>
+                            <input accept="image/*" class="hidden" id="imageInput" type="file"/>
                         </div>
                     </div>
 
+                    <!-- Section 3: Physical Metrics -->
                     <div class="space-y-8">
                         <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
                             <span class="font-display-lg text-label-caps text-primary">03</span>
@@ -191,18 +205,19 @@
                                     <label class="font-label-caps text-on-surface-variant uppercase text-xs">Height</label>
                                     <span class="font-stats-number text-primary text-xl"><span id="heightVal">170</span>cm</span>
                                 </div>
-                                <input class="accent-primary w-full" id="heightSlider" name="entry.1423537159" max="250" min="100" type="range" value="170"/>
+                                <input class="accent-primary" id="heightSlider" name="entry.1423537159" max="250" min="100" type="range" value="170"/>
                             </div>
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center">
                                     <label class="font-label-caps text-on-surface-variant uppercase text-xs">Weight</label>
                                     <span class="font-stats-number text-primary text-xl"><span id="weightVal">70</span>kg</span>
                                 </div>
-                                <input class="accent-primary w-full" id="weightSlider" name="entry.373257491" max="250" min="20" type="range" value="70"/>
+                                <input class="accent-primary" id="weightSlider" name="entry.373257491" max="250" min="20" type="range" value="70"/>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Section 4-6: Preferences -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
                         <div class="space-y-6">
                             <div class="flex items-center gap-3 border-l-4 border-primary pl-4">
@@ -211,11 +226,11 @@
                             </div>
                             <div class="flex gap-6 p-3 glass-panel rounded-lg">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1691817220" required="" type="radio" value="Yes" >
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1691817220" required="" type="radio" value="Yes"/>
                                     <span class="font-body-md">Yes</span>
                                 </label>
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1691817220" required="" type="radio" value="No">
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.1691817220" type="radio" value="No"/>
                                     <span class="font-body-md">No</span>
                                 </label>
                             </div>
@@ -230,7 +245,7 @@
                                     <span class="text-xs text-on-surface-variant">YEARS</span>
                                     <span class="text-primary font-bold" id="expVal">0</span>
                                 </div>
-                                <input class="w-full" id="expSlider" name="entry.1862695856" max="20" min="0" type="range" value="0"/>
+                                <input id="expSlider" name="entry.1862695856" max="20" min="0" type="range" value="0"/>
                             </div>
                         </div>
                         <div class="space-y-6">
@@ -240,7 +255,7 @@
                             </div>
                             <div class="flex gap-6 p-3 glass-panel rounded-lg">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.38638229" type="radio" value="Yes" >
+                                    <input class="text-primary focus:ring-0 bg-transparent border-primary" name="entry.38638229" type="radio" value="Yes"/>
                                     <span class="font-body-md">Yes</span>
                                 </label>
                                 <label class="flex items-center gap-2 cursor-pointer">
@@ -258,7 +273,8 @@
         </div>
     </section>
 
-    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md hidden opacity-0 transition-all duration-500" id="successPopup">
+    <!-- Success Popup -->
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-500" id="successPopup">
         <div class="glass-panel p-12 rounded-2xl text-center max-w-md mx-margin-mobile relative overflow-hidden">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 blur-3xl"></div>
             <div class="relative z-10">
@@ -267,16 +283,19 @@
                 </div>
                 <h2 class="font-display-lg text-headline-xl uppercase text-white mb-4">Welcome to Gym</h2>
                 <p class="font-body-md text-on-surface-variant mb-10">Your biometric profile has been verified and registered into the Silicon Gym ecosystem.</p>
-                <button id="closePopupBtn" class="w-full py-4 glass-panel border-primary/40 hover:bg-primary-container transition-colors uppercase font-display-lg text-label-caps">Close Terminal</button>
+                <button class="w-full py-4 glass-panel border-primary/40 hover:bg-primary-container transition-colors uppercase font-display-lg text-label-caps" onclick="document.getElementById('successPopup').classList.add('hidden')">Close Terminal</button>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-surface-container-lowest border-t border-outline-variant/20 py-section-gap">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop max-w-container-max mx-auto items-center">
             <div class="md:col-span-4">
                 <div class="font-display-lg text-headline-md text-on-surface mb-4">SILICON GYM</div>
-                <p class="font-body-md text-on-surface-variant max-w-xs">Redefining human performance through technology and discipline.</p>
+                <p class="font-body-md text-on-surface-variant max-w-xs">
+                    Redefining human performance through technology and discipline.
+                </p>
             </div>
             <div class="md:col-span-12 text-center mt-12 pt-12 border-t border-outline-variant/10">
                 <p class="text-on-surface-variant font-body-md text-sm uppercase tracking-widest">© 2026 SILICON GYM. ENGINEERED FOR EXCELLENCE.</p>
@@ -284,6 +303,7 @@
         </div>
     </footer>
 
+    <!-- External Custom Logic -->
     <script src="script.js"></script>
 </body>
 </html>
