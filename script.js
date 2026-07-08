@@ -1,4 +1,4 @@
-// Tailwind System Theme Configuration
+// Tailwind System Theme Configurations
 tailwind.config = {
     darkMode: "class",
     theme: {
